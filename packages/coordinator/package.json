@@ -1,0 +1,28 @@
+{
+  "name": "@harmonia/coordinator",
+  "version": "0.1.0",
+  "description": "Coordinator service using GitHub Actions for federated learning orchestration",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "federated-learning",
+    "coordinator",
+    "github-actions"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@harmonia/core": "^0.1.0",
+    "@harmonia/crypto": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0"
+  }
+}
