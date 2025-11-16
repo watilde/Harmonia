@@ -5,17 +5,17 @@
 
 import fs from 'fs';
 import path from 'path';
-import type { marked as MarkedFunction, Tokens } from 'marked';
+import type { Tokens } from 'marked';
 import { marked } from 'marked';
 import katex from 'katex';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
 
-let markedInstance: typeof MarkedFunction | null = null;
+let isMarkedConfigured = false;
 
-async function getMarked(): Promise<typeof MarkedFunction> {
-  if (markedInstance) {
-    return markedInstance;
+async function getMarked(): Promise<typeof marked> {
+  if (isMarkedConfigured) {
+    return marked;
   }
 
   const renderer = new marked.Renderer();
@@ -41,8 +41,8 @@ async function getMarked(): Promise<typeof MarkedFunction> {
     renderer,
   });
 
-  markedInstance = marked;
-  return markedInstance;
+  isMarkedConfigured = true;
+  return marked;
 }
 
 function preprocessMath(markdown: string): string {
