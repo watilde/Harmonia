@@ -27,6 +27,10 @@ interface ComputeBoundsOptions {
   verbose?: boolean;
 }
 
+interface BoundsWithSite extends ATEBounds {
+  siteId?: string;
+}
+
 /**
  * Load data from JSON or CSV file
  */
@@ -69,7 +73,7 @@ function loadData(dataPath: string): CausalDataPoint[] {
 /**
  * Save bounds to JSON file
  */
-function saveBounds(bounds: ATEBounds & { siteId?: string }, outputPath: string): void {
+function saveBounds(bounds: BoundsWithSite, outputPath: string): void {
   const dir = path.dirname(outputPath);
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
@@ -110,7 +114,7 @@ export const computeBoundsCommand = new Command('compute-bounds')
 
       // Compute bounds
       const bounds = computeATEBounds(data, {
-        assumption: options.assumption as any,
+        assumption: options.assumption,
         yMin: options.yMin !== undefined ? Number(options.yMin) : undefined,
         yMax: options.yMax !== undefined ? Number(options.yMax) : undefined,
       });
@@ -137,7 +141,7 @@ export const computeBoundsCommand = new Command('compute-bounds')
 
       // Save results
       const outputPath = options.output || 'bounds.json';
-      const boundsWithSite = {
+      const boundsWithSite: BoundsWithSite = {
         ...bounds,
         ...(options.siteId && { siteId: options.siteId }),
       };
