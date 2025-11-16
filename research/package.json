@@ -1,0 +1,46 @@
+{
+  "name": "@harmonia/research",
+  "version": "1.0.0",
+  "description": "Research experiments and analysis for Harmonia Causal Inference",
+  "private": true,
+  "scripts": {
+    "data:download": "bash scripts/data/download/synthea.sh",
+    "data:download:1k": "bash scripts/data/download/synthea.sh 1k",
+    "data:download:100k": "bash scripts/data/download/synthea.sh 100k",
+    "data:download:2.8m": "bash scripts/data/download/synthea.sh 2.3m",
+    "data:download:mimic": "bash scripts/data/download/mimic-demo.sh",
+    "data:split:1k": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea1k/ --output data-generation/splits/1k/ --num-sites 3 --scenario diabetes",
+    "data:split:100k": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea100k/ --output data-generation/splits/100k/ --num-sites 3 --scenario diabetes",
+    "data:split:2.8m": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea2.3m/ --output data-generation/splits/2.8m/ --num-sites 3 --scenario diabetes",
+    "data:validate": "npx ts-node scripts/validation/large-scale.ts",
+    "paper:plots": "node scripts/paper/generate-plots.js",
+    "paper:pdf": "node scripts/paper/generate-pdf.js",
+    "experiment:diabetes": "bash experiments/diabetes-medication/run-experiment-omop.sh",
+    "experiment:icu": "bash experiments/icu-intervention/run-experiment-omop.sh",
+    "experiment:screening": "bash experiments/preventive-screening/run-experiment-omop.sh"
+  },
+  "dependencies": {
+    "csv-parse": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "chart.js": "^4.5.1",
+    "chartjs-node-canvas": "^5.0.0",
+    "highlight.js": "^11.11.1",
+    "katex": "^0.16.25",
+    "marked": "^17.0.0",
+    "puppeteer": "^24.30.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "causal-inference",
+    "partial-identification",
+    "manski-bounds",
+    "omop-cdm",
+    "federated-learning",
+    "research"
+  ],
+  "author": "Daijiro Wachi",
+  "license": "Apache-2.0"
+}

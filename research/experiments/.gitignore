@@ -1,0 +1,12 @@
+# Ignore experiment output directories
+*/output/
+
+# Ignore any generated data files
+*.json
+*.csv
+
+# Ignore log files
+*.log
+
+# Keep the experiment scripts themselves
+!**/run-experiment.sh

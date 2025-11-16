@@ -1,0 +1,27 @@
+# Downloaded OMOP data (too large for git, download from S3)
+omop-data/synthea1k/
+omop-data/synthea100k/
+omop-data/synthea2.3m/
+
+# Generated splits
+splits/
+
+# Validation results
+results/
+
+# Node modules (if any)
+node_modules/
+
+# Log files
+*.log
+
+# Keep directory structure
+!omop-data/.gitkeep
+!splits/.gitkeep
+!results/.gitkeep
+npm-debug.log*
+
+# Temporary files
+.DS_Store
+.env
+.env.local
