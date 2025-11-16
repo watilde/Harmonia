@@ -4,20 +4,20 @@
   "description": "Research experiments and analysis for Harmonia Causal Inference",
   "private": true,
   "scripts": {
-    "data:download": "bash scripts/data/download/synthea.sh",
-    "data:download:1k": "bash scripts/data/download/synthea.sh 1k",
-    "data:download:100k": "bash scripts/data/download/synthea.sh 100k",
-    "data:download:2.8m": "bash scripts/data/download/synthea.sh 2.3m",
-    "data:download:mimic": "bash scripts/data/download/mimic-demo.sh",
-    "data:split:1k": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea1k/ --output data-generation/splits/1k/ --num-sites 3 --scenario diabetes",
-    "data:split:100k": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea100k/ --output data-generation/splits/100k/ --num-sites 3 --scenario diabetes",
-    "data:split:2.8m": "node scripts/data/split/split-omop-csv.js --input data-generation/omop-data/synthea2.3m/ --output data-generation/splits/2.8m/ --num-sites 3 --scenario diabetes",
+    "data:download": "npx ts-node scripts/data/download/synthea.ts",
+    "data:download:1k": "npx ts-node scripts/data/download/synthea.ts 1k",
+    "data:download:100k": "npx ts-node scripts/data/download/synthea.ts 100k",
+    "data:download:2.8m": "npx ts-node scripts/data/download/synthea.ts 2.3m",
+    "data:download:mimic": "npx ts-node scripts/data/download/mimic-demo.ts",
+    "data:split:1k": "npx ts-node scripts/data/split/split-omop-csv.ts --input data-generation/omop-data/synthea1k/ --output data-generation/splits/1k/ --num-sites 3 --scenario diabetes",
+    "data:split:100k": "npx ts-node scripts/data/split/split-omop-csv.ts --input data-generation/omop-data/synthea100k/ --output data-generation/splits/100k/ --num-sites 3 --scenario diabetes",
+    "data:split:2.8m": "npx ts-node scripts/data/split/split-omop-csv.ts --input data-generation/omop-data/synthea2.3m/ --output data-generation/splits/2.8m/ --num-sites 3 --scenario diabetes",
     "data:validate": "npx ts-node scripts/validation/large-scale.ts",
-    "paper:plots": "node scripts/paper/generate-plots.js",
-    "paper:pdf": "node scripts/paper/generate-pdf.js",
-    "experiment:diabetes": "bash experiments/diabetes-medication/run-experiment-omop.sh",
-    "experiment:icu": "bash experiments/icu-intervention/run-experiment-omop.sh",
-    "experiment:screening": "bash experiments/preventive-screening/run-experiment-omop.sh"
+    "paper:plots": "npx ts-node scripts/paper/generate-plots.ts",
+    "paper:pdf": "npx ts-node scripts/paper/generate-pdf.ts",
+    "experiment:diabetes": "npx ts-node experiments/diabetes-medication/run-experiment-omop.ts",
+    "experiment:icu": "npx ts-node experiments/icu-intervention/run-experiment-omop.ts",
+    "experiment:screening": "npx ts-node experiments/preventive-screening/run-experiment-omop.ts"
   },
   "dependencies": {
     "csv-parse": "^6.1.0"

@@ -1,24 +1,22 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node
 /**
  * Generate PDF from Markdown with KaTeX math and syntax highlighting
- * Replaces pandoc-based PDF generation
  */
 
-const fs = require('fs');
-const path = require('path');
-const { marked } = require('marked');
-const katex = require('katex');
-const hljs = require('highlight.js');
-const puppeteer = require('puppeteer');
+import fs from 'fs';
+import path from 'path';
+import { marked } from 'marked';
+import katex from 'katex';
+import hljs from 'highlight.js';
+import puppeteer from 'puppeteer';
 
-// Configure marked with syntax highlighting
 marked.setOptions({
-  highlight: function (code, lang) {
+  highlight(code, lang) {
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(code, { language: lang }).value;
-      } catch (err) {
-        console.error('Highlight error:', err);
+      } catch (error) {
+        console.error('Highlight error:', (error as Error).message);
       }
     }
     return hljs.highlightAuto(code).value;
@@ -27,41 +25,36 @@ marked.setOptions({
   gfm: true,
 });
 
-// Preprocess markdown to convert math expressions
-function preprocessMath(markdown) {
-  // Convert display math $$...$$ to HTML with KaTeX
-  markdown = markdown.replace(/\$\$([\s\S]+?)\$\$/g, (match, math) => {
+function preprocessMath(markdown: string): string {
+  let processed = markdown.replace(/\$\$([\s\S]+?)\$\$/g, (match, math) => {
     try {
-      const html = katex.renderToString(math.trim(), {
+      const html = katex.renderToString((math as string).trim(), {
         throwOnError: false,
         displayMode: true,
       });
       return `\n\n<div class="math-block">${html}</div>\n\n`;
-    } catch (e) {
-      console.error('KaTeX display math error:', e.message);
+    } catch (error) {
+      console.error('KaTeX display math error:', (error as Error).message);
       return match;
     }
   });
 
-  // Convert inline math $...$ to HTML with KaTeX (but not $$)
-  markdown = markdown.replace(/(?<!\$)\$(?!\$)([^\$\n]+?)\$(?!\$)/g, (match, math) => {
+  processed = processed.replace(/(?<!\$)\$(?!\$)([^$\n]+?)\$(?!\$)/g, (match, math) => {
     try {
-      const html = katex.renderToString(math.trim(), {
+      return katex.renderToString((math as string).trim(), {
         throwOnError: false,
         displayMode: false,
       });
-      return html;
-    } catch (e) {
-      console.error('KaTeX inline math error:', e.message);
+    } catch (error) {
+      console.error('KaTeX inline math error:', (error as Error).message);
       return match;
     }
   });
 
-  return markdown;
+  return processed;
 }
 
-// HTML template with KaTeX and highlight.js CSS
-const htmlTemplate = (title, content) => `
+const htmlTemplate = (title: string, content: string): string => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -203,28 +196,22 @@ const htmlTemplate = (title, content) => `
 </html>
 `;
 
-async function generatePDF(inputMd, outputPdf) {
+async function generatePDF(inputMd: string, outputPdf: string): Promise<void> {
   console.log('📄 Generating PDF from Markdown...');
   console.log(`   Input: ${inputMd}`);
   console.log(`   Output: ${outputPdf}`);
 
-  // Read markdown file
   const markdown = fs.readFileSync(inputMd, 'utf8');
-
-  // Extract title from first # heading
   const titleMatch = markdown.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1] : 'Manuscript';
 
-  // Preprocess math expressions
   console.log('   Processing math expressions with KaTeX...');
   const processedMarkdown = preprocessMath(markdown);
 
-  // Convert markdown to HTML
   console.log('   Converting Markdown to HTML with syntax highlighting...');
-  const htmlContent = marked.parse(processedMarkdown);
+  const htmlContent = marked.parse(processedMarkdown) as string;
   const html = htmlTemplate(title, htmlContent);
 
-  // Generate PDF with Puppeteer
   console.log('   Rendering PDF with Puppeteer...');
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -263,21 +250,20 @@ async function generatePDF(inputMd, outputPdf) {
   }
 }
 
-// Main execution
-const inputMd = path.join(__dirname, '../../paper/manuscript_v6.0.md');
-const outputPdf = path.join(__dirname, '../../paper/manuscript_v6.0.pdf');
+async function main(): Promise<void> {
+  const inputMd = path.join(__dirname, '../../paper/manuscript_v6.0.md');
+  const outputPdf = path.join(__dirname, '../../paper/manuscript_v6.0.pdf');
 
-if (!fs.existsSync(inputMd)) {
-  console.error('❌ Manuscript not found:', inputMd);
-  process.exit(1);
+  if (!fs.existsSync(inputMd)) {
+    console.error('❌ Manuscript not found:', inputMd);
+    process.exit(1);
+  }
+
+  await generatePDF(inputMd, outputPdf);
+  console.log('\n✅ PDF generation complete!');
 }
 
-generatePDF(inputMd, outputPdf)
-  .then(() => {
-    console.log('\n✅ PDF generation complete!');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('❌ PDF generation failed:', error);
-    process.exit(1);
-  });
+main().catch((error) => {
+  console.error('❌ PDF generation failed:', error);
+  process.exit(1);
+});

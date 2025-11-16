@@ -40,9 +40,21 @@
   },
   "settings": {
     "import/resolver": {
-      "typescript": true,
+      "typescript": {
+        "project": "./tsconfig.json"
+      },
       "node": true
     }
   },
+  "overrides": [
+    {
+      "files": ["research/**/*.ts"],
+      "rules": {
+        "import/default": "off",
+        "import/no-named-as-default": "off",
+        "import/no-named-as-default-member": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["dist", "node_modules", "coverage", "*.js", "docs/github-actions/**"]
 }

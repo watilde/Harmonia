@@ -20,7 +20,7 @@ This directory contains end-to-end experiment scripts for evaluating federated p
 - **Shows why MTS is optimal for observational health studies**
 - **Data**: Simple synthetic generation
 
-### 3. **OMOP Data Experiments** (`run-experiment-omop.sh`) 🏥 **Realistic**
+### 3. **OMOP Data Experiments** (`run-experiment-omop.ts`) 🏥 **Realistic**
 
 - Tests ALL FOUR assumption levels with OMOP CDM-structured data
 - Uses realistic EHR data patterns with proper confounding
@@ -34,17 +34,17 @@ experiments/
 ├── diabetes-medication/
 │   ├── run-experiment.sh                    # Single assumption (MTR)
 │   ├── run-experiment-multi-assumption.sh   # All 4 assumptions ⭐
-│   ├── run-experiment-omop.sh               # OMOP data 🏥
+│   ├── run-experiment-omop.ts               # OMOP data 🏥
 │   └── data/omop/                           # OMOP per-site data
 ├── icu-intervention/
 │   ├── run-experiment.sh                    # Single assumption (MTR)
 │   ├── run-experiment-multi-assumption.sh   # All 4 assumptions ⭐
-│   ├── run-experiment-omop.sh               # OMOP data 🏥
+│   ├── run-experiment-omop.ts               # OMOP data 🏥
 │   └── data/omop/                           # OMOP per-site data
 ├── preventive-screening/
 │   ├── run-experiment.sh                    # Single assumption (MTR)
 │   ├── run-experiment-multi-assumption.sh   # All 4 assumptions ⭐
-│   ├── run-experiment-omop.sh               # OMOP data 🏥
+│   ├── run-experiment-omop.ts               # OMOP data 🏥
 │   └── data/omop/                           # OMOP per-site data
 ├── compare-assumptions.sh   # Compare assumptions across all scenarios
 └── README.md                # This file
@@ -309,15 +309,15 @@ python3 split-omop-data.py \
 ```bash
 # Diabetes study with OMOP data
 cd experiments/diabetes-medication
-./run-experiment-omop.sh
+npx ts-node run-experiment-omop.ts
 
 # ICU study with OMOP data
 cd experiments/icu-intervention
-./run-experiment-omop.sh
+npx ts-node run-experiment-omop.ts
 
 # Screening study with OMOP data
 cd experiments/preventive-screening
-./run-experiment-omop.sh
+npx ts-node run-experiment-omop.ts
 ```
 
 ### OMOP vs Simple Synthetic

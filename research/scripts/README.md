@@ -8,16 +8,16 @@ Organized scripts for data management, validation, and paper generation.
 scripts/
 ├── data/              # Data management
 │   ├── download/      # Download datasets
-│   │   ├── synthea.sh
-│   │   └── mimic-demo.sh
+│   │   ├── synthea.ts
+│   │   └── mimic-demo.ts
 │   └── split/         # Split data for federated simulation
-│       └── split-omop-csv.js
+│       └── split-omop-csv.ts
 ├── validation/        # Validation and scalability testing
 │   ├── large-scale.ts
 │   └── scalability.sh
 └── paper/             # Paper generation
-    ├── generate-pdf.js
-    └── generate-plots.js
+    ├── generate-pdf.ts
+    └── generate-plots.ts
 ```
 
 ## 🚀 Usage

@@ -122,7 +122,7 @@ harmonia/
     paper/                   # Manuscript and supplementary materials
     data-generation/         # Synthetic data generation scripts
       synthea/               # Synthea OMOP data generator (TypeScript)
-      split-omop-csv.js      # Multi-site data splitter
+      split-omop-csv.ts      # Multi-site data splitter
   tests/                     # Unit tests and Monte Carlo validation
   docs/                      # User guides and API documentation
 ```
