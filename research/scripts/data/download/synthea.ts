@@ -149,7 +149,9 @@ function ensureAwsCli(): void {
 function checkLzop(): boolean {
   const result = spawnSync('lzop', ['--version'], { stdio: 'ignore' });
   if (result.status !== 0) {
-    console.log(`${COLORS.yellow}⚠️  lzop not found - skipping automatic LZO decompression${COLORS.reset}`);
+    console.log(
+      `${COLORS.yellow}⚠️  lzop not found - skipping automatic LZO decompression${COLORS.reset}`
+    );
     return false;
   }
   console.log(`${COLORS.green}✅ lzop found${COLORS.reset}`);
@@ -169,7 +171,11 @@ async function listS3Data(): Promise<void> {
   ]);
 }
 
-async function downloadScale(scale: Scale, force: boolean, lzopAvailable: boolean): Promise<boolean> {
+async function downloadScale(
+  scale: Scale,
+  force: boolean,
+  lzopAvailable: boolean
+): Promise<boolean> {
   const s3Scale = scale === '2.3m' ? '23m' : scale;
   const outputDir = path.join(repoRoot, 'research/data-generation/omop-data', `synthea${scale}`);
   const s3Path = `${S3_BUCKET}/synthea${s3Scale}/`;
@@ -178,7 +184,9 @@ async function downloadScale(scale: Scale, force: boolean, lzopAvailable: boolea
 
   if (fs.existsSync(outputDir)) {
     if (!force) {
-      console.log(`${COLORS.yellow}⚠️  ${outputDir} already exists. Skipping (use --force to overwrite).${COLORS.reset}`);
+      console.log(
+        `${COLORS.yellow}⚠️  ${outputDir} already exists. Skipping (use --force to overwrite).${COLORS.reset}`
+      );
       return true;
     }
     await fsp.rm(outputDir, { recursive: true, force: true });
@@ -193,9 +201,7 @@ async function downloadScale(scale: Scale, force: boolean, lzopAvailable: boolea
   }
 
   const awsFlags =
-    scale === '2.3m'
-      ? [S3_NO_SIGN]
-      : [S3_NO_SIGN, '--only-show-errors', '--no-progress'];
+    scale === '2.3m' ? [S3_NO_SIGN] : [S3_NO_SIGN, '--only-show-errors', '--no-progress'];
 
   const args = ['s3', 'sync', ...awsFlags, s3Path, outputDir];
 
@@ -223,7 +229,10 @@ async function downloadScale(scale: Scale, force: boolean, lzopAvailable: boolea
     await mergeSplitFiles(outputDir);
   }
 
-  const csvFiles = await collectFiles(outputDir, (file) => file.endsWith('.csv') && !/\.csv\.\d+$/.test(file));
+  const csvFiles = await collectFiles(
+    outputDir,
+    (file) => file.endsWith('.csv') && !/\.csv\.\d+$/.test(file)
+  );
   if (csvFiles.length === 0) {
     console.log(`${COLORS.yellow}   ⚠️  Warning: No CSV files found${COLORS.reset}`);
   } else {
@@ -254,10 +263,7 @@ async function hasFiles(dir: string, predicate: (file: string) => boolean): Prom
   return found;
 }
 
-async function collectFiles(
-  dir: string,
-  predicate: (file: string) => boolean
-): Promise<string[]> {
+async function collectFiles(dir: string, predicate: (file: string) => boolean): Promise<string[]> {
   const files: string[] = [];
   await walkDirectory(dir, async (filePath) => {
     if (predicate(filePath)) {
@@ -361,6 +367,8 @@ function runCommand(
 }
 
 main().catch((error) => {
-  console.error(`${COLORS.red}❌ Error:${COLORS.reset} ${error instanceof Error ? error.message : error}`);
+  console.error(
+    `${COLORS.red}❌ Error:${COLORS.reset} ${error instanceof Error ? error.message : error}`
+  );
   process.exit(1);
 });

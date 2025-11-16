@@ -325,13 +325,7 @@ function extractScreeningPatients(omopDir: string, random: SeededRandom): BasePa
         const hasConditions = conditionsForPerson.length > 0;
 
         const outcomeProb =
-          treatment === 1
-            ? hasConditions
-              ? 0.7
-              : 0.9
-            : hasConditions
-              ? 0.4
-              : 0.8;
+          treatment === 1 ? (hasConditions ? 0.7 : 0.9) : hasConditions ? 0.4 : 0.8;
         const outcome: 0 | 1 = random.next() < outcomeProb ? 1 : 0;
 
         patients.push({

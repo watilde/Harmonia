@@ -62,7 +62,9 @@ async function main(): Promise<void> {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('');
   console.log(`${COLORS.blue}Dataset:${COLORS.reset}  MIMIC-IV demo in OMOP CDM v5.3`);
-  console.log(`${COLORS.blue}Source:${COLORS.reset}   PhysioNet (https://doi.org/10.13026/p1f5-7x35)`);
+  console.log(
+    `${COLORS.blue}Source:${COLORS.reset}   PhysioNet (https://doi.org/10.13026/p1f5-7x35)`
+  );
   console.log(`${COLORS.blue}Size:${COLORS.reset}     ~100 ICU patients (demo subset)`);
   console.log(`${COLORS.blue}Output:${COLORS.reset}   ${dataDir}`);
   console.log('');
@@ -122,7 +124,9 @@ function printCredentialNotice(): void {
   console.log('3. Request access: https://physionet.org/content/mimic-iv-demo-omop/0.9/');
   console.log('4. Accept data use agreement');
   console.log('');
-  console.log(`${COLORS.yellow}Note:${COLORS.reset} The demo dataset is publicly available after credentialing.`);
+  console.log(
+    `${COLORS.yellow}Note:${COLORS.reset} The demo dataset is publicly available after credentialing.`
+  );
   console.log('');
 }
 
@@ -141,7 +145,10 @@ function commandExists(cmd: string): boolean {
   return result.status === 0;
 }
 
-async function promptYesNo(rl: ReturnType<typeof createInterface>, question: string): Promise<boolean> {
+async function promptYesNo(
+  rl: ReturnType<typeof createInterface>,
+  question: string
+): Promise<boolean> {
   const answer = (await rl.question(question)).trim().toLowerCase();
   return answer === 'y' || answer === 'yes';
 }
@@ -214,9 +221,7 @@ async function performDownload(tool: DownloadTool): Promise<void> {
 function downloadFile(tool: DownloadTool, url: string, destination: string): Promise<boolean> {
   return new Promise((resolve) => {
     const args =
-      tool === 'wget'
-        ? ['-q', '-O', destination, url]
-        : ['-f', '-s', '-L', url, '-o', destination];
+      tool === 'wget' ? ['-q', '-O', destination, url] : ['-f', '-s', '-L', url, '-o', destination];
 
     const child = spawn(tool, args, { stdio: 'ignore' });
     child.on('exit', (code) => resolve(code === 0));
@@ -327,6 +332,8 @@ function countCsvRows(filePath: string): Promise<number> {
 }
 
 main().catch((error) => {
-  console.error(`${COLORS.red}✗ Error:${COLORS.reset} ${error instanceof Error ? error.message : error}`);
+  console.error(
+    `${COLORS.red}✗ Error:${COLORS.reset} ${error instanceof Error ? error.message : error}`
+  );
   process.exit(1);
 });

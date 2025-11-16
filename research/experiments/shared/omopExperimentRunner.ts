@@ -76,11 +76,7 @@ export async function runOmopExperiment(config: OmopExperimentConfig): Promise<v
       const siteBounds: SiteBounds = { ...bounds, siteId: `Hospital-${site.id}` };
       boundsForAssumption.push(siteBounds);
 
-      const destination = path.join(
-        boundsDir,
-        assumption,
-        `site${site.id}-bounds.json`
-      );
+      const destination = path.join(boundsDir, assumption, `site${site.id}-bounds.json`);
       ensureDir(path.dirname(destination));
       fs.writeFileSync(destination, JSON.stringify(siteBounds, null, 2));
 
