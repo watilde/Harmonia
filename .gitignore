@@ -169,17 +169,17 @@ research/validation/omop-age/results/
 tools/
 
 # Downloaded OMOP datasets (large, not committed)
-research/data-generation/omop-data/small/
-research/data-generation/omop-data/medium/
-research/data-generation/omop-data/large/
+research/data/raw/omop-data/small/
+research/data/raw/omop-data/medium/
+research/data/raw/omop-data/large/
 
 # Data splits (generated, can be regenerated)
-research/data-generation/splits/*
-!research/data-generation/splits/README.md
+research/data/raw/splits/*
+!research/data/raw/splits/README.md
 
 # Experiment results (generated, large)
-research/data-generation/results/*
-!research/data-generation/results/README.md
+research/data/raw/results/*
+!research/data/raw/results/README.md
 
 # Temporary test data
 test-*/

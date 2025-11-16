@@ -31,7 +31,7 @@ Unlike Horizontal FL (weight averaging) and Vertical FL (gradient exchange), Tra
 
 To implement Transfer FL algorithms:
 
-1. Study referenced papers in `research/validation/scenarios/transfer/README.md`
+1. Study referenced papers in `research/modules/manski-bounds/validation/scenarios/transfer/README.md`
 2. Design API consistent with existing patterns
 3. Include comprehensive tests
 4. Add validation scenarios
