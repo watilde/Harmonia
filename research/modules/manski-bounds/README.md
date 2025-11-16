@@ -4,14 +4,11 @@ This module houses Harmonia's ongoing work on federated Manski bounds, providing
 
 ## Folder Guide
 
-- `theory/`: assumptions, derivations, and notation.
-- `simulations/`: configs, notebooks, and outputs for synthetic experiments.
-- `prototypes/`: CLI proofs of concept and federated runners.
-- `omop-demo/`: OMOP CDM scripts and demonstration workflows.
-- `manuscripts/`: drafts, figures, and submission artifacts.
-- `benchmarks/`: curated datasets (synthetic + demo) with metadata.
+- `experiments/`: the prior OMOP experiments (diabetes, ICU, screening) relocated from `research/experiments`.
+- `manuscripts/`: the published manuscript (`manuscript_v6.0.*`) and supporting figures.
+- `pipelines/`: module-specific TypeScript scripts (validation + manuscript tooling) invoked via the local `package.json`.
 
-Use the README in each subfolder to track lifecycle status (draft → review → publish) and link to shared utilities in `research/data/shared/`.
+Only these folders are kept to mirror the original repo layout; additional structure can be added later as the project evolves.
 
 ## Module Scripts
 

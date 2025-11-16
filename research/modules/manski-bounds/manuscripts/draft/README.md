@@ -1,3 +1,0 @@
-# Drafts
-
-Editable manuscript sources.
