@@ -1,0 +1,57 @@
+{
+  "name": "@harmonia/cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for Harmonia federated learning",
+  "main": "dist/index.js",
+  "bin": {
+    "harmonia": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --passWithNoTests"
+  },
+  "keywords": [
+    "federated-learning",
+    "cli",
+    "privacy",
+    "omop"
+  ],
+  "author": "OHDSI Community",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@harmonia/client": "^0.1.0",
+    "@harmonia/coordinator": "^0.1.0",
+    "@harmonia/core": "^0.1.0",
+    "commander": "^11.1.0",
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.10.4",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.3.3"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.test.ts"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/__tests__/setup.ts"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts",
+      "!src/__tests__/**"
+    ]
+  }
+}
