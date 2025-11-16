@@ -1,0 +1,27 @@
+{
+  "name": "@harmonia/core",
+  "version": "0.1.0",
+  "description": "Core federated learning algorithms and utilities",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "federated-learning",
+    "machine-learning",
+    "privacy-preserving"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.22.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0"
+  }
+}
