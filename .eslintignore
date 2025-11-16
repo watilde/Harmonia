@@ -1,0 +1,25 @@
+# Build outputs
+dist/
+build/
+*.js.map
+
+# Dependencies
+node_modules/
+
+# Coverage
+coverage/
+
+# Test files
+**/__tests__/
+**/*.test.ts
+**/*.spec.ts
+**/__mocks__/
+
+# E2E tests
+e2e/
+
+# Documentation scripts
+docs/github-actions/
+
+# Generated files
+*.d.ts
