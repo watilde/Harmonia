@@ -3,6 +3,7 @@
 This module houses Harmonia's ongoing work on federated Manski bounds, providing partial identification of treatment effects under minimal assumptions.
 
 ## Folder Guide
+
 - `theory/`: assumptions, derivations, and notation.
 - `simulations/`: configs, notebooks, and outputs for synthetic experiments.
 - `prototypes/`: CLI proofs of concept and federated runners.

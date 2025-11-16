@@ -14,10 +14,10 @@ npm run paper:pdf
 
 ## Inputs & Outputs
 
-| Command | Reads | Writes |
-| ------- | ----- | ------ |
-| `paper:plots` | `research/data/raw/results/large-scale-validation/validation-results.json` | `manuscripts/current-paper/figures/*.png` |
-| `paper:pdf` | `manuscripts/current-paper/manuscript_v6.0.md` + generated figures | `manuscripts/current-paper/manuscript_v6.0.pdf` |
+| Command       | Reads                                                                      | Writes                                          |
+| ------------- | -------------------------------------------------------------------------- | ----------------------------------------------- |
+| `paper:plots` | `research/data/raw/results/large-scale-validation/validation-results.json` | `manuscripts/current-paper/figures/*.png`       |
+| `paper:pdf`   | `manuscripts/current-paper/manuscript_v6.0.md` + generated figures         | `manuscripts/current-paper/manuscript_v6.0.pdf` |
 
 > Tip: Generate validation results first via `npm run data:validate`.
 

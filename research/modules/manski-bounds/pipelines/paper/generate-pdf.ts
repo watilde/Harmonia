@@ -280,10 +280,7 @@ async function generatePDF(inputMd: string, outputPdf: string): Promise<void> {
 
 async function main(): Promise<void> {
   const inputMd = path.join(__dirname, '../../manuscripts/current-paper/manuscript_v6.0.md');
-  const outputPdf = path.join(
-    __dirname,
-    '../../manuscripts/current-paper/manuscript_v6.0.pdf'
-  );
+  const outputPdf = path.join(__dirname, '../../manuscripts/current-paper/manuscript_v6.0.pdf');
 
   if (!fs.existsSync(inputMd)) {
     console.error('❌ Manuscript not found:', inputMd);

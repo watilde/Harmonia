@@ -248,10 +248,10 @@ async function main(): Promise<void> {
   const scalabilityConfig = buildScalabilityConfig(nPatients, times, memory);
   const scalabilityImage = await chartJSNodeCanvas.renderToBuffer(scalabilityConfig);
 
-const outputDir = path.join(
-  __dirname,
-  '../../modules/manski-bounds/manuscripts/current-paper/figures'
-);
+  const outputDir = path.join(
+    __dirname,
+    '../../modules/manski-bounds/manuscripts/current-paper/figures'
+  );
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }

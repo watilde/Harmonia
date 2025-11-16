@@ -22,7 +22,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { computeATEBounds } from '../../../../../packages/core/src/causal/partial-id';
-import type { CausalDataPoint, ATEBounds } from '../../../../../packages/core/src/causal/partial-id';
+import type {
+  CausalDataPoint,
+  ATEBounds,
+} from '../../../../../packages/core/src/causal/partial-id';
 
 interface ScaleTest {
   size: string;
