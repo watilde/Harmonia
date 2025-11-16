@@ -5,19 +5,19 @@
 
 import fs from 'fs';
 import path from 'path';
-import type { Marked, Tokens } from 'marked';
+import type { marked as MarkedFunction, Tokens } from 'marked';
+import { marked } from 'marked';
 import katex from 'katex';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
 
-let markedInstance: Marked | null = null;
+let markedInstance: typeof MarkedFunction | null = null;
 
-async function getMarked(): Promise<Marked> {
+async function getMarked(): Promise<typeof MarkedFunction> {
   if (markedInstance) {
     return markedInstance;
   }
 
-  const { marked } = await import('marked');
   const renderer = new marked.Renderer();
   renderer.code = ({ text, lang }: Tokens.Code): string => {
     const source = text ?? '';
