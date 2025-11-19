@@ -188,3 +188,4 @@ final-verify/
 *.sh
 !research/**/*.sh
 !packages/**/*.sh
+.DS_Store

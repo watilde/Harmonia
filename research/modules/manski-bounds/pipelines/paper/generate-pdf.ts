@@ -5,21 +5,36 @@
 
 import fs from 'fs';
 import path from 'path';
-import type { Tokens } from 'marked';
-import { marked } from 'marked';
+import { ReadableStream as NodeReadableStream } from 'stream/web';
 import katex from 'katex';
 import hljs from 'highlight.js';
 import puppeteer from 'puppeteer';
 
-let isMarkedConfigured = false;
+type CodeToken = {
+  text?: string | null;
+  lang?: string | null;
+};
 
-async function getMarked(): Promise<typeof marked> {
-  if (isMarkedConfigured) {
-    return marked;
+let isMarkedConfigured = false;
+let markedModule: typeof import('marked') | null = null;
+const dynamicImport = new Function('specifier', 'return import(specifier);') as <T>(specifier: string) => Promise<T>;
+const globalScope = globalThis as { ReadableStream?: unknown };
+
+if (typeof globalScope.ReadableStream === 'undefined') {
+  globalScope.ReadableStream = NodeReadableStream as unknown;
+}
+
+async function getMarked(): Promise<typeof import('marked')['marked']> {
+  if (!markedModule) {
+    markedModule = await dynamicImport<typeof import('marked')>('marked');
   }
 
-  const renderer = new marked.Renderer();
-  renderer.code = ({ text, lang }: Tokens.Code): string => {
+  if (isMarkedConfigured) {
+    return markedModule.marked;
+  }
+
+  const renderer = new markedModule.marked.Renderer();
+  renderer.code = ({ text, lang }: CodeToken): string => {
     const source = text ?? '';
     const language = lang?.trim();
     try {
@@ -35,14 +50,14 @@ async function getMarked(): Promise<typeof marked> {
     return `<pre><code class="hljs">${highlighted}</code></pre>`;
   };
 
-  marked.setOptions({
+  markedModule.marked.setOptions({
     breaks: false,
     gfm: true,
     renderer,
   });
 
   isMarkedConfigured = true;
-  return marked;
+  return markedModule.marked;
 }
 
 function preprocessMath(markdown: string): string {
