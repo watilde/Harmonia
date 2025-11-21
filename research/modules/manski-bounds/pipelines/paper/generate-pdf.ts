@@ -15,11 +15,23 @@ type CodeToken = {
   lang?: string | null;
 };
 
+type MarkedRenderer = {
+  code?: (token: CodeToken) => string;
+};
+
+type MarkedFunction = ((markdown: string, options?: unknown) => string) & {
+  Renderer: new () => MarkedRenderer;
+  setOptions: (options: { breaks?: boolean; gfm?: boolean; renderer: MarkedRenderer }) => void;
+  parse: (markdown: string, options?: unknown) => string;
+};
+
+type MarkedModule = {
+  marked: MarkedFunction;
+};
+
 let isMarkedConfigured = false;
-let markedModule: typeof import('marked') | null = null;
-const dynamicImport = new Function('specifier', 'return import(specifier);') as <T>(
-  specifier: string
-) => Promise<T>;
+let markedModule: MarkedModule | null = null;
+const dynamicImport = async <T>(specifier: string): Promise<T> => import(specifier) as Promise<T>;
 const globalScope = globalThis as { ReadableStream?: unknown };
 
 if (typeof globalScope.ReadableStream === 'undefined') {
