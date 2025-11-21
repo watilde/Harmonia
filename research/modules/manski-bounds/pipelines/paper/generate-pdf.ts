@@ -17,14 +17,16 @@ type CodeToken = {
 
 let isMarkedConfigured = false;
 let markedModule: typeof import('marked') | null = null;
-const dynamicImport = new Function('specifier', 'return import(specifier);') as <T>(specifier: string) => Promise<T>;
+const dynamicImport = new Function('specifier', 'return import(specifier);') as <T>(
+  specifier: string
+) => Promise<T>;
 const globalScope = globalThis as { ReadableStream?: unknown };
 
 if (typeof globalScope.ReadableStream === 'undefined') {
   globalScope.ReadableStream = NodeReadableStream as unknown;
 }
 
-async function getMarked(): Promise<typeof import('marked')['marked']> {
+async function getMarked(): Promise<(typeof import('marked'))['marked']> {
   if (!markedModule) {
     markedModule = await dynamicImport<typeof import('marked')>('marked');
   }

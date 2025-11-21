@@ -172,6 +172,8 @@ tools/
 research/data/raw/omop-data/small/
 research/data/raw/omop-data/medium/
 research/data/raw/omop-data/large/
+# Local research sandbox data copies (large, keep out of git)
+research/research/data/
 
 # Data splits (generated, can be regenerated)
 research/data/raw/splits/*
