@@ -185,11 +185,39 @@ else
   
   echo ""
   echo "  Computing Federated Robustness Index..."
-  compute_fri \
-    "$DATA_DIR" \
-    "$OUTPUT_DIR/fri-results.json" \
-    "site" \
-    3
+  
+  # Create multi-site evalues JSON in the format expected by compute-fri
+  echo "[" > "$DATA_DIR/multi-site-evalues.json"
+  
+  first=true
+  for i in {1..3}; do
+    if [[ "$first" == false ]]; then
+      echo "  ," >> "$DATA_DIR/multi-site-evalues.json"
+    fi
+    first=false
+    
+    # Extract E-value, sample size, and robustness level
+    evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/site-${i}-evalue.json")
+    robustness=$(jq -r '.conservative.robustness_level' "$DATA_DIR/site-${i}-evalue.json")
+    interpretation=$(jq -r '.conservative.interpretation' "$DATA_DIR/site-${i}-evalue.json")
+    sample_size=$(jq -r '.sampleSize' "$DATA_DIR/site-${i}-bounds.json")
+    
+    # Create SiteEvalue object
+    cat >> "$DATA_DIR/multi-site-evalues.json" <<EOF
+  {
+    "site_id": "site-${i}",
+    "evalue": $evalue,
+    "sample_size": $sample_size,
+    "robustness_level": "$robustness",
+    "interpretation": "$interpretation"
+  }
+EOF
+  done
+  
+  echo "" >> "$DATA_DIR/multi-site-evalues.json"
+  echo "]" >> "$DATA_DIR/multi-site-evalues.json"
+  
+  compute_fri "$DATA_DIR/multi-site-evalues.json" "sample-size" "$OUTPUT_DIR/fri-results.json"
 fi
 
 print_success "Sensitivity analysis complete"
