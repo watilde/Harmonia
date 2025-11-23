@@ -273,7 +273,7 @@ else
   echo "    ────────────────────────────────────────────────────────────────────"
   
   for i in {1..3}; do
-    mode=$(jq -r '.selectedMode' "$DATA_DIR/site-${i}-mode.json")
+    mode=$(jq -r '.mode' "$DATA_DIR/site-${i}-mode.json")
     lower=$(jq -r '.lower' "$DATA_DIR/site-${i}-bounds.json")
     upper=$(jq -r '.upper' "$DATA_DIR/site-${i}-bounds.json")
     evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/site-${i}-evalue.json")
