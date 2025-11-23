@@ -1,5 +1,5 @@
 {
-  "name": "@harmonia/federated-partial-identification",
+  "name": "@harmonia/2-federated-partial-identification",
   "version": "0.1.0",
   "description": "Federated Partial Identification: Balke-Pearl bounds, Manski bounds, and aggregation strategies",
   "private": true,
@@ -7,17 +7,6 @@
     "paper:plots": "npx ts-node scripts/generate-figures.ts",
     "paper:pdf": "./scripts/generate-pdf.sh",
     "experiment:aggregation": "./experiments/run-aggregation-comparison.sh"
-  },
-  "dependencies": {
-    "csv-parse": "^6.1.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.0.0",
-    "@types/node": "^20.0.0",
-    "jest": "^29.0.0",
-    "ts-jest": "^29.0.0",
-    "typescript": "^5.0.0",
-    "ts-node": "^10.9.0"
   },
   "keywords": [
     "causal-inference",

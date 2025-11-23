@@ -1,7 +1,7 @@
 {
-  "name": "@harmonia-research/frci",
+  "name": "@harmonia/5-identification-sensitivity-adaptation",
   "version": "1.0.0",
-  "description": "Federated Robust Causal Inference - Integrated framework for privacy-preserving causal inference",
+  "description": "Hierarchical framework for federated causal inference: Identification, Sensitivity, and Adaptation",
   "private": true,
   "scripts": {
     "paper:pdf": "./scripts/generate-pdf.sh",
@@ -16,16 +16,9 @@
     "privacy-preserving",
     "e-values",
     "robustness",
-    "partial-identification"
+    "partial-identification",
+    "hierarchical-framework"
   ],
-  "author": "Harmonia Research Team",
-  "license": "Apache-2.0",
-  "devDependencies": {
-    "@jest/globals": "^29.7.0",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.10.6",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.3.3"
-  }
+  "author": "Daijiro Wachi",
+  "license": "Apache-2.0"
 }

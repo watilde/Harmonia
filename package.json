@@ -1,15 +1,14 @@
 {
   "name": "harmonia",
   "version": "0.1.0",
-  "description": "Browser-based federated learning platform for privacy-preserving medical research using OMOP CDM",
+  "description": "Federated causal inference for privacy-preserving multi-site observational health data",
   "keywords": [
+    "causal-inference",
     "federated-learning",
     "healthcare",
     "privacy-preserving",
-    "omop-cdm",
-    "ohdsi",
-    "machine-learning",
-    "tensorflow"
+    "partial-identification",
+    "omop-cdm"
   ],
   "homepage": "https://github.com/watilde/Harmonia#readme",
   "bugs": {
