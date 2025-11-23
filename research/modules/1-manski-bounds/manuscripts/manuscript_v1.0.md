@@ -29,7 +29,7 @@
 Causal inference from observational data faces two fundamental challenges: (1) **Unmeasured confounding** - the strong ignorability assumption is untestable and often implausible in healthcare settings where treatment decisions involve unobserved factors; (2) **Privacy constraints** - multi-site studies cannot share individual-level data due to HIPAA, GDPR, and institutional policies. Traditional approaches either make strong unverifiable assumptions or require centralized data access. **Partial identification** offers a middle ground: by relaxing untestable assumptions, we obtain **bounds** on causal effects that are more credible than point estimates, while federated computation preserves privacy.
 
 ![Federated vs Centralized Architecture](figures/fig0_architecture_comparison.png)
-_Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months, with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy._
+_Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months (estimated), with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy._
 
 ### 1.2 Manski Bounds and MTR Assumptions
 
