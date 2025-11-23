@@ -1,22 +1,41 @@
-# Federated Causal Validity Stack
+# Research Modules
 
-Harmonia's research workspace is evolving into a long-term Federated Causal Validity Stack. Each module advances a new capability for federated causal inference:
+Five research modules for federated causal inference:
 
-- **Manski bounds** – partial identification of treatment effects via federated Manski bounds.
-- **E-values & Robustness Index** – sensitivity to unmeasured confounding and cross-site robustness metrics.
-- **Design-failure-aware learning** – diagnostic signals and adaptive responses when identifying assumptions fail.
+1. **Manski Bounds** — Federated partial identification with optimal aggregation
+2. **Federated Partial Identification** — Aggregation strategies under heterogeneity
+3. **E-values & FRI** — Sensitivity analysis and robustness metrics
+4. **Design-Failure-Aware** — Diagnostic systems for assumption violations
+5. **Unified Framework** — Integration of all modules
 
-## Layout
+## Structure
 
-- `data/`: Raw datasets, splitting pipelines, and shared theory/utilities.
-- `modules/`: Houses all research capabilities. Current submodules:
-  - `manski-bounds/`
-  - `e-values-robustness/`
-  - `failure-aware-learning/`
+```
+research/
+├── modules/
+│   ├── 1-manski-bounds/
+│   ├── 2-federated-partial-identification/
+│   ├── 3-federated-evalues/
+│   ├── 4-design-failure-aware-causal/
+│   └── 5-identification-sensitivity-adaptation/
+└── data/
+```
 
-Each module contains structured folders for theory, simulations, prototypes, OMOP demonstrations, manuscripts, and benchmarks. This layout is designed for multi-year collaboration with clear separation of artifacts and reproducible workflows.
+Each module contains:
+- `manuscripts/` — Papers and figures
+- `experiments/` — Validation scripts
+- `scripts/` — PDF generation
 
-## Running Scripts
+## Usage
 
-- Shared data pipelines (download & split) live under `research/data/pipelines/` and are exposed via `research/package.json`.
-- Module-specific scripts (validation, manuscript builds, experiments) live inside each module. Change into `research/modules/<module>/` and run `npm run <script>` from there (e.g., `npm run paper:pdf` inside `manski-bounds/`).
+**Generate PDFs:**
+```bash
+cd research/modules/1-manski-bounds
+node scripts/generate-pdf.js
+```
+
+**Run experiments:**
+```bash
+cd research/modules/1-manski-bounds
+bash experiments/run-manski-experiment.sh
+```
