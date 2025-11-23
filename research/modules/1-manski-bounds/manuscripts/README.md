@@ -68,7 +68,7 @@ Manuscript and figures for federated causal inference using Manski bounds.
 ## 🚀 Generate PDF (Node.js)
 
 ```bash
-cd research/modules/manski-bounds
+cd research/modules/1-manski-bounds
 npm run paper:pdf
 ```
 
@@ -84,7 +84,7 @@ npm run paper:pdf
 ## 📊 Regenerate Figures (Node.js)
 
 ```bash
-cd research/modules/manski-bounds
+cd research/modules/1-manski-bounds
 npm run data:validate   # build validation results
 npm run paper:plots     # regenerate figures
 ```

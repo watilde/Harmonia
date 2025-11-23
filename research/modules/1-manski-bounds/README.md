@@ -12,7 +12,7 @@ Only these folders are kept to mirror the original repo layout; additional struc
 
 ## Module Scripts
 
-From `research/modules/manski-bounds/` you can run:
+From `research/modules/1-manski-bounds/` you can run:
 
 ```bash
 npm run data:validate        # Large-scale validation

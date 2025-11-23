@@ -1,0 +1,15 @@
+{
+  "name": "@harmonia/manski-bounds-module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scripts and pipelines for the Manski bounds module",
+  "scripts": {
+    "paper:plots": "node ../../node_modules/ts-node/dist/bin.js scripts/generate-figures.ts",
+    "paper:pdf": "./scripts/generate-pdf.sh",
+    "experiment:diabetes": "./experiments/run-manski-experiment.sh diabetes",
+    "experiment:icu": "./experiments/run-manski-experiment.sh icu",
+    "experiment:screening": "./experiments/run-manski-experiment.sh screening"
+  },
+  "author": "Daijiro Wachi",
+  "license": "Apache-2.0"
+}

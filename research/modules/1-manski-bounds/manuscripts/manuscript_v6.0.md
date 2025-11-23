@@ -119,7 +119,7 @@ harmonia/
     crypto/                  # Cryptographic utilities
     cli/                     # Command-line interface
   research/
-    modules/manski-bounds/manuscripts/current-paper/   # Manuscript and supplementary materials
+    modules/1-manski-bounds/manuscripts/current-paper/   # Manuscript and supplementary materials
     data/raw/                # Synthetic data generation outputs (OMOP data, splits, results)
       synthea/               # Synthea OMOP data generator (TypeScript)
       split-omop-csv.ts      # Multi-site data splitter (see data/pipelines/data/split)
