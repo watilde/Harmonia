@@ -56,8 +56,8 @@ const ESSENTIAL_TABLES = [
   'observation',
 ];
 
-const repoRoot = path.resolve(__dirname, '../../../..');
-const dataDir = path.join(repoRoot, 'data/raw/omop-data/mimic-demo');
+const repoRoot = path.resolve(__dirname, '../../../../..');
+const dataDir = path.join(repoRoot, 'research/data/raw/omop-data/mimic-demo');
 
 type DownloadTool = 'wget' | 'curl';
 

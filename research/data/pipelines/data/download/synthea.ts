@@ -24,7 +24,7 @@ interface CliOptions {
   scales: Scale[];
 }
 
-const repoRoot = path.resolve(__dirname, '../../../..');
+const repoRoot = path.resolve(__dirname, '../../../../..');
 
 async function main(): Promise<void> {
   process.chdir(repoRoot);
