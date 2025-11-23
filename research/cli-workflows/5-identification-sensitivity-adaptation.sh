@@ -173,6 +173,7 @@ if [ "$IS_FEDERATED" = false ]; then
   echo "  Computing E-value for MIMIC test data..."
   compute_evalue_from_bounds \
     "$DATA_DIR/mimic-bounds.json" \
+    0.4 \
     "$DATA_DIR/mimic-evalue.json"
   
 else
@@ -180,6 +181,7 @@ else
   for i in {1..3}; do
     compute_evalue_from_bounds \
       "$DATA_DIR/site-${i}-bounds.json" \
+      0.4 \
       "$DATA_DIR/site-${i}-evalue.json"
   done
   
