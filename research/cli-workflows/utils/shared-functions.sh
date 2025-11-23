@@ -14,6 +14,26 @@ export YELLOW='\033[1;33m'
 export RED='\033[0;31m'
 export NC='\033[0m'
 
+# Get the project root and CLI path
+SHARED_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SHARED_SCRIPT_DIR/../../.." && pwd)"
+CLI_PATH="$PROJECT_ROOT/packages/cli/dist/cli.js"
+
+# Verify CLI exists
+if [ ! -f "$CLI_PATH" ]; then
+  echo "ERROR: Harmonia CLI not found at $CLI_PATH"
+  echo "Please run 'npm run build -w @harmonia/cli' first"
+  exit 1
+fi
+
+# Suppress TensorFlow warnings
+export TF_CPP_MIN_LOG_LEVEL=3
+export TF_ENABLE_ONEDNN_OPTS=0
+
+# Suppress TensorFlow warnings
+export TF_CPP_MIN_LOG_LEVEL=3
+export TF_ENABLE_ONEDNN_OPTS=0
+
 ##############################################################################
 # Data Generation Functions
 ##############################################################################
@@ -26,7 +46,7 @@ generate_site_data() {
   local treatment_rate="${3:-0.5}"
   local output_file="$4"
   
-  npx harmonia causal generate-data \
+  node "$CLI_PATH" causal generate-data \
     -n "$n_patients" \
     --treatment-rate "$treatment_rate" \
     --output "$output_file" \
@@ -66,6 +86,129 @@ generate_imbalanced_sites() {
 }
 
 ##############################################################################
+# Real Data Loading Functions
+##############################################################################
+
+# Load split Synthea data from research/data/raw/splits directory
+# Usage: load_split_data <dataset_name> <output_dir> <site_prefix> [num_sites]
+# dataset_name: "1k", "100k", "2.8m" (Synthea datasets only)
+# Copies split data to output_dir and names them as <site_prefix>-1-data.json, etc.
+load_split_data() {
+  local dataset_name="$1"
+  local output_dir="$2"
+  local site_prefix="${3:-site}"
+  local num_sites="${4:-3}"
+  
+  local split_dir="$PROJECT_ROOT/research/data/raw/splits/$dataset_name"
+  
+  # Verify split directory exists
+  if [ ! -d "$split_dir" ]; then
+    echo -e "${RED}ERROR: Split data not found at $split_dir${NC}"
+    echo "Please run: npm run data:split:$dataset_name"
+    return 1
+  fi
+  
+  # Verify metadata exists
+  if [ ! -f "$split_dir/metadata.json" ]; then
+    echo -e "${RED}ERROR: metadata.json not found in $split_dir${NC}"
+    return 1
+  fi
+  
+  # Copy split data files and extract patients array
+  for i in $(seq 1 "$num_sites"); do
+    local source_file="$split_dir/site${i}.json"
+    local dest_file="$output_dir/${site_prefix}-${i}-data.json"
+    
+    if [ ! -f "$source_file" ]; then
+      echo -e "${RED}ERROR: $source_file not found${NC}"
+      return 1
+    fi
+    
+    # Extract .patients array from split data structure
+    # Split data structure: {metadata: {...}, patients: [...]}
+    # CLI expects: [{patientId, treatment, outcome, ...}, ...]
+    jq '.patients' "$source_file" > "$dest_file"
+  done
+  
+  # Copy metadata
+  cp "$split_dir/metadata.json" "$output_dir/metadata.json"
+  
+  return 0
+}
+
+# Load MIMIC data (single test dataset, no splitting)
+# Usage: load_mimic_data <output_dir>
+# Prepares MIMIC OMOP data and saves as single test dataset
+load_mimic_data() {
+  local output_dir="$1"
+  local mimic_omop_dir="$PROJECT_ROOT/research/data/raw/omop-data/mimic-demo"
+  local mimic_output="$output_dir/mimic-test-data.json"
+  local mimic_csv="$output_dir/mimic-test-data.csv"
+  
+  # Verify MIMIC OMOP directory exists
+  if [ ! -d "$mimic_omop_dir" ]; then
+    echo -e "${RED}ERROR: MIMIC OMOP data not found at $mimic_omop_dir${NC}"
+    echo "Please run: npm run data:download:mimic"
+    return 1
+  fi
+  
+  # Verify required CSV files exist
+  if [ ! -f "$mimic_omop_dir/person.csv" ] || \
+     [ ! -f "$mimic_omop_dir/condition_occurrence.csv" ] || \
+     [ ! -f "$mimic_omop_dir/visit_occurrence.csv" ]; then
+    echo -e "${RED}ERROR: Required MIMIC CSV files not found${NC}"
+    return 1
+  fi
+  
+  echo "  Preparing MIMIC test data..."
+  
+  # Run MIMIC data preparation script
+  cd "$PROJECT_ROOT/research/cli-workflows/utils"
+  npx ts-node prepare-mimic-data.ts \
+    "$mimic_omop_dir" \
+    "$mimic_output" \
+    > /dev/null 2>&1
+  
+  if [ ! -f "$mimic_output" ]; then
+    echo -e "${RED}ERROR: MIMIC data preparation failed${NC}"
+    return 1
+  fi
+  
+  echo -e "  ${GREEN}✓ MIMIC test data prepared${NC}"
+  return 0
+}
+
+# Get sample sizes from loaded split data
+# Usage: get_split_data_sizes <output_dir> <site_prefix> <num_sites>
+# Returns: Prints sample sizes for each site
+get_split_data_sizes() {
+  local output_dir="$1"
+  local site_prefix="${2:-site}"
+  local num_sites="${3:-3}"
+  
+  for i in $(seq 1 "$num_sites"); do
+    local data_file="$output_dir/${site_prefix}-${i}-data.json"
+    if [ -f "$data_file" ]; then
+      local size=$(jq 'length' "$data_file")
+      echo "    Site $i: n=$size"
+    fi
+  done
+}
+
+# Get sample size from MIMIC test data
+# Usage: get_mimic_data_size <output_dir>
+# Returns: Prints MIMIC test data sample size
+get_mimic_data_size() {
+  local output_dir="$1"
+  local mimic_file="$output_dir/mimic-test-data.json"
+  
+  if [ -f "$mimic_file" ]; then
+    local size=$(jq 'length' "$mimic_file")
+    echo "    MIMIC test data: n=$size"
+  fi
+}
+
+##############################################################################
 # Bounds Computation Functions
 ##############################################################################
 
@@ -76,7 +219,7 @@ compute_site_bounds() {
   local output_file="$2"
   local assumption="${3:-mtr}"
   
-  npx harmonia causal compute-bounds \
+  node "$CLI_PATH" causal compute-bounds \
     --data "$data_file" \
     --assumption "$assumption" \
     --output "$output_file" \
@@ -112,7 +255,7 @@ federate_bounds_with_strategy() {
   shift 2
   local bounds_files=("$@")
   
-  npx harmonia causal federate-bounds \
+  node "$CLI_PATH" causal federate-bounds \
     -s "${bounds_files[@]}" \
     --strategy "$strategy" \
     --output "$output_file" \
@@ -155,7 +298,7 @@ compute_evalue_from_bounds() {
   local baseline_risk="${2:-0.4}"
   local output_file="$3"
   
-  npx harmonia causal compute-evalue \
+  node "$CLI_PATH" causal compute-evalue \
     --bounds-file "$bounds_file" \
     --baseline-risk "$baseline_risk" \
     --output "$output_file" \
@@ -169,10 +312,11 @@ compute_fri() {
   local strategy="$2"
   local output_file="$3"
   
-  npx harmonia causal compute-fri \
+  node "$CLI_PATH" causal compute-fri \
     --sites-file "$sites_file" \
     --strategy "$strategy" \
     --output "$output_file" \
+    --format json \
     > /dev/null 2>&1
 }
 
@@ -190,9 +334,11 @@ compare_fri_strategies() {
     local output_file="$output_dir/${prefix}_fri_${strategy}.json"
     compute_fri "$sites_file" "$strategy" "$output_file"
     
-    local fri
-    fri=$(jq -r '.federated_robustness_index' "$output_file")
-    printf "    %-15s → FRI = %.4f\n" "$strategy" "$fri"
+    local fri min_e med_e avg_e
+    min_e=$(jq -r '.fri.min_evalue' "$output_file")
+    med_e=$(jq -r '.fri.median_evalue' "$output_file")
+    avg_e=$(jq -r '.fri.weighted_avg_evalue' "$output_file")
+    printf "    %-15s → Min=%.2f  Med=%.2f  Avg=%.2f\n" "$strategy" "$min_e" "$med_e" "$avg_e"
   done
 }
 
@@ -206,11 +352,32 @@ diagnose_site_assumptions() {
   local data_file="$1"
   local output_file="$2"
   
-  npx harmonia causal diagnose-assumptions \
+  node "$CLI_PATH" causal diagnose-assumptions \
     --data-file "$data_file" \
     --output "$output_file" \
-    --format json \
     > /dev/null 2>&1
+}
+
+# Diagnose assumptions in parallel across multiple sites
+# Usage: diagnose_sites_parallel <data_dir> <output_file>
+diagnose_sites_parallel() {
+  local data_dir="$1"
+  local output_file="$2"
+  
+  echo "  Running parallel assumption diagnostics..."
+  node "$CLI_PATH" causal diagnose-assumptions-parallel \
+    --data-dir "$data_dir" \
+    --site-pattern "site-*-data.json" \
+    --format json \
+    --output "$output_file"
+  
+  if [ $? -eq 0 ]; then
+    echo "  ✓ Parallel diagnostics complete"
+    return 0
+  else
+    echo "  ✗ Parallel diagnostics failed"
+    return 1
+  fi
 }
 
 # Display assumption scores
@@ -228,6 +395,21 @@ display_assumption_scores() {
     "$assumptions_file"
 }
 
+# Display parallel assumption scores (from array output)
+# Usage: display_parallel_scores <results_file>
+display_parallel_scores() {
+  local results_file="$1"
+  
+  echo "  Assumption scores summary:"
+  jq -r '.[] | 
+    "    Site \(.siteId):  " +
+    "Overall=\(.scores.overall_score | tostring | .[0:5])  " +
+    "Unconf=\(.scores.unconfoundedness_score | tostring | .[0:5])  " +
+    "Posit=\(.scores.positivity_score | tostring | .[0:5])  " +
+    "Spec=\(.scores.specification_score | tostring | .[0:5])"' \
+    "$results_file"
+}
+
 ##############################################################################
 # Inference Mode Selection Functions
 ##############################################################################
@@ -238,10 +420,9 @@ select_site_mode() {
   local assumptions_file="$1"
   local output_file="$2"
   
-  npx harmonia causal select-inference-mode \
+  node "$CLI_PATH" causal select-inference-mode \
     --data-file "$assumptions_file" \
     --output "$output_file" \
-    --format json \
     > /dev/null 2>&1
 }
 
@@ -395,6 +576,10 @@ create_multisite_json() {
 export -f generate_site_data
 export -f generate_balanced_sites
 export -f generate_imbalanced_sites
+export -f load_split_data
+export -f get_split_data_sizes
+export -f load_mimic_data
+export -f get_mimic_data_size
 export -f compute_site_bounds
 export -f compute_bounds_for_sites
 export -f federate_bounds_with_strategy

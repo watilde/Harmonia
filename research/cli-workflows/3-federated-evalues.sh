@@ -6,12 +6,11 @@
 # analysis. Based on research paper: "Federated E-values and Robustness Index
 # for Multi-Site Causal Inference"
 #
-# Workflow:
-# 1. Generate data for multiple sites
-# 2. Compute bounds and E-values at each site
-# 3. Calculate Federated Robustness Index (FRI)
-# 4. Compare FRI aggregation strategies
-# 5. Assess robustness levels across network
+# Uses real OMOP data (Synthea 1k by default)
+#
+# Usage:
+#   ./3-federated-evalues.sh [dataset]
+#   dataset: 1k (default), 100k, 2.8m, or mimic-demo
 ##############################################################################
 
 set -e  # Exit on error
@@ -22,141 +21,210 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Import shared functions
 source "$SCRIPT_DIR/utils/shared-functions.sh"
 
+# Parse dataset argument (default: 1k)
+DATASET="${1:-1k}"
+
 # Create output directory
-OUTPUT_DIR="$SCRIPT_DIR/output/federated-evalues"
+OUTPUT_DIR="$SCRIPT_DIR/output/federated-evalues-$DATASET"
 DATA_DIR="$OUTPUT_DIR/data"
 mkdir -p "$OUTPUT_DIR" "$DATA_DIR"
 
 echo "════════════════════════════════════════════════════════════════════"
-echo "  🛡️  Federated E-values & Robustness Index Workflow"
+echo "  🛡️  Federated E-values & Robustness Index - $DATASET Dataset"
 echo "════════════════════════════════════════════════════════════════════"
 echo ""
 
 ##############################################################################
-# Step 1: Generate Multi-Site Data
+# Load Real Data
 ##############################################################################
-print_section_header "Step 1: Generate Multi-Site Data"
+print_section_header "Loading Real OMOP Data"
 
-echo "  Generating data for 5 sites (hospital network)..."
-sizes=(800 650 220 180 90)
-site_names=("mass-general" "johns-hopkins" "community-a" "community-b" "rural")
+if [ "$DATASET" = "mimic-demo" ]; then
+  echo "  Loading MIMIC test data (single site)..."
+  if ! load_mimic_data "$DATA_DIR"; then
+    print_error "Failed to load MIMIC data"
+    exit 1
+  fi
+  
+  echo ""
+  get_mimic_data_size "$DATA_DIR"
+  
+  IS_FEDERATED=false
+else
+  echo "  Loading Synthea $DATASET split data (3 sites)..."
+  if ! load_split_data "$DATASET" "$DATA_DIR" "site" 3; then
+    print_error "Failed to load $DATASET data"
+    exit 1
+  fi
+  
+  echo ""
+  get_split_data_sizes "$DATA_DIR" "site" 3
+  
+  IS_FEDERATED=true
+fi
 
-for i in "${!sizes[@]}"; do
-  site_id="${site_names[$i]}"
-  n="${sizes[$i]}"
-  echo "    Generating $site_id (n=$n)..."
-  generate_site_data "$site_id" "$n" 0.5 "$DATA_DIR/${site_id}-data.json"
-done
-
-print_success "Data generated for 5 sites"
+print_success "Data loaded"
 echo ""
 
 ##############################################################################
-# Step 2: Compute Bounds and E-values
+# Compute Bounds and E-values
 ##############################################################################
-print_section_header "Step 2: Compute Bounds and E-values"
+print_section_header "Computing Bounds and E-values"
 
-echo "  Computing MTR bounds at each site..."
-for site in "${site_names[@]}"; do
+if [ "$IS_FEDERATED" = false ]; then
+  # MIMIC: single test site
+  echo "  Computing bounds for MIMIC test data..."
   compute_site_bounds \
-    "$DATA_DIR/${site}-data.json" \
-    "$DATA_DIR/${site}-bounds.json" \
+    "$DATA_DIR/mimic-test-data.json" \
+    "$DATA_DIR/mimic-bounds.json" \
+    "mtr"
+  
+  echo "  Computing E-value..."
+  compute_evalue_from_bounds \
+    "$DATA_DIR/mimic-bounds.json" \
+    "$DATA_DIR/mimic-evalue.json"
+  
+  cp "$DATA_DIR/mimic-evalue.json" "$OUTPUT_DIR/mimic-demo_evalues.json"
+  
+  print_success "E-value computed"
+  echo ""
+  
+  print_section_header "MIMIC Test Results"
+  echo "  Single site E-value analysis:"
+  echo ""
+  
+  evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/mimic-evalue.json")
+  interpretation=$(jq -r '.interpretation' "$DATA_DIR/mimic-evalue.json")
+  
+  echo "    E-value: $evalue"
+  echo "    Interpretation: $interpretation"
+  echo ""
+  
+  print_success "Workflow Complete"
+  exit 0
+fi
+
+# Synthea: compute bounds and E-values at each site
+echo "  Computing MTR bounds at each site..."
+for i in {1..3}; do
+  compute_site_bounds \
+    "$DATA_DIR/site-${i}-data.json" \
+    "$DATA_DIR/site-${i}-bounds.json" \
     "mtr"
 done
-print_success "Bounds computed"
-echo ""
 
-echo "  Computing E-values from bounds..."
-for site in "${site_names[@]}"; do
+echo ""
+echo "  Computing E-values at each site..."
+for i in {1..3}; do
   compute_evalue_from_bounds \
-    "$DATA_DIR/${site}-bounds.json" \
-    0.3 \
-    "$DATA_DIR/${site}-evalue.json"
+    "$DATA_DIR/site-${i}-bounds.json" \
+    "$DATA_DIR/site-${i}-evalue.json"
 done
-print_success "E-values computed"
+
+print_success "Bounds and E-values computed"
 echo ""
 
 ##############################################################################
-# Step 3: Display Site-Specific E-values
+# Compute Federated Robustness Index (FRI)
 ##############################################################################
-print_section_header "Step 3: Site-Specific E-values"
+print_section_header "Computing Federated Robustness Index (FRI)"
 
-echo -e "${BLUE}E-values by site:${NC}"
-for site in "${site_names[@]}"; do
-  evalue=$(jq -r '.evalue' "$DATA_DIR/${site}-evalue.json")
-  robustness=$(jq -r '.robustness_level' "$DATA_DIR/${site}-evalue.json")
-  printf "    %-20s → E-value=%.2f (%s)\n" "$site" "$evalue" "$robustness"
-done
+echo "  Aggregating E-values across sites..."
+compute_fri \
+  "$DATA_DIR" \
+  "$OUTPUT_DIR/fri-results.json" \
+  "site" \
+  3
+
+print_success "FRI computed"
 echo ""
 
 ##############################################################################
-# Step 4: Create Multi-Site JSON for FRI
+# Display Site-Level E-values
 ##############################################################################
-print_section_header "Step 4: Compute Federated Robustness Index"
+print_section_header "Site-Level E-values"
 
-# Create multi-site evalues JSON
-echo "{" > "$DATA_DIR/multi-site-evalues.json"
-echo '  "sites": [' >> "$DATA_DIR/multi-site-evalues.json"
+echo "  Individual site robustness:"
+echo ""
 
-first=true
-for site in "${site_names[@]}"; do
-  if [[ "$first" == false ]]; then
-    echo "    ," >> "$DATA_DIR/multi-site-evalues.json"
-  fi
-  first=false
+for i in {1..3}; do
+  evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/site-${i}-evalue.json")
+  lower=$(jq -r '.bounds.lower' "$DATA_DIR/site-${i}-evalue.json")
+  upper=$(jq -r '.bounds.upper' "$DATA_DIR/site-${i}-evalue.json")
+  sample_size=$(jq -r '.sampleSize' "$DATA_DIR/site-${i}-bounds.json")
   
-  echo "    {" >> "$DATA_DIR/multi-site-evalues.json"
-  echo "      \"site_id\": \"$site\"," >> "$DATA_DIR/multi-site-evalues.json"
-  echo -n "      \"data\": " >> "$DATA_DIR/multi-site-evalues.json"
-  cat "$DATA_DIR/${site}-evalue.json" >> "$DATA_DIR/multi-site-evalues.json"
-  echo "" >> "$DATA_DIR/multi-site-evalues.json"
-  echo -n "    }" >> "$DATA_DIR/multi-site-evalues.json"
+  printf "    Site %d (n=%s): E-value=%.2f, Bounds=[%.4f, %.4f]\n" \
+    "$i" "$sample_size" "$evalue" "$lower" "$upper"
 done
 
-echo "" >> "$DATA_DIR/multi-site-evalues.json"
-echo "  ]" >> "$DATA_DIR/multi-site-evalues.json"
-echo "}" >> "$DATA_DIR/multi-site-evalues.json"
-
-echo "  Comparing FRI aggregation strategies..."
-compare_fri_strategies "$DATA_DIR/multi-site-evalues.json" "$OUTPUT_DIR" "network"
-
-print_success "FRI computed with multiple strategies"
+echo ""
 echo ""
 
 ##############################################################################
-# Step 5: Network Robustness Assessment
+# Display FRI Results
 ##############################################################################
-print_section_header "Step 5: Network Robustness Assessment"
+print_section_header "Federated Robustness Index Results"
 
-# Compute FRI with sample-size weighting (recommended)
-compute_fri "$DATA_DIR/multi-site-evalues.json" "sample-size" "$OUTPUT_DIR/network-fri.json"
+if [ -f "$OUTPUT_DIR/fri-results.json" ]; then
+  echo "  Network-wide robustness assessment:"
+  echo ""
+  
+  min_evalue=$(jq -r '.fri.min_evalue' "$OUTPUT_DIR/fri-results.json")
+  weighted_avg=$(jq -r '.fri.weighted_avg_evalue' "$OUTPUT_DIR/fri-results.json")
+  interpretation=$(jq -r '.interpretation' "$OUTPUT_DIR/fri-results.json")
+  
+  echo "    Minimum E-value (conservative):  $min_evalue"
+  echo "    Weighted Average E-value:         $weighted_avg"
+  echo "    Network Robustness Level:         $interpretation"
+  echo ""
+  
+  # Show contributing sites
+  echo "  Site contributions:"
+  echo ""
+  for i in {1..3}; do
+    site_evalue=$(jq -r ".siteEvalues[$((i-1))].evalue" "$OUTPUT_DIR/fri-results.json")
+    sample_size=$(jq -r ".siteEvalues[$((i-1))].sample_size" "$OUTPUT_DIR/fri-results.json")
+    robustness=$(jq -r ".siteEvalues[$((i-1))].robustness_level" "$OUTPUT_DIR/fri-results.json")
+    
+    printf "    Site %d: E-value=%s, n=%s, Level=%s\n" \
+      "$i" "$site_evalue" "$sample_size" "$robustness"
+  done
+fi
 
-fri=$(jq -r '.federated_robustness_index' "$OUTPUT_DIR/network-fri.json")
-interpretation=$(jq -r '.interpretation' "$OUTPUT_DIR/network-fri.json")
-
-echo -e "${BLUE}Network-wide assessment:${NC}"
-echo "    Federated Robustness Index: $fri"
-echo "    Interpretation: $interpretation"
+echo ""
 echo ""
 
-# Count sites by robustness level
-robust_count=0
-moderate_count=0
-weak_count=0
+##############################################################################
+# Robustness Interpretation
+##############################################################################
+print_section_header "Robustness Interpretation"
 
-for site in "${site_names[@]}"; do
-  robustness=$(jq -r '.robustness_level' "$DATA_DIR/${site}-evalue.json")
-  case "$robustness" in
-    "strong"|"robust") ((robust_count++)) ;;
-    "moderate") ((moderate_count++)) ;;
-    *) ((weak_count++)) ;;
-  esac
-done
+echo "  E-value interpretation guide:"
+echo ""
+echo "    E-value ≥ 2.0:  Strong robustness (minimal confounding concern)"
+echo "    1.5 ≤ E < 2.0:  Moderate robustness (some confounding possible)"
+echo "    1.25 ≤ E < 1.5: Weak robustness (substantial confounding risk)"
+echo "    E-value < 1.25: Very weak (high sensitivity to confounding)"
+echo ""
+echo "  Network assessment: $interpretation"
+echo ""
+echo "  Recommendation:"
 
-echo "    Sites by robustness:"
-echo "      Strong/Robust: $robust_count"
-echo "      Moderate: $moderate_count"
-echo "      Weak/Vulnerable: $weak_count"
+if (( $(echo "$min_evalue >= 2.0" | bc -l) )); then
+  echo "    ✓ Network shows strong robustness across all sites"
+  echo "    ✓ Findings likely to hold under moderate unmeasured confounding"
+elif (( $(echo "$min_evalue >= 1.5" | bc -l) )); then
+  echo "    ⚠ Network shows moderate robustness"
+  echo "    • Consider additional sensitivity analyses"
+  echo "    • Collect more data on potential confounders"
+else
+  echo "    ⚠ Network shows weak robustness"
+  echo "    • High risk of unmeasured confounding"
+  echo "    • Additional validation strongly recommended"
+  echo "    • Consider instrumental variable or other robust methods"
+fi
+
+echo ""
 echo ""
 
 ##############################################################################
@@ -164,13 +232,13 @@ echo ""
 ##############################################################################
 print_section_header "Summary"
 
+echo "  Dataset: Synthea $DATASET (3 federated sites)"
 echo "  Results saved to: $OUTPUT_DIR"
 echo ""
 echo "  Key findings:"
-echo "    • Network FRI: $fri ($interpretation)"
-echo "    • Large sites show stronger robustness"
-echo "    • Small sites require careful interpretation"
-echo "    • FRI aggregates evidence across heterogeneous sites"
+echo "    • FRI aggregates robustness evidence across sites"
+echo "    • Minimum E-value provides conservative network assessment"
+echo "    • Weighted average E-value balances site contributions"
 echo ""
-echo -e "${GREEN}✓ Federated E-values Workflow Complete${NC}"
+print_success "Federated E-values Workflow Complete"
 echo ""

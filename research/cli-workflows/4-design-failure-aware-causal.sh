@@ -18,7 +18,29 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-OUTPUT_DIR="research/cli-workflows/output/design-failure-aware"
+# Get script directory and project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Path to local Harmonia CLI
+CLI_PATH="$PROJECT_ROOT/packages/cli/dist/cli.js"
+
+# Verify CLI exists
+if [ ! -f "$CLI_PATH" ]; then
+  echo "ERROR: Harmonia CLI not found at $CLI_PATH"
+  echo "Please run 'npm run build -w @harmonia/cli' first"
+  exit 1
+fi
+
+# Suppress TensorFlow warnings
+export TF_CPP_MIN_LOG_LEVEL=3
+export TF_ENABLE_ONEDNN_OPTS=0
+
+# Suppress TensorFlow warnings
+export TF_CPP_MIN_LOG_LEVEL=3
+export TF_ENABLE_ONEDNN_OPTS=0
+
+OUTPUT_DIR="$SCRIPT_DIR/output/design-failure-aware"
 mkdir -p "$OUTPUT_DIR"
 
 echo "════════════════════════════════════════════════════════════════════"
@@ -44,10 +66,11 @@ echo ""
 # In practice, violations would be detected in real data
 for scenario in clean mild moderate severe; do
   echo "  Generating ${scenarios[$scenario]}..."
-  npx harmonia causal generate-data \
+  node "$CLI_PATH" causal generate-data \
     -n 500 \
     --treatment-rate 0.5 \
-    --output "$OUTPUT_DIR/${scenario}-data.json"
+    --output "$OUTPUT_DIR/${scenario}-data.json" \
+    > /dev/null 2>&1
 done
 
 echo ""
@@ -63,10 +86,10 @@ for scenario in clean mild moderate severe; do
   echo -e "${YELLOW}Scenario: ${scenarios[$scenario]}${NC}"
   echo "─────────────────────────────────────────────────────────────────"
   
-  npx harmonia causal diagnose-assumptions \
+  node "$CLI_PATH" causal diagnose-assumptions \
     --data-file "$OUTPUT_DIR/${scenario}-data.json" \
     --output "$OUTPUT_DIR/${scenario}-assumptions.json" \
-    --format table
+    > /dev/null 2>&1
   
   # Save scores summary
   cat "$OUTPUT_DIR/${scenario}-assumptions.json" | jq '{
@@ -91,10 +114,10 @@ for scenario in clean mild moderate severe; do
   echo -e "${YELLOW}Scenario: ${scenarios[$scenario]}${NC}"
   echo "─────────────────────────────────────────────────────────────────"
   
-  npx harmonia causal select-inference-mode \
+  node "$CLI_PATH" causal select-inference-mode \
     --data-file "$OUTPUT_DIR/${scenario}-assumptions.json" \
     --output "$OUTPUT_DIR/${scenario}-mode.json" \
-    --format table
+    > /dev/null 2>&1
 done
 
 echo ""
@@ -118,26 +141,26 @@ for scenario in clean mild moderate severe; do
       ;;
     "bounds")
       echo "    → Computing Manski bounds"
-      npx harmonia causal compute-bounds \
+      node "$CLI_PATH" causal compute-bounds \
         --data "$OUTPUT_DIR/${scenario}-data.json" \
         --assumption mtr \
         --output "$OUTPUT_DIR/${scenario}-bounds.json" \
-        --format json
+        > /dev/null 2>&1
       ;;
     "sensitivity")
       echo "    → Computing bounds + E-values"
       # Compute bounds
-      npx harmonia causal compute-bounds \
+      node "$CLI_PATH" causal compute-bounds \
         --data "$OUTPUT_DIR/${scenario}-data.json" \
         --assumption mtr \
         --output "$OUTPUT_DIR/${scenario}-bounds.json" \
-        --format json
+        > /dev/null 2>&1
       
       # Compute E-values
-      npx harmonia causal compute-evalue \
+      node "$CLI_PATH" causal compute-evalue \
         --bounds-file "$OUTPUT_DIR/${scenario}-bounds.json" \
         --output "$OUTPUT_DIR/${scenario}-evalues.json" \
-        --format json
+        > /dev/null 2>&1
       ;;
   esac
 done

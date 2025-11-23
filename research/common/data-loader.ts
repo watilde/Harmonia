@@ -111,7 +111,7 @@ export function loadFederatedData(dataDir: string): FederatedData {
  */
 export function loadSynthea1kData(): FederatedData {
   // Default path relative to research root
-  const dataDir = path.resolve(__dirname, '../../data/raw/splits/1k');
+  const dataDir = path.resolve(__dirname, '../data/raw/splits/1k');
   return loadFederatedData(dataDir);
 }
 

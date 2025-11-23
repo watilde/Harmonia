@@ -1,2 +1,2 @@
-# Ignore workflow output files
-output/
+output/*
+!output/.gitkeep

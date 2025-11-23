@@ -8,8 +8,11 @@
 # 2. Sensitivity: Federated E-values & Robustness Index
 # 3. Adaptation: Design-Failure-Aware Causal Inference (automatic adaptation)
 #
-# This workflow demonstrates the complete hierarchical framework for privacy-preserving
-# multi-site causal inference with automatic assumption violation detection.
+# Uses real OMOP data (Synthea 1k by default)
+#
+# Usage:
+#   ./5-identification-sensitivity-adaptation.sh [dataset]
+#   dataset: 1k (default), 100k, 2.8m, or mimic-demo
 ##############################################################################
 
 set -e  # Exit on error
@@ -20,33 +23,51 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Import shared functions
 source "$SCRIPT_DIR/utils/shared-functions.sh"
 
+# Parse dataset argument (default: 1k)
+DATASET="${1:-1k}"
+
 # Create output directory
-OUTPUT_DIR="$SCRIPT_DIR/output/identification-sensitivity-adaptation"
+OUTPUT_DIR="$SCRIPT_DIR/output/identification-sensitivity-adaptation-$DATASET"
 DATA_DIR="$OUTPUT_DIR/data"
 mkdir -p "$OUTPUT_DIR" "$DATA_DIR"
 
 echo "════════════════════════════════════════════════════════════════════"
-echo "  🚀 Hierarchical Framework Pipeline - Identification-Sensitivity-Adaptation"
+echo "  🚀 Hierarchical Framework Pipeline - $DATASET Dataset"
 echo "════════════════════════════════════════════════════════════════════"
+echo ""
+echo "  Identification → Sensitivity → Adaptation"
 echo ""
 
 ##############################################################################
-# MODULE 0: Generate Multi-Site Network Data
+# Load Real Data
 ##############################################################################
-print_section_header "Module 0: Generate Hospital Network Data"
+print_section_header "Loading Real OMOP Data"
 
-echo "  Simulating 4-hospital anticoagulation study..."
-sites=("stanford" "community" "rural" "va")
-sizes=(1200 450 180 820)
+if [ "$DATASET" = "mimic-demo" ]; then
+  echo "  Loading MIMIC test data..."
+  if ! load_mimic_data "$DATA_DIR"; then
+    print_error "Failed to load MIMIC data"
+    exit 1
+  fi
+  
+  echo ""
+  get_mimic_data_size "$DATA_DIR"
+  
+  IS_FEDERATED=false
+else
+  echo "  Loading Synthea $DATASET split data (3 sites)..."
+  if ! load_split_data "$DATASET" "$DATA_DIR" "site" 3; then
+    print_error "Failed to load $DATASET data"
+    exit 1
+  fi
+  
+  echo ""
+  get_split_data_sizes "$DATA_DIR" "site" 3
+  
+  IS_FEDERATED=true
+fi
 
-for i in "${!sites[@]}"; do
-  site="${sites[$i]}"
-  n="${sizes[$i]}"
-  echo "    Generating $site (n=$n)..."
-  generate_site_data "$site" "$n" 0.5 "$DATA_DIR/${site}-data.json"
-done
-
-print_success "Network data generated"
+print_success "Data loaded"
 echo ""
 
 ##############################################################################
@@ -54,252 +75,216 @@ echo ""
 ##############################################################################
 print_section_header "Module 3: Assumption Diagnostics"
 
-echo "  Running diagnostic tests at each site..."
-for site in "${sites[@]}"; do
+if [ "$IS_FEDERATED" = false ]; then
+  echo "  Running diagnostic tests on MIMIC data..."
   diagnose_site_assumptions \
-    "$DATA_DIR/${site}-data.json" \
-    "$DATA_DIR/${site}-diagnostics.json"
-done
-print_success "Diagnostics complete"
-echo ""
+    "$DATA_DIR/mimic-test-data.json" \
+    "$DATA_DIR/mimic-diagnostics.json"
+  
+  display_assumption_scores "$DATA_DIR/mimic-diagnostics.json" "MIMIC"
+  
+else
+  echo "  Running diagnostic tests at each site..."
+  for i in {1..3}; do
+    diagnose_site_assumptions \
+      "$DATA_DIR/site-${i}-data.json" \
+      "$DATA_DIR/site-${i}-diagnostics.json"
+  done
+  
+  echo ""
+  echo -e "${BLUE}Diagnostic scores by site:${NC}"
+  for i in {1..3}; do
+    display_assumption_scores "$DATA_DIR/site-${i}-diagnostics.json" "Site $i"
+  done
+fi
 
-echo -e "${BLUE}Diagnostic scores by site:${NC}"
-for site in "${sites[@]}"; do
-  display_assumption_scores "$DATA_DIR/${site}-diagnostics.json" "$site"
-done
+print_success "Diagnostics complete"
 echo ""
 
 ##############################################################################
 # MODULE 3: Automatic Inference Mode Selection
 ##############################################################################
-print_section_header "Module 3: Automatic Mode Selection"
+print_section_header "Module 3: Inference Mode Selection"
 
-echo "  Selecting inference mode for each site..."
-for site in "${sites[@]}"; do
-  select_site_mode \
-    "$DATA_DIR/${site}-diagnostics.json" \
-    "$DATA_DIR/${site}-mode.json"
-done
+if [ "$IS_FEDERATED" = false ]; then
+  echo "  Selecting mode for MIMIC test data..."
+  select_site_mode "$DATA_DIR/mimic-diagnostics.json" "$DATA_DIR/mimic-mode.json"
+  display_selected_mode "$DATA_DIR/mimic-mode.json" "MIMIC"
+  
+else
+  echo "  Selecting inference mode for each site..."
+  for i in {1..3}; do
+    select_site_mode \
+      "$DATA_DIR/site-${i}-diagnostics.json" \
+      "$DATA_DIR/site-${i}-mode.json"
+  done
+  
+  echo ""
+  echo -e "${BLUE}Selected modes:${NC}"
+  for i in {1..3}; do
+    display_selected_mode "$DATA_DIR/site-${i}-mode.json" "Site $i"
+  done
+fi
+
 print_success "Modes selected"
 echo ""
 
-echo -e "${BLUE}Selected modes by site:${NC}"
-for site in "${sites[@]}"; do
-  display_selected_mode "$DATA_DIR/${site}-mode.json" "$site"
-done
-echo ""
-
 ##############################################################################
-# MODULE 1: Federated Partial Identification - Compute Bounds
+# MODULE 1: Federated Partial Identification
 ##############################################################################
-print_section_header "Module 1: Partial Identification (Bounds)"
+print_section_header "Module 1: Partial Identification"
 
-echo "  Computing MTR bounds at each site..."
-for site in "${sites[@]}"; do
-  mode=$(jq -r '.mode' "$DATA_DIR/${site}-mode.json")
+if [ "$IS_FEDERATED" = false ]; then
+  echo "  Computing bounds for MIMIC test data..."
+  compute_site_bounds \
+    "$DATA_DIR/mimic-test-data.json" \
+    "$DATA_DIR/mimic-bounds.json" \
+    "mtr"
   
-  if [[ "$mode" == "bounds" || "$mode" == "mixed" || "$mode" == "sensitivity" ]]; then
-    compute_site_bounds \
-      "$DATA_DIR/${site}-data.json" \
-      "$DATA_DIR/${site}-bounds.json" \
-      "mtr"
-  else
-    # For point estimate mode, still compute bounds for comparison
-    compute_site_bounds \
-      "$DATA_DIR/${site}-data.json" \
-      "$DATA_DIR/${site}-bounds.json" \
-      "mtr"
-  fi
-done
-print_success "Bounds computed"
-echo ""
-
-echo -e "${BLUE}Site-specific bounds:${NC}"
-for site in "${sites[@]}"; do
-  lower=$(jq -r '.lower' "$DATA_DIR/${site}-bounds.json")
-  upper=$(jq -r '.upper' "$DATA_DIR/${site}-bounds.json")
-  width=$(jq -r '.width' "$DATA_DIR/${site}-bounds.json")
-  printf "    %-15s → [%.4f, %.4f] (width=%.4f)\n" "$site" "$lower" "$upper" "$width"
-done
-echo ""
-
-##############################################################################
-# MODULE 1: Federated Aggregation with Multiple Strategies
-##############################################################################
-print_section_header "Module 1: Federated Aggregation"
-
-echo -e "${BLUE}Comparing aggregation strategies:${NC}"
-
-# Build array of bounds files
-bounds_files=()
-for site in "${sites[@]}"; do
-  bounds_files+=("$DATA_DIR/${site}-bounds.json")
-done
-
-compare_aggregation_strategies "$OUTPUT_DIR" "federated" "${bounds_files[@]}"
-
-print_success "Federated bounds computed"
-echo ""
-
-##############################################################################
-# MODULE 2: E-values and Federated Robustness Index
-##############################################################################
-print_section_header "Module 2: Federated Robustness Index"
-
-echo "  Computing E-values from bounds..."
-for site in "${sites[@]}"; do
-  compute_evalue_from_bounds \
-    "$DATA_DIR/${site}-bounds.json" \
-    0.3 \
-    "$DATA_DIR/${site}-evalue.json"
-done
-print_success "E-values computed"
-echo ""
-
-echo -e "${BLUE}E-values by site:${NC}"
-for site in "${sites[@]}"; do
-  evalue=$(jq -r '.evalue' "$DATA_DIR/${site}-evalue.json")
-  robustness=$(jq -r '.robustness_level' "$DATA_DIR/${site}-evalue.json")
-  printf "    %-15s → E-value=%.2f (%s)\n" "$site" "$evalue" "$robustness"
-done
-echo ""
-
-# Create multi-site evalues JSON
-echo "{" > "$DATA_DIR/multi-site-evalues.json"
-echo '  "sites": [' >> "$DATA_DIR/multi-site-evalues.json"
-
-first=true
-for site in "${sites[@]}"; do
-  if [[ "$first" == false ]]; then
-    echo "    ," >> "$DATA_DIR/multi-site-evalues.json"
-  fi
-  first=false
+  cp "$DATA_DIR/mimic-bounds.json" "$OUTPUT_DIR/mimic-results.json"
   
-  echo "    {" >> "$DATA_DIR/multi-site-evalues.json"
-  echo "      \"site_id\": \"$site\"," >> "$DATA_DIR/multi-site-evalues.json"
-  echo -n "      \"data\": " >> "$DATA_DIR/multi-site-evalues.json"
-  cat "$DATA_DIR/${site}-evalue.json" >> "$DATA_DIR/multi-site-evalues.json"
-  echo "" >> "$DATA_DIR/multi-site-evalues.json"
-  echo -n "    }" >> "$DATA_DIR/multi-site-evalues.json"
-done
-
-echo "" >> "$DATA_DIR/multi-site-evalues.json"
-echo "  ]" >> "$DATA_DIR/multi-site-evalues.json"
-echo "}" >> "$DATA_DIR/multi-site-evalues.json"
-
-echo "  Computing Federated Robustness Index..."
-compute_fri "$DATA_DIR/multi-site-evalues.json" "sample-size" "$OUTPUT_DIR/network-fri.json"
-
-fri=$(jq -r '.federated_robustness_index' "$OUTPUT_DIR/network-fri.json")
-interpretation=$(jq -r '.interpretation' "$OUTPUT_DIR/network-fri.json")
-
-echo -e "${BLUE}Network FRI:${NC}"
-echo "    FRI: $fri"
-echo "    Interpretation: $interpretation"
-echo ""
-
-print_success "FRI computed"
-echo ""
-
-##############################################################################
-# INTEGRATION: Adaptive Decision Making
-##############################################################################
-print_section_header "Integration: Adaptive Network-Wide Decision"
-
-echo -e "${BLUE}Network-wide assessment:${NC}"
-
-# Count sites by mode
-point_count=0
-bounds_count=0
-mixed_count=0
-sensitivity_count=0
-
-for site in "${sites[@]}"; do
-  mode=$(jq -r '.mode' "$DATA_DIR/${site}-mode.json")
-  case "$mode" in
-    "point") ((point_count++)) ;;
-    "bounds") ((bounds_count++)) ;;
-    "mixed") ((mixed_count++)) ;;
-    "sensitivity") ((sensitivity_count++)) ;;
-  esac
-done
-
-echo "    Sites by inference mode:"
-echo "      Point estimate: $point_count"
-echo "      Partial ID (bounds): $bounds_count"
-echo "      Mixed: $mixed_count"
-echo "      Sensitivity: $sensitivity_count"
-echo ""
-
-# Recommended federated strategy based on mode distribution
-if [[ $point_count -ge 3 ]]; then
-  strategy="weighted-average"
-  reason="Most sites support point estimation"
-elif [[ $bounds_count -ge 2 ]]; then
-  strategy="inverse-width"
-  reason="Multiple sites require partial identification"
 else
-  strategy="conservative"
-  reason="Mixed quality requires conservative approach"
+  echo "  Computing MTR bounds at each site..."
+  for i in {1..3}; do
+    compute_site_bounds \
+      "$DATA_DIR/site-${i}-data.json" \
+      "$DATA_DIR/site-${i}-bounds.json" \
+      "mtr"
+  done
+  
+  echo ""
+  echo "  Federating with optimal strategy (inverse-width)..."
+  federate_bounds_with_strategy "inverse-width" \
+    "$OUTPUT_DIR/federated-bounds.json" \
+    "$DATA_DIR/site-1-bounds.json" \
+    "$DATA_DIR/site-2-bounds.json" \
+    "$DATA_DIR/site-3-bounds.json"
 fi
 
-echo "    Recommended federated strategy: $strategy"
-echo "    Reason: $reason"
-echo ""
-
-# Get federated result with recommended strategy
-fed_lower=$(jq -r '.lower' "$OUTPUT_DIR/federated_${strategy}.json")
-fed_upper=$(jq -r '.upper' "$OUTPUT_DIR/federated_${strategy}.json")
-fed_width=$(jq -r '.width' "$OUTPUT_DIR/federated_${strategy}.json")
-
-echo "    Network-wide causal estimate:"
-echo "      ATE ∈ [$fed_lower, $fed_upper]"
-echo "      Width: $fed_width"
-echo "      FRI: $fri ($interpretation)"
+print_success "Partial identification complete"
 echo ""
 
 ##############################################################################
-# Summary Report
+# MODULE 2: Federated E-values & Robustness Index
 ##############################################################################
-print_section_header "Hierarchical Framework Pipeline Summary"
+print_section_header "Module 2: Sensitivity Analysis"
 
-cat > "$OUTPUT_DIR/summary.md" << EOF
-# Hierarchical Framework Pipeline - Summary Report
+if [ "$IS_FEDERATED" = false ]; then
+  echo "  Computing E-value for MIMIC test data..."
+  compute_evalue_from_bounds \
+    "$DATA_DIR/mimic-bounds.json" \
+    "$DATA_DIR/mimic-evalue.json"
+  
+else
+  echo "  Computing E-values at each site..."
+  for i in {1..3}; do
+    compute_evalue_from_bounds \
+      "$DATA_DIR/site-${i}-bounds.json" \
+      "$DATA_DIR/site-${i}-evalue.json"
+  done
+  
+  echo ""
+  echo "  Computing Federated Robustness Index..."
+  compute_fri \
+    "$DATA_DIR" \
+    "$OUTPUT_DIR/fri-results.json" \
+    "site" \
+    3
+fi
 
-## Network Configuration
-- **Sites**: ${#sites[@]} hospitals
-- **Total patients**: $(( ${sizes[0]} + ${sizes[1]} + ${sizes[2]} + ${sizes[3]} ))
-- **Study**: Anticoagulation treatment effectiveness
-
-## Module 3: Design-Failure-Aware Results
-- Point estimate sites: $point_count
-- Bounds-only sites: $bounds_count
-- Mixed mode sites: $mixed_count
-- Sensitivity-only sites: $sensitivity_count
-
-## Module 1: Federated Partial Identification
-- Recommended strategy: $strategy
-- Federated ATE bounds: [$fed_lower, $fed_upper]
-- Bound width: $fed_width
-
-## Module 2: Federated Robustness Assessment
-- Network FRI: $fri
-- Interpretation: $interpretation
-- Sites with strong robustness: $(jq '[.sites[].data | select(.robustness_level == "strong" or .robustness_level == "robust")] | length' "$DATA_DIR/multi-site-evalues.json")
-
-## Integrated Conclusion
-The hierarchical framework successfully:
-1. **Identification**: Aggregated evidence using optimal weighting (Module 1)
-2. **Sensitivity**: Assessed network-wide robustness to unmeasured confounding (Module 2)
-3. **Adaptation**: Detected assumption violations and adapted inference strategy automatically (Module 3)
-
-**Recommendation**: $reason
-Use $strategy aggregation with network FRI of $fri.
-EOF
-
-echo "  Full report saved to: $OUTPUT_DIR/summary.md"
+print_success "Sensitivity analysis complete"
 echo ""
-echo -e "${GREEN}✓ Hierarchical Framework Pipeline Finished Successfully${NC}"
+
+##############################################################################
+# Integrated Results Summary
+##############################################################################
+print_section_header "Integrated Pipeline Results"
+
+if [ "$IS_FEDERATED" = false ]; then
+  # MIMIC results
+  echo "  MIMIC Test Dataset:"
+  echo ""
+  
+  evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/mimic-evalue.json")
+  lower=$(jq -r '.bounds.lower' "$DATA_DIR/mimic-bounds.json")
+  upper=$(jq -r '.bounds.upper' "$DATA_DIR/mimic-bounds.json")
+  width=$(jq -r '.width' "$DATA_DIR/mimic-bounds.json")
+  
+  echo "    Bounds: [$(printf '%.4f' $lower), $(printf '%.4f' $upper)], width=$(printf '%.4f' $width)"
+  echo "    E-value: $(printf '%.2f' $evalue)"
+  
+else
+  # Synthea federated results
+  echo "  Network-Level Results:"
+  echo ""
+  
+  fed_lower=$(jq -r '.lower' "$OUTPUT_DIR/federated-bounds.json")
+  fed_upper=$(jq -r '.upper' "$OUTPUT_DIR/federated-bounds.json")
+  fed_width=$(jq -r '.width' "$OUTPUT_DIR/federated-bounds.json")
+  
+  echo "    Federated Bounds: [$(printf '%.4f' $fed_lower), $(printf '%.4f' $fed_upper)]"
+  echo "    Width: $(printf '%.4f' $fed_width)"
+  echo ""
+  
+  if [ -f "$OUTPUT_DIR/fri-results.json" ]; then
+    min_evalue=$(jq -r '.fri.min_evalue' "$OUTPUT_DIR/fri-results.json")
+    avg_evalue=$(jq -r '.fri.weighted_avg_evalue' "$OUTPUT_DIR/fri-results.json")
+    interpretation=$(jq -r '.interpretation' "$OUTPUT_DIR/fri-results.json")
+    
+    echo "    FRI (minimum): $(printf '%.2f' $min_evalue)"
+    echo "    FRI (weighted avg): $(printf '%.2f' $avg_evalue)"
+    echo "    Robustness Level: $interpretation"
+  fi
+  
+  echo ""
+  echo "  Site-Level Summary:"
+  echo ""
+  printf "    %-8s %-20s %-25s %-12s\n" "Site" "Mode" "Bounds" "E-value"
+  echo "    ────────────────────────────────────────────────────────────────────"
+  
+  for i in {1..3}; do
+    mode=$(jq -r '.selectedMode' "$DATA_DIR/site-${i}-mode.json")
+    lower=$(jq -r '.lower' "$DATA_DIR/site-${i}-bounds.json")
+    upper=$(jq -r '.upper' "$DATA_DIR/site-${i}-bounds.json")
+    evalue=$(jq -r '.conservative.evalue' "$DATA_DIR/site-${i}-evalue.json")
+    
+    printf "    Site %-3d %-20s [%.4f, %.4f]  %.2f\n" \
+      "$i" "$mode" "$lower" "$upper" "$evalue"
+  done
+fi
+
 echo ""
-echo "  All results in: $OUTPUT_DIR"
+echo ""
+
+##############################################################################
+# Final Summary
+##############################################################################
+print_section_header "Pipeline Summary"
+
+echo "  Complete hierarchical pipeline executed:"
+echo ""
+echo "    1. ✓ Assumption diagnostics (Module 3)"
+echo "    2. ✓ Automatic mode selection (Module 3)"
+echo "    3. ✓ Partial identification (Module 1)"
+echo "    4. ✓ Sensitivity analysis (Module 2)"
+echo ""
+
+if [ "$IS_FEDERATED" = true ]; then
+  echo "  Dataset: Synthea $DATASET (3 federated sites)"
+  echo "  Aggregation: inverse-width (optimal)"
+  echo ""
+  echo "  Key findings:"
+  echo "    • All sites diagnostics completed"
+  echo "    • Federated bounds computed with optimal weighting"
+  echo "    • Network robustness assessed via FRI"
+else
+  echo "  Dataset: MIMIC test (single site)"
+  echo "  External validation results"
+fi
+
+echo ""
+echo "  Results saved to: $OUTPUT_DIR"
+echo ""
+
+print_success "Hierarchical Pipeline Complete"
 echo ""
