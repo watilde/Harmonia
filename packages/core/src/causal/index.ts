@@ -42,5 +42,8 @@ export * from './omop-synthetic';
 export * from './omop-extractor';
 export * from './evalue';
 export * from './assumption-diagnostics';
+export * from './parallel-diagnostics';
+export * from './gpu-accelerated-diagnostics';
+export * from './adaptive-diagnostics';
 export * from './inference-mode';
 export * from './robustness-index';

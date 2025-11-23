@@ -37,6 +37,10 @@ export interface ViolationDetails {
   recommendation: string;
 }
 
+export interface ProgressCallback {
+  onProgress: (stage: string, current: number, total: number, message?: string) => void;
+}
+
 /**
  * Detect unconfoundedness violation
  *
@@ -50,8 +54,12 @@ export interface ViolationDetails {
  * - 0.5: Some SMDs > 0.2 (moderate imbalance)
  * - 0.0: Many SMDs > 0.5 (severe imbalance)
  */
-export function detectUnconfoundednessViolation(patients: Patient[]): ViolationDetails {
+export function detectUnconfoundednessViolation(
+  patients: Patient[],
+  progressCallback?: ProgressCallback
+): ViolationDetails {
   // Extract covariates
+  progressCallback?.onProgress('unconfoundedness', 1, 4, 'Splitting treatment groups');
   const treated = patients.filter((p) => p.treatment === 1);
   const control = patients.filter((p) => p.treatment === 0);
 
@@ -66,6 +74,7 @@ export function detectUnconfoundednessViolation(patients: Patient[]): ViolationD
   }
 
   // Get covariate names (use age and gender as proxies if covariates not available)
+  progressCallback?.onProgress('unconfoundedness', 2, 4, 'Extracting covariate names');
   const covariateNames: string[] = [];
   if (patients[0].age !== undefined) covariateNames.push('age');
   if (patients[0].gender !== undefined) covariateNames.push('gender');
@@ -84,9 +93,24 @@ export function detectUnconfoundednessViolation(patients: Patient[]): ViolationD
   }
 
   // Compute standardized mean differences (SMD)
+  progressCallback?.onProgress(
+    'unconfoundedness',
+    3,
+    4,
+    `Computing SMD for ${covariateNames.length} covariates`
+  );
   const smds: number[] = [];
 
-  for (const covar of covariateNames) {
+  for (let i = 0; i < covariateNames.length; i++) {
+    const covar = covariateNames[i];
+    if (i % 5 === 0 || i === covariateNames.length - 1) {
+      progressCallback?.onProgress(
+        'unconfoundedness',
+        3,
+        4,
+        `Processing covariate ${i + 1}/${covariateNames.length}: ${covar}`
+      );
+    }
     let treated_mean: number;
     let treated_std: number;
     let control_mean: number;
@@ -124,6 +148,7 @@ export function detectUnconfoundednessViolation(patients: Patient[]): ViolationD
   }
 
   // Compute score based on SMD distribution
+  progressCallback?.onProgress('unconfoundedness', 4, 4, 'Computing final score');
   const max_smd = Math.max(...smds);
   const mean_smd = mean(smds);
 
@@ -171,27 +196,116 @@ export function detectUnconfoundednessViolation(patients: Patient[]): ViolationD
  * - 0.5: Some in [0.01, 0.99] (moderate overlap)
  * - 0.0: Many near 0 or 1 (severe positivity violation)
  */
-export function detectPositivityViolation(patients: Patient[]): ViolationDetails {
+export function detectPositivityViolation(
+  patients: Patient[],
+  progressCallback?: ProgressCallback
+): ViolationDetails {
   // Estimate propensity scores if not provided
-  const patientsWithPS = patients.map((p) => {
+  progressCallback?.onProgress('positivity', 1, 3, 'Estimating propensity scores');
+
+  // Check if propensity scores already exist
+  if (patients.length > 0 && patients[0].propensity_score !== undefined) {
+    progressCallback?.onProgress('positivity', 1, 3, 'Using existing propensity scores');
+    const patientsWithPS = patients;
+    const propensity_scores = patientsWithPS.map((p) => p.propensity_score!);
+
+    // Skip to checking extreme scores
+    progressCallback?.onProgress('positivity', 2, 3, 'Checking for extreme propensity scores');
+    const very_low = propensity_scores.filter((ps) => ps < 0.01).length;
+    const low = propensity_scores.filter((ps) => ps < 0.05).length;
+    const moderate_low = propensity_scores.filter((ps) => ps < 0.1).length;
+
+    const very_high = propensity_scores.filter((ps) => ps > 0.99).length;
+    const high = propensity_scores.filter((ps) => ps > 0.95).length;
+    const moderate_high = propensity_scores.filter((ps) => ps > 0.9).length;
+
+    const n = propensity_scores.length;
+    const extreme_prop = (very_low + very_high) / n;
+    const near_extreme_prop = (low + high) / n;
+    const moderate_extreme_prop = (moderate_low + moderate_high) / n;
+
+    progressCallback?.onProgress('positivity', 3, 3, 'Computing final score');
+    let score: number;
+    if (extreme_prop > 0.1) {
+      score = 0.1;
+    } else if (near_extreme_prop > 0.2) {
+      score = 0.4;
+    } else if (moderate_extreme_prop > 0.3) {
+      score = 0.7;
+    } else {
+      score = 1.0;
+    }
+
+    const severity = classifySeverity(score);
+    return {
+      assumption: 'positivity',
+      score,
+      severity,
+      description: `Propensity score overlap: ${(extreme_prop * 100).toFixed(1)}% extreme, ${(near_extreme_prop * 100).toFixed(1)}% near-extreme`,
+      recommendation:
+        severity === 'none'
+          ? 'Proceed with standard causal inference'
+          : severity === 'mild'
+            ? 'Consider trimming extreme propensity scores'
+            : severity === 'moderate'
+              ? 'Use partial identification or restrict to common support region'
+              : 'Severe positivity violation. Use Manski bounds for safe inference',
+    };
+  }
+
+  // OPTIMIZED: Use age bucketing for O(n) instead of O(n²)
+  progressCallback?.onProgress('positivity', 1, 3, 'Building age-based propensity score index');
+
+  // Create age buckets (each bucket spans 10 years)
+  const ageBuckets = new Map<number, { total: number; treated: number }>();
+
+  for (const p of patients) {
+    const age = p.age || 50;
+    const bucket = Math.floor(age / 10) * 10; // Bucket: 0-9, 10-19, 20-29, etc.
+
+    if (!ageBuckets.has(bucket)) {
+      ageBuckets.set(bucket, { total: 0, treated: 0 });
+    }
+
+    const bucketData = ageBuckets.get(bucket)!;
+    bucketData.total++;
+    if (p.treatment === 1) {
+      bucketData.treated++;
+    }
+  }
+
+  // Compute propensity scores using precomputed buckets
+  progressCallback?.onProgress('positivity', 1, 3, 'Computing propensity scores');
+  const patientsWithPS = patients.map((p, idx) => {
+    if (idx % 100000 === 0 && idx > 0) {
+      progressCallback?.onProgress(
+        'positivity',
+        1,
+        3,
+        `Processed ${idx.toLocaleString()}/${patients.length.toLocaleString()} patients`
+      );
+    }
+
     if (p.propensity_score !== undefined) {
       return { ...p };
-    } else {
-      // Simple propensity score estimate: proportion treated in similar age group
-      const age = p.age || 50;
-      const similar_patients = patients.filter((sp) => {
-        const sp_age = sp.age || 50;
-        return Math.abs(sp_age - age) < 10;
-      });
-      const ps =
-        similar_patients.filter((sp) => sp.treatment === 1).length / similar_patients.length;
-      return { ...p, propensity_score: ps };
     }
+
+    const age = p.age || 50;
+    const bucket = Math.floor(age / 10) * 10;
+    const bucketData = ageBuckets.get(bucket);
+
+    let ps = 0.5; // Default
+    if (bucketData && bucketData.total > 0) {
+      ps = bucketData.treated / bucketData.total;
+    }
+
+    return { ...p, propensity_score: ps };
   });
 
   const propensity_scores = patientsWithPS.map((p) => p.propensity_score!);
 
   // Check for extreme scores
+  progressCallback?.onProgress('positivity', 2, 3, 'Checking for extreme propensity scores');
   const very_low = propensity_scores.filter((ps) => ps < 0.01).length;
   const low = propensity_scores.filter((ps) => ps < 0.05).length;
   const moderate_low = propensity_scores.filter((ps) => ps < 0.1).length;
@@ -205,6 +319,7 @@ export function detectPositivityViolation(patients: Patient[]): ViolationDetails
   const near_extreme_prop = (low + high) / n;
   const moderate_extreme_prop = (moderate_low + moderate_high) / n;
 
+  progressCallback?.onProgress('positivity', 3, 3, 'Computing final score');
   let score: number;
   if (extreme_prop > 0.1) {
     score = 0.1; // Severe violation
@@ -247,8 +362,12 @@ export function detectPositivityViolation(patients: Patient[]): ViolationDetails
  * - 0.4: Poor fit (R² < 0.3)
  * - 0.0: Very poor fit (R² < 0.1 or severe residual patterns)
  */
-export function detectSpecificationViolation(patients: Patient[]): ViolationDetails {
+export function detectSpecificationViolation(
+  patients: Patient[],
+  progressCallback?: ProgressCallback
+): ViolationDetails {
   // Simple specification check: predict outcome from treatment + age
+  progressCallback?.onProgress('specification', 1, 3, 'Splitting treatment groups');
   const treated = patients.filter((p) => p.treatment === 1);
   const control = patients.filter((p) => p.treatment === 0);
 
@@ -261,6 +380,7 @@ export function detectSpecificationViolation(patients: Patient[]): ViolationDeta
 
   const effects: number[] = [];
 
+  progressCallback?.onProgress('specification', 2, 3, 'Testing heterogeneity across age groups');
   for (const group of age_groups) {
     const treated_group = treated.filter(group.filter);
     const control_group = control.filter(group.filter);
@@ -287,6 +407,7 @@ export function detectSpecificationViolation(patients: Patient[]): ViolationDeta
   }
 
   // Check heterogeneity in treatment effects
+  progressCallback?.onProgress('specification', 3, 3, 'Computing heterogeneity score');
   const effect_std = std(effects);
   const effect_mean = mean(effects);
   const cv = Math.abs(effect_mean) > 0.01 ? effect_std / Math.abs(effect_mean) : effect_std;
@@ -323,10 +444,18 @@ export function detectSpecificationViolation(patients: Patient[]): ViolationDeta
 /**
  * Compute overall assumption scores for a site
  */
-export function assessAssumptions(patients: Patient[]): AssumptionScores {
-  const unconfoundedness = detectUnconfoundednessViolation(patients);
-  const positivity = detectPositivityViolation(patients);
-  const specification = detectSpecificationViolation(patients);
+export function assessAssumptions(
+  patients: Patient[],
+  progressCallback?: ProgressCallback
+): AssumptionScores {
+  progressCallback?.onProgress('overall', 1, 3, 'Assessing unconfoundedness');
+  const unconfoundedness = detectUnconfoundednessViolation(patients, progressCallback);
+
+  progressCallback?.onProgress('overall', 2, 3, 'Assessing positivity');
+  const positivity = detectPositivityViolation(patients, progressCallback);
+
+  progressCallback?.onProgress('overall', 3, 3, 'Assessing specification');
+  const specification = detectSpecificationViolation(patients, progressCallback);
 
   // Overall score: geometric mean (conservative)
   const overall_score = Math.pow(
@@ -345,11 +474,14 @@ export function assessAssumptions(patients: Patient[]): AssumptionScores {
 /**
  * Get all violation details
  */
-export function getViolationDetails(patients: Patient[]): ViolationDetails[] {
+export function getViolationDetails(
+  patients: Patient[],
+  progressCallback?: ProgressCallback
+): ViolationDetails[] {
   return [
-    detectUnconfoundednessViolation(patients),
-    detectPositivityViolation(patients),
-    detectSpecificationViolation(patients),
+    detectUnconfoundednessViolation(patients, progressCallback),
+    detectPositivityViolation(patients, progressCallback),
+    detectSpecificationViolation(patients, progressCallback),
   ];
 }
 

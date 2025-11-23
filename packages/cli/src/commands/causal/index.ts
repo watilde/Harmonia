@@ -10,6 +10,8 @@ import { generateOMOPDataCommand } from './generate-omop-data';
 import { computeEvalueCommand } from './compute-evalue';
 import { computeFRICommand } from './compute-fri';
 import { diagnoseAssumptionsCommand } from './diagnose-assumptions';
+import { diagnoseAssumptionsParallelCommand } from './diagnose-assumptions-parallel';
+import { benchmarkDiagnosticsCommand } from './benchmark-diagnostics';
 import { selectInferenceModeCommand } from './select-inference-mode';
 
 export const causalCommand = new Command('causal')
@@ -21,6 +23,8 @@ export const causalCommand = new Command('causal')
   .addCommand(computeEvalueCommand)
   .addCommand(computeFRICommand)
   .addCommand(diagnoseAssumptionsCommand)
+  .addCommand(diagnoseAssumptionsParallelCommand)
+  .addCommand(benchmarkDiagnosticsCommand)
   .addCommand(selectInferenceModeCommand);
 
 export {
@@ -31,5 +35,7 @@ export {
   computeEvalueCommand,
   computeFRICommand,
   diagnoseAssumptionsCommand,
+  diagnoseAssumptionsParallelCommand,
+  benchmarkDiagnosticsCommand,
   selectInferenceModeCommand,
 };

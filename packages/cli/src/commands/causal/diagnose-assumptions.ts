@@ -4,7 +4,14 @@
 
 import { Command } from 'commander';
 import { readFileSync, writeFileSync } from 'fs';
-import { assessAssumptions, getViolationDetails, type Patient } from '@harmonia/core';
+import {
+  assessAssumptions,
+  getViolationDetails,
+  assessAssumptionsAdaptive,
+  getViolationDetailsAdaptive,
+  type Patient,
+  type ProgressCallback,
+} from '@harmonia/core';
 
 export const diagnoseAssumptionsCommand = new Command('diagnose-assumptions')
   .description('Diagnose violations of causal inference assumptions')
@@ -12,6 +19,14 @@ export const diagnoseAssumptionsCommand = new Command('diagnose-assumptions')
   .option('--output <path>', 'Output file path (JSON)')
   .option('--format <type>', 'Output format (json|table)', 'table')
   .option('--detailed', 'Show detailed violation information', false)
+  .option('--use-gpu', 'Enable GPU acceleration (adaptive by default)', false)
+  .option('--force-cpu', 'Force CPU computation (disable GPU)', false)
+  .option(
+    '--gpu-threshold <number>',
+    'Minimum patients for GPU (default: 10000)',
+    (val) => parseInt(val),
+    10000
+  )
   .action(async (options) => {
     try {
       // Read patient data
@@ -23,8 +38,46 @@ export const diagnoseAssumptionsCommand = new Command('diagnose-assumptions')
         process.exit(1);
       }
 
-      // Assess assumptions
-      const scores = assessAssumptions(patients);
+      console.log(`\n📊 Processing ${patients.length.toLocaleString()} patients...\n`);
+
+      // Create progress callback
+      const progressCallback: ProgressCallback = {
+        onProgress: (stage: string, current: number, total: number, message?: string) => {
+          const percentage = Math.round((current / total) * 100);
+          const bar =
+            '█'.repeat(Math.floor(percentage / 5)) + '░'.repeat(20 - Math.floor(percentage / 5));
+          const stageLabel = stage.padEnd(22);
+          process.stdout.write(`\r⏳ [${bar}] ${percentage}% | ${stageLabel} | ${message || ''}`);
+          if (current === total) {
+            console.log(); // New line after completion
+          }
+        },
+      };
+
+      // Assess assumptions with adaptive backend selection
+      let scores: any;
+
+      if (options.useGpu || (!options.forceCpu && patients.length >= options.gpuThreshold)) {
+        // Use adaptive diagnostics (GPU if available and beneficial)
+        scores = await assessAssumptionsAdaptive(patients, {
+          forceGPU: options.useGpu,
+          forceCPU: options.forceCpu,
+          gpuThreshold: options.gpuThreshold,
+          progressCallback,
+        });
+
+        if (scores.backend) {
+          console.log(
+            `\n  ℹ️  Backend: ${scores.backend.toUpperCase()}${scores.backendInfo ? ` (TensorFlow ${scores.backendInfo.tensorflowVersion})` : ''}\n`
+          );
+        }
+      } else {
+        // Use standard CPU diagnostics
+        scores = assessAssumptions(patients, progressCallback);
+        console.log('\n  ℹ️  Backend: CPU\n');
+      }
+
+      console.log(); // Extra newline after all progress
 
       if (options.format === 'table') {
         console.log('\n┌──────────────────────────────────────────────────────────────────┐');
@@ -64,7 +117,16 @@ export const diagnoseAssumptionsCommand = new Command('diagnose-assumptions')
 
         // Detailed violations
         if (options.detailed) {
-          const violations = getViolationDetails(patients);
+          console.log('\n📋 Generating detailed violation analysis...\n');
+          const violations =
+            options.useGpu || (!options.forceCpu && patients.length >= options.gpuThreshold)
+              ? await getViolationDetailsAdaptive(patients, {
+                  forceGPU: options.useGpu,
+                  forceCPU: options.forceCpu,
+                  gpuThreshold: options.gpuThreshold,
+                  progressCallback,
+                })
+              : getViolationDetails(patients, progressCallback);
 
           console.log('Detailed Violation Analysis:');
           console.log('─'.repeat(70));
@@ -79,16 +141,32 @@ export const diagnoseAssumptionsCommand = new Command('diagnose-assumptions')
           console.log();
         }
       } else {
-        const output = options.detailed
-          ? { scores, violations: getViolationDetails(patients) }
-          : { scores };
+        const violations = options.detailed
+          ? options.useGpu || (!options.forceCpu && patients.length >= options.gpuThreshold)
+            ? await getViolationDetailsAdaptive(patients, {
+                forceGPU: options.useGpu,
+                forceCPU: options.forceCpu,
+                gpuThreshold: options.gpuThreshold,
+                progressCallback,
+              })
+            : getViolationDetails(patients, progressCallback)
+          : undefined;
+        const output = options.detailed ? { scores, violations } : { scores };
         console.log(JSON.stringify(output, null, 2));
       }
 
       if (options.output) {
-        const output = options.detailed
-          ? { scores, violations: getViolationDetails(patients) }
-          : { scores };
+        const violations = options.detailed
+          ? options.useGpu || (!options.forceCpu && patients.length >= options.gpuThreshold)
+            ? await getViolationDetailsAdaptive(patients, {
+                forceGPU: options.useGpu,
+                forceCPU: options.forceCpu,
+                gpuThreshold: options.gpuThreshold,
+                progressCallback,
+              })
+            : getViolationDetails(patients, progressCallback)
+          : undefined;
+        const output = options.detailed ? { scores, violations } : { scores };
         writeFileSync(options.output, JSON.stringify(output, null, 2));
         console.log(`\n✓ Diagnostics saved to: ${options.output}`);
       }
