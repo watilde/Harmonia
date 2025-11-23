@@ -144,7 +144,7 @@ ${html}
 
     await browser.close();
 
-    console.log(`  ✓ PDF saved to: ${path.basename(outputPDF)}`);
+    console.log(`  SUCCESS: PDF saved to: ${path.basename(outputPDF)}`);
   } catch (error) {
     console.error('❌ Error generating PDF:', error.message);
     process.exit(1);
