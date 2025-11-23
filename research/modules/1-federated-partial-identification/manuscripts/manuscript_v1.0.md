@@ -3,7 +3,7 @@
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
 **Version**: 1.0 (Revised for Submission)  
-**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/2-federated-partial-identification
+**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/1-federated-partial-identification
 
 ---
 
@@ -361,7 +361,7 @@ This work transforms federated partial identification from ad-hoc aggregation to
 
 ## DATA AVAILABILITY
 
-Code and data generation scripts: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/2-federated-partial-identification
+Code and data generation scripts: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/1-federated-partial-identification
 
 Synthea synthetic data generator: https://synthetichealth.github.io/synthea/
 

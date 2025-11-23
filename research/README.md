@@ -12,10 +12,10 @@ Four research modules for federated causal inference:
 ```
 research/
 ├── modules/
-│   ├── 2-federated-partial-identification/
-│   ├── 3-federated-evalues/
-│   ├── 4-design-failure-aware-causal/
-│   └── 5-identification-sensitivity-adaptation/
+│   ├── 1-federated-partial-identification/
+│   ├── 2-federated-evalues/
+│   ├── 3-design-failure-aware-causal/
+│   └── 4-identification-sensitivity-adaptation/
 └── data/
 ```
 
@@ -30,13 +30,13 @@ Each module contains:
 **Generate PDFs:**
 
 ```bash
-cd research/modules/2-federated-partial-identification
+cd research/modules/1-federated-partial-identification
 node scripts/generate-pdf.js
 ```
 
 **Run experiments:**
 
 ```bash
-cd research/modules/2-federated-partial-identification
+cd research/modules/1-federated-partial-identification
 bash experiments/run-aggregation-experiment.sh
 ```

@@ -1,5 +1,5 @@
 {
-  "name": "@harmonia/5-identification-sensitivity-adaptation",
+  "name": "@harmonia/4-identification-sensitivity-adaptation",
   "version": "1.0.0",
   "description": "Hierarchical framework for federated causal inference: Identification, Sensitivity, and Adaptation",
   "private": true,

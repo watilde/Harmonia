@@ -1,5 +1,5 @@
 {
-  "name": "@harmonia/4-design-failure-aware-causal",
+  "name": "@harmonia/3-design-failure-aware-causal",
   "version": "0.1.0",
   "description": "Design-failure-aware Federated Causal Learning: Automatic assumption violation detection and safe inference mode switching",
   "private": true,

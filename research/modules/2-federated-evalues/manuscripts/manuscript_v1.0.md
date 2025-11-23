@@ -3,7 +3,7 @@
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
 **Version**: 1.0 (Revised for Submission)  
-**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/3-federated-evalues
+**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/2-federated-evalues
 
 ---
 
@@ -370,7 +370,7 @@ This work transforms E-value methodology from single-site descriptive statistics
 
 ## DATA AVAILABILITY
 
-Code and experimental data: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/3-federated-evalues
+Code and experimental data: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/2-federated-evalues
 
 Synthea generator: https://synthetichealth.github.io/synthea/
 

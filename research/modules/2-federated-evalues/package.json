@@ -1,5 +1,5 @@
 {
-  "name": "@harmonia/3-federated-evalues",
+  "name": "@harmonia/2-federated-evalues",
   "version": "0.1.0",
   "description": "Federated E-values and Robustness Index for sensitivity analysis in multi-site causal inference",
   "private": true,

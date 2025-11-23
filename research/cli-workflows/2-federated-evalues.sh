@@ -9,7 +9,7 @@
 # Uses real OMOP data (Synthea 1k by default)
 #
 # Usage:
-#   ./3-federated-evalues.sh [dataset]
+#   ./2-federated-evalues.sh [dataset]
 #   dataset: 1k (default), 100k, 2.8m, or mimic-demo
 ##############################################################################
 

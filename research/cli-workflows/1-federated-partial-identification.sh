@@ -9,7 +9,7 @@
 # Uses real OMOP data (Synthea 1k by default)
 #
 # Usage:
-#   ./2-federated-partial-identification.sh [dataset]
+#   ./1-federated-partial-identification.sh [dataset]
 #   dataset: 1k (default), 100k, 2.8m, or mimic-demo
 ##############################################################################
 

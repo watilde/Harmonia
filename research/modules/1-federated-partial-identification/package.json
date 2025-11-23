@@ -1,5 +1,5 @@
 {
-  "name": "@harmonia/2-federated-partial-identification",
+  "name": "@harmonia/1-federated-partial-identification",
   "version": "0.1.0",
   "description": "Federated Partial Identification: Balke-Pearl bounds, Manski bounds, and aggregation strategies",
   "private": true,

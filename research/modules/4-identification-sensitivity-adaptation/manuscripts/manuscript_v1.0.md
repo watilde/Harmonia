@@ -3,7 +3,7 @@
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
 **Version**: 1.0 (Revised for Submission)  
-**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/5-identification-sensitivity-adaptation
+**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/4-identification-sensitivity-adaptation
 
 ---
 
@@ -313,13 +313,13 @@ We develop the first complete federated causal inference framework integrating m
 
 ## DATA AVAILABILITY
 
-Complete framework code and experimental data: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/5-identification-sensitivity-adaptation
+Complete framework code and experimental data: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/4-identification-sensitivity-adaptation
 
 Individual module repositories:
 
-- Module 2: .../2-federated-partial-identification
-- Module 3: .../3-federated-evalues
-- Module 4: .../4-design-failure-aware-causal
+- Module 2: .../1-federated-partial-identification
+- Module 3: .../2-federated-evalues
+- Module 4: .../3-design-failure-aware-causal
 
 Synthea generator: https://synthetichealth.github.io/synthea/
 

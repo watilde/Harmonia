@@ -11,7 +11,7 @@
 # Uses real OMOP data (Synthea 1k by default)
 #
 # Usage:
-#   ./5-identification-sensitivity-adaptation.sh [dataset]
+#   ./4-identification-sensitivity-adaptation.sh [dataset]
 #   dataset: 1k (default), 100k, 2.8m, or mimic-demo
 ##############################################################################
 
