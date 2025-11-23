@@ -183,9 +183,13 @@ if (!process.argv.slice(2).length) {
   console.log('  harmonia coordinator status       Check status (coordinator)');
   console.log('  harmonia coordinator aggregate    Aggregate updates (coordinator)');
   console.log('\n🔬 Causal Inference Commands:');
-  console.log('  harmonia causal generate-data     Generate synthetic data');
-  console.log('  harmonia causal compute-bounds    Compute partial ID bounds');
-  console.log('  harmonia causal federate-bounds   Aggregate multi-site bounds');
+  console.log('  harmonia causal generate-data          Generate synthetic data');
+  console.log('  harmonia causal compute-bounds         Compute partial ID bounds');
+  console.log('  harmonia causal federate-bounds        Aggregate multi-site bounds');
+  console.log('  harmonia causal compute-evalue         E-value sensitivity analysis');
+  console.log('  harmonia causal compute-fri            Federated Robustness Index');
+  console.log('  harmonia causal diagnose-assumptions   Diagnose assumption violations');
+  console.log('  harmonia causal select-inference-mode  Auto-select inference mode');
   console.log('\n📊 Other Commands:');
   console.log('  harmonia study validate           Validate harmonia.json config');
   console.log('  harmonia study start              Start training from config');
