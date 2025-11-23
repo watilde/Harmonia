@@ -1,19 +1,17 @@
 # Research Modules
 
-Five research modules for federated causal inference:
+Four research modules for federated causal inference:
 
-1. **Manski Bounds** — Federated partial identification with optimal aggregation
-2. **Federated Partial Identification** — Aggregation strategies under heterogeneity
-3. **E-values & FRI** — Sensitivity analysis and robustness metrics
-4. **Design-Failure-Aware** — Diagnostic systems for assumption violations
-5. **Unified Framework** — Integration of all modules
+1. **Federated Partial Identification** — Aggregation strategies under heterogeneity with minimax-optimal inverse-width weighting
+2. **E-values & FRI** — Sensitivity analysis and robustness metrics
+3. **Design-Failure-Aware** — Diagnostic systems for assumption violations
+4. **Unified Framework** — Integration of all modules
 
 ## Structure
 
 ```
 research/
 ├── modules/
-│   ├── 1-manski-bounds/
 │   ├── 2-federated-partial-identification/
 │   ├── 3-federated-evalues/
 │   ├── 4-design-failure-aware-causal/
@@ -32,13 +30,13 @@ Each module contains:
 **Generate PDFs:**
 
 ```bash
-cd research/modules/1-manski-bounds
+cd research/modules/2-federated-partial-identification
 node scripts/generate-pdf.js
 ```
 
 **Run experiments:**
 
 ```bash
-cd research/modules/1-manski-bounds
-bash experiments/run-manski-experiment.sh
+cd research/modules/2-federated-partial-identification
+bash experiments/run-aggregation-experiment.sh
 ```

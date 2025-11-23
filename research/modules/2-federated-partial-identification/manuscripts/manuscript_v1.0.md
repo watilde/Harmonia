@@ -35,6 +35,9 @@ $$\mathcal{L}_{fed} = \sum_{k=1}^K w_k \mathcal{L}_k, \quad \mathcal{U}_{fed} = 
 
 The choice of weights $w_k$ affects bound width and precision. While sample-size weighting ($w_k = n_k / N$) is theoretically justified under homogeneity [5], real-world multi-site studies exhibit heterogeneity in populations, treatment practices, and data quality.
 
+![Federated vs Centralized Architecture](figures/fig0_architecture_comparison.png)
+_Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months (estimated), with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy._
+
 ### 1.2 Research Questions
 
 **RQ1 (Theoretical Optimality):** Which weighting strategy is provably optimal for minimizing federated bound width under heterogeneity?
@@ -238,10 +241,21 @@ Additional coordinator overhead for strategy comparison:
 
 3. **Privacy Guarantees:** No patient-level data transmitted. HIPAA Safe Harbor compliant (45 C.F.R. § 164.514(b)): aggregates only, no individual identifiers, group size >3.
 
+![HIPAA Safe Harbor Compliance](figures/fig4_hipaa_safe_harbor.png)
+_Figure 4: HIPAA Safe Harbor compliance comparison. Left column (centralized, red X marks) shows identifiers present in transmitted data requiring manual de-identification. Right column (federated FRCI, green checkmarks) shows all identifiers remain local, achieving automatic Safe Harbor compliance per 45 C.F.R. § 164.514(b)._
+
 4. **Regulatory Advantages:**
    - **HIPAA Safe Harbor:** Automatic compliance (no identifiers in transmitted data)
    - **Data Use Agreements:** Not required for de-identified data (45 C.F.R. § 164.514(e))
    - **Network infrastructure:** HTTPS API vs. secure data enclave
+
+**Regulatory Evidence Table:**
+
+| Regulatory Aspect           | Centralized                       | Federated (Ours)                | Legal Basis            |
+| --------------------------- | --------------------------------- | ------------------------------- | ---------------------- |
+| HIPAA Safe Harbor Status    | Requires manual de-identification | Auto-satisfied (no identifiers) | 45 C.F.R. § 164.514(b) |
+| Data Use Agreement          | Required for identifiable data    | Not required (de-identified)    | 45 C.F.R. § 164.514(e) |
+| IRB Multi-Site Coordination | Required (complex)                | May be simplified (local data)  | 45 C.F.R. Part 46      |
 
 5. **Privacy-Utility Trade-off:**
 

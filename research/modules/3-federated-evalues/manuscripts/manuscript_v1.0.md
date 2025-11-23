@@ -201,7 +201,7 @@ $$t^* \approx 1 + \frac{C_1}{C_2} \cdot p$$
 | FRI aggregation                | <1s      | Weighted average             |
 | **Total**                      | **~10s** | Practical for real-world use |
 
-**Scalability**: Linear O(n) complexity, consistent with Module 1 results. Memory: ~2-3 GB per site.
+**Scalability**: Linear O(n) complexity, consistent with Module 2 results. Memory: ~2-3 GB per site.
 
 ### 3.3 E-value Decomposition Analysis
 

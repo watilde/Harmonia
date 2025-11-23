@@ -317,7 +317,6 @@ Complete framework code and experimental data: https://github.com/watilde/Harmon
 
 Individual module repositories:
 
-- Module 1: .../1-manski-bounds
 - Module 2: .../2-federated-partial-identification
 - Module 3: .../3-federated-evalues
 - Module 4: .../4-design-failure-aware-causal
