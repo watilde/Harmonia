@@ -1,0 +1,9 @@
+# Ignore experiment outputs
+output/
+*.json
+*.csv
+*.log
+
+# Keep scripts and README
+!README.md
+!*.sh

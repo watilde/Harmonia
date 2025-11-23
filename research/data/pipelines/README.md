@@ -41,4 +41,4 @@ npm run data:split:100k
 npm run data:split:2.8m
 ```
 
-After the shared datasets are prepared, switch into the relevant module (for example `research/modules/manski-bounds`) to run module-specific validation or manuscript pipelines.
+After the shared datasets are prepared, switch into the relevant module (for example `research/modules/1-manski-bounds`) to run module-specific validation or manuscript pipelines.

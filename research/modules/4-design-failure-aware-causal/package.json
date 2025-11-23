@@ -1,0 +1,35 @@
+{
+  "name": "@harmonia/design-failure-aware-causal",
+  "version": "0.1.0",
+  "description": "Design-failure-aware Federated Causal Learning: Automatic assumption violation detection and safe inference mode switching",
+  "private": true,
+  "scripts": {
+    "paper:plots": "npx ts-node scripts/generate-figures.ts",
+    "paper:pdf": "./scripts/generate-pdf.sh",
+    "experiment:violations": "./experiments/run-violation-scenarios.sh"
+  },
+  "dependencies": {
+    "@harmonia/federated-partial-identification": "file:../federated-partial-identification",
+    "@harmonia/federated-evalues": "file:../federated-evalues"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.0.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "keywords": [
+    "causal-inference",
+    "assumption-violation",
+    "design-failure",
+    "federated-learning",
+    "automatic-switching",
+    "robustness",
+    "omop-cdm",
+    "safe-inference"
+  ],
+  "author": "Daijiro Wachi",
+  "license": "Apache-2.0"
+}

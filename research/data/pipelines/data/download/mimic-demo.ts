@@ -13,7 +13,7 @@ const COLORS = {
   reset: '\x1b[0m',
 };
 
-const BASE_URL = 'https://physionet.org/files/mimic-iv-demo-omop/0.9';
+const BASE_URL = 'https://physionet.org/files/mimic-iv-demo-omop/0.9/1_omop_data_csv';
 const TABLES = [
   'person',
   'visit_occurrence',
@@ -37,7 +37,6 @@ const TABLES = [
   'drug_era',
   'dose_era',
   'condition_era',
-  'metadata',
   'cdm_source',
   'vocabulary',
   'concept',
@@ -48,10 +47,10 @@ const TABLES = [
   'domain',
   'relationship',
 ];
-const ESSENTIAL_TABLES = ['person', 'visit_occurrence', 'condition_occurrence'];
+const ESSENTIAL_TABLES = ['person', 'visit_occurrence', 'condition_occurrence', 'drug_exposure', 'measurement', 'observation'];
 
 const repoRoot = path.resolve(__dirname, '../../../..');
-const dataDir = path.join(repoRoot, 'research/data/raw/omop-data/mimic-demo');
+const dataDir = path.join(repoRoot, 'data/raw/omop-data/mimic-demo');
 
 type DownloadTool = 'wget' | 'curl';
 
@@ -90,45 +89,28 @@ async function main(): Promise<void> {
       }
     }
 
-    printCredentialNotice();
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('  Download Information');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    console.log(`${COLORS.green}✓ Public Access Available${COLORS.reset}`);
+    console.log('  MIMIC-IV Demo OMOP CDM data is publicly accessible via HTTPS.');
+    console.log('  No PhysioNet credentials required for demo dataset.');
+    console.log('');
+    console.log(`${COLORS.blue}Note:${COLORS.reset} Full MIMIC-IV requires credentialing.`);
+    console.log('  Demo: 100 patients (no credentials needed)');
+    console.log('  Full: 50,000+ patients (requires PhysioNet account + CITI training)');
+    console.log('');
 
     const downloadTool = detectDownloadTool();
-    const option = await promptMenu(rl);
-
-    switch (option) {
-      case '1':
-        await performDownload(downloadTool);
-        await summarize();
-        break;
-      case '2':
-        printManualInstructions();
-        break;
-      default:
-        console.log('');
-        console.log('Download cancelled.');
-    }
+    await performDownload(downloadTool);
+    await summarize();
   } finally {
     rl.close();
   }
 }
 
-function printCredentialNotice(): void {
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('  PhysioNet Access Requirements');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('');
-  console.log('This dataset requires PhysioNet credentialing:');
-  console.log('');
-  console.log('1. Create account: https://physionet.org/register/');
-  console.log('2. Complete CITI training: https://physionet.org/about/citi-course/');
-  console.log('3. Request access: https://physionet.org/content/mimic-iv-demo-omop/0.9/');
-  console.log('4. Accept data use agreement');
-  console.log('');
-  console.log(
-    `${COLORS.yellow}Note:${COLORS.reset} The demo dataset is publicly available after credentialing.`
-  );
-  console.log('');
-}
+
 
 function detectDownloadTool(): DownloadTool {
   if (commandExists('wget')) {
@@ -153,23 +135,7 @@ async function promptYesNo(
   return answer === 'y' || answer === 'yes';
 }
 
-async function promptMenu(rl: ReturnType<typeof createInterface>): Promise<string> {
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('  Download Method');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('');
-  console.log('Choose download method:');
-  console.log('');
-  console.log('  1) Direct download (requires PhysioNet credentials)');
-  console.log('  2) Manual instructions (for credentialed access)');
-  console.log('  3) Cancel');
-  console.log('');
-  const answer = (await rl.question('Select option [1-3]: ')).trim();
-  if (['1', '2', '3'].includes(answer)) {
-    return answer;
-  }
-  return '3';
-}
+
 
 async function performDownload(tool: DownloadTool): Promise<void> {
   console.log('');
@@ -204,7 +170,7 @@ async function performDownload(tool: DownloadTool): Promise<void> {
 
   if (success === 0) {
     throw new Error(
-      'No tables were downloaded. Please ensure your PhysioNet credentials are configured or use the manual instructions.'
+      'No tables were downloaded. Please check your internet connection and try again.'
     );
   }
 
@@ -229,25 +195,7 @@ function downloadFile(tool: DownloadTool, url: string, destination: string): Pro
   });
 }
 
-function printManualInstructions(): void {
-  console.log('');
-  console.log(`${COLORS.blue}Manual Download Instructions${COLORS.reset}`);
-  console.log('');
-  console.log('1. Visit: https://physionet.org/content/mimic-iv-demo-omop/0.9/');
-  console.log('2. Log in with PhysioNet credentials');
-  console.log('3. Accept the data use agreement (if not already done)');
-  console.log(`4. Download and extract CSV files to: ${dataDir}`);
-  console.log('');
-  console.log('Required files (essential): person, visit_occurrence, condition_occurrence,');
-  console.log('drug_exposure, procedure_occurrence, measurement');
-  console.log('');
-  console.log('You can also use wget with credentials:');
-  console.log('');
-  console.log('  wget -r -N -c -np --user=USERNAME --ask-password \\');
-  console.log('    https://physionet.org/files/mimic-iv-demo-omop/0.9/ \\');
-  console.log(`    -P ${dataDir}`);
-  console.log('');
-}
+
 
 async function summarize(): Promise<void> {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -285,21 +233,32 @@ async function summarize(): Promise<void> {
   console.log('  Next Steps');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('');
-  console.log('1. Split data into federated sites:');
-  console.log('   cd research');
-  console.log('   npm install  # if not already done');
-  console.log('   npx ts-node research/data/pipelines/data/split/split-omop-csv.ts \\');
-  console.log('     --input omop-data/mimic-demo/ \\');
-  console.log('     --output splits/mimic-demo/ \\');
-  console.log('     --num-sites 3 \\');
-  console.log('     --scenario icu');
+  console.log('1. Prepare data for causal inference:');
+  console.log('   cd research/cli-workflows');
+  console.log('   python3 prepare-mimic-data.py \\');
+  console.log('     ../data/raw/omop-data/mimic-demo \\');
+  console.log('     output/mimic/mimic-data.json');
   console.log('');
-  console.log('2. Run experiments:');
-  console.log('   cd research/modules/manski-bounds/experiments');
-  console.log('   npx ts-node icu-intervention/run-experiment-omop.ts');
+  console.log('2. Run causal inference analysis:');
+  console.log('   # Compute partial identification bounds');
+  console.log('   npx harmonia causal compute-bounds \\');
+  console.log('     --data output/mimic/mimic-data.json \\');
+  console.log('     --assumption mtr \\');
+  console.log('     --output output/mimic/bounds.json');
   console.log('');
-  console.log('3. View results:');
-  console.log('   cat ../data/raw/results/mimic-demo/icu/comparison.txt');
+  console.log('   # Diagnose causal assumptions');
+  console.log('   npx harmonia causal diagnose-assumptions \\');
+  console.log('     --data-file output/mimic/mimic-data.json \\');
+  console.log('     --format table');
+  console.log('');
+  console.log('   # Compute E-values for sensitivity analysis');
+  console.log('   npx harmonia causal compute-evalue \\');
+  console.log('     --bounds-file output/mimic/bounds.json \\');
+  console.log('     --baseline-risk 0.44 \\');
+  console.log('     --format table');
+  console.log('');
+  console.log('3. See documentation:');
+  console.log('   cat research/cli-workflows/MIMIC_TEST_RESULTS.md');
   console.log('');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('');

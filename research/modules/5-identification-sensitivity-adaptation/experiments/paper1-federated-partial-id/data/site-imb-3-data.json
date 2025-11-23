@@ -1,0 +1,4002 @@
+[
+  {
+    "treatment": 0,
+    "outcome": 0.44824772577405875
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6179636023415126
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5061085001130873
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7099158400951624
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48658850684621846
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.36146117672210326
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8878711973446903
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5871505188339866
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.494327237495935
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7353204319833931
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6535810701648486
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4960698915773458
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4211454117342672
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.24629855360199923
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7593321408355321
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5338755257955105
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6876143787983866
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4764913986139055
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5271181029747812
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.79846465395594
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38352690780956544
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44590413887099634
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5305522454120621
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5284130733021494
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5677524917640502
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5264534878572894
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6518680801922497
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7659715242370603
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6788996829412809
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3444157538469764
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7072437988903926
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6063972356369506
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5322894257043528
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6291907307535526
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6950371299722695
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5074327405338848
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.628967898869131
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6464579697724456
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5205650126075168
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42942432709121164
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6355842742706451
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38286700745615876
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5880045494490803
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38092627206706065
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3183800479119599
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6853224919819385
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5552929912221934
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7006388426628588
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5334432770428332
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6202335878188927
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6418337826012551
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.37924774555259366
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5573438419810586
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6571483141776396
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.831098093370274
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6845690825932257
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40035870130460816
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8844286808329197
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4490147891982226
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8076615760652439
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44597883382042797
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6198185678521114
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4539983606497187
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6141900506993145
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5590850217905595
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8467895624625157
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8483418016184601
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6558558904233421
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5906656106000708
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4883677267242718
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7088149644770487
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8050581772508989
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6268104922258055
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41781124118149987
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.541708240639119
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5692845318691052
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3956305747050426
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45137886218334067
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3797847205006028
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38949365750889325
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5708057708334541
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5622321038459221
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4339036840550291
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.46251046277602315
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5869409013181174
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4493690242046241
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7872717574913723
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6045792016783057
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7666872396233969
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44312068659440146
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6651765234725366
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.392875972269667
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6552621017511425
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6839002654472055
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4996334778075715
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7130908994343856
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7652323274447457
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.330928252442774
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6272011197101878
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.615881849021875
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6291060855642058
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8454588561633254
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46755105025097526
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7169317492356837
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8843304967685807
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.582985381257917
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5857490588789639
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7014848878138331
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6008140843321041
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6417976139292395
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42540277653693165
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6582965996913255
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7123499375228255
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5887664986738179
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7373932882626609
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.683188538814904
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47855113927273557
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5613216492074387
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5357489900025704
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4612029736261151
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.15225206836881905
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49927006386067235
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7830651664382804
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7118740419962051
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5821492073554293
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6227571497212111
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4925683167850222
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48714256913109355
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6840456666375935
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8672250478898318
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.650516502338102
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.30285333060420105
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49723089460963427
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7467514877659056
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.33496563352575603
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8687292480644835
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6080339367518901
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41909711205625433
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5675314161537209
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5016137441329948
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5571216276344051
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7610682404364243
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7139153411386724
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.631595904889204
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5159449428011951
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5369266771349652
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5091791599702143
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9534069346948901
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5601686761032877
+  },
+  {
+    "treatment": 1,
+    "outcome": 1
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.550786648180006
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47634115424674733
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.35640074162097396
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40765507206573637
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5490720172803629
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3848969871195129
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40556007997948373
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5707898863758436
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6125749351461843
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3349396448767856
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4561798781086944
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.39270016485110715
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5688598848433144
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3569876411062917
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6472602776065502
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6475350346335415
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4310621486085478
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7401805144633706
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5798092072460197
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7386236237625678
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7066992566241699
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5471351644419727
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.597249215844745
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.721667476329229
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48101430242456433
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4158752985144082
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5495184348850175
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.33228481684504163
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4866543754866619
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38500726576523453
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7107095092360517
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5898037493996705
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6012548083528237
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49449993996304586
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5537493684988415
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6514563607084837
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4564891905772259
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6533363855202797
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4354638954440487
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5821809987734512
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6184571650635654
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7932829695853661
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47310313036099133
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6662323505260368
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7469968914770568
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7983042731849933
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7883472074366198
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44896313604850574
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7293778106074813
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7588776680742124
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49588351490228716
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5902994702472019
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6932791689320421
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6823359272511942
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4918668571652904
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5814161323018249
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5573671980987681
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46288173727113746
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5689466828626321
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6133128605649524
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4504575397897099
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40832587686975386
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.26300489885642986
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44273965507910107
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3349812597211454
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5801468294501877
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6203654079157487
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5010885143177308
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5674658443454487
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47857635196514836
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.420053738982468
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6171247141482288
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6624033259570786
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.838335022924954
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48991610621588366
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7268051201090012
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4998488080022482
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.615065192337123
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47671775929769666
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6667914045665322
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6444567651708772
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6502816602234546
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5382898589648365
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6273060588588415
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6431162484693689
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7339582894381149
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7210181208012729
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7201320006475718
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6427476349012851
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4559600918706675
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5091393219588548
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.393406809828983
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6638937270158515
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6447925078856818
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.29811916740665734
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44655583835251156
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7647181333429292
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6436115699168328
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.529144893361005
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4285292650138957
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47588479483533064
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5384282514027307
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.640026113964305
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5544206467509027
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7099457982494565
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43223107505530367
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46645641966408863
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48474094608011836
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6684497074957457
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.553528304991
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.25343928577710023
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8571241326102692
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7017638123787169
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5709391645025123
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5714920774391993
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.23892476381345235
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5904470847639075
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.8462200476579163
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8033397612967583
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5317602342740511
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5518202643482516
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6194269032981651
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7911235093466964
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4854714943091525
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6719846490724922
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5712197504520162
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5417244746127131
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6117788828535456
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.470443022858861
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7195633542429478
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4474545221392018
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4835616836476962
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6986480008494462
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6873000813237073
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5004105761584234
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7546725806688488
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.840169459388547
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.34862655380353846
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3814917691988459
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4731357733702186
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6339564701236385
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.580579266969092
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5948671131815331
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5074653544936629
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5271718735583251
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7087657376659023
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5672679837394202
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7565992359718171
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6863195415694723
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3579067913745403
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6841216662482199
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5334663705882251
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4665344957504206
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5676988236211002
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44099259993613155
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8869677990467304
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5359329420939033
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6042542063787115
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5213644945634616
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.527503406747347
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5952414888573806
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6084501671564229
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45631660776469796
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6446485248344112
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5514997331987772
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5635257141784489
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4586350413054603
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6486827307335137
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5633967967480835
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7094302713822963
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4698375171392323
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.709121697863588
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4215672644740037
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41677655137165204
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.35577140192362655
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.644782050797358
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5040030791699137
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7902062256207819
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4728001837481518
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5555894842459553
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8291525888531427
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6759549225641288
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5354954181866108
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.598587711585831
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9338936598938539
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4633420791400098
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.26465599418671315
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3655969453861022
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4457605463126148
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5560330785298491
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6082550544483737
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6639773432961482
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.703312029976539
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.32270193187723617
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3988046507082574
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5687575386286998
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4924635534413326
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.662677113654002
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9483982034679479
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5950892786925425
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4385366624505513
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.776467274377906
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5675147507744567
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.49171514136449446
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5092909236396712
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.36535945184750407
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6016272671972818
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.45844013088448243
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6710063718700398
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5117941577344424
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6016149097505528
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6970554634627623
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6728055686637942
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4524228801373921
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43504434636420364
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5658285898285442
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5035980372149143
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8271073333910878
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.34790095331622445
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5393571337885883
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3512141964835696
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5421468259196721
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5007018020825545
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5786993994330851
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43521042605271487
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.33904784694739837
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8076461189954709
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6423029725503276
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5118523437999725
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3377004888859605
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3781827669326459
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6156744696894725
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6546244483168351
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44797080164523057
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.869658259206288
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6174432230728532
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46264529408746047
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5086351337344965
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2655366412309046
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5002140511285726
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.737112416976541
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7226815747838096
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6615641660076723
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8472750874604155
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5318316640705036
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6737395881782077
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3010219532340249
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.660072264323727
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4962493648348888
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.67524405885645
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.658378514116248
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.332591595544495
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.32106176149017523
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8282970489866391
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.522475802135834
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3548798159927581
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5925403912027445
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7079753326258851
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5604202195707304
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2535430972752741
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3468868796448226
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6287227008846215
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48115073525062685
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.678547559433607
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6242334296075951
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8478699980560043
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5897665088370766
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4880058854763904
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4491424237719592
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5726416947190476
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.594019221362358
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6779450476145699
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5055581929676269
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6072897239219126
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.39571136926189376
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5484862516416033
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5180228778500615
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5627664836141826
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7282724562280659
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4178957272955325
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6417922507386038
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.677332448695378
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2971683029439473
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4758124264510859
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8473777892173787
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5811994438734207
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.603791358934931
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6411717493063132
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6718637397660872
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3914631862322107
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6307987541254644
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6546746705277511
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4894606097337505
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6374464028716617
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6451629904999323
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2518050962599426
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5677720623128658
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8187613914750246
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43192373414224683
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6949133025849094
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4918959577019723
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8290078317757259
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7302885464661881
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4328441664028344
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5435660611547276
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5501244615688442
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2549872873911552
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4280411814283457
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7671678418292264
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6601116476173601
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6155218827561102
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5268346299362753
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7805120893214066
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7189990525169754
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5825467845024696
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3483133243982937
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5805589965681216
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6909436105070683
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5071000190488774
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.518133964810138
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7054575753532446
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8296720981169511
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7251309409642761
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6120661183219812
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4335069184196611
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8604965788604237
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3533810924700076
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7011897268170864
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5807339571791527
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45468727080809096
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6025255532180608
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6205007174485401
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5271568192446546
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.27269631815824397
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7936492623474493
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6155568219520877
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5754182836304123
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7985259256306441
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6019523713586827
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6689008668250789
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5353588911344367
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.13061867920539932
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4016532096929224
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6552938730334082
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.427194929636062
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5406393076653565
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6160523391618745
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38116112469225716
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5254975069322116
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4508462275961413
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4921736757090532
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7055991742093559
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38190769934864205
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.607937663337049
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5613479828564684
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6926681414951892
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5616629034543342
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42340679834064143
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48792003764333625
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9108907605851126
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.553328849254279
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5919895049760846
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5007853854346128
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6600993910068316
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.588555530441856
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5322691231758374
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8769946149049122
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.594818699455204
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3970099984397711
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6964695018958612
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3054352067284193
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.22176127651687325
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5860046804518748
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.592075861869376
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5645304721165204
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6489021676590111
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5752680604575096
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.41621505676349435
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5435940896327337
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4551065973941731
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6242997118835036
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3838705825681324
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6902403454705766
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4357697697804281
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4101783429758249
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6058109326576634
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3117185792827221
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.531630369998272
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4020569538585549
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7068963491917253
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7712929438643623
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45029963706727044
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7948431212722636
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5693699968063981
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5760498122024336
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6365438621537409
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7009160577240289
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.30749734783701566
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.511624611505702
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40039331400060585
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3818362853460242
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6632614773139289
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5952451694059275
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6036568189961664
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6456145917662546
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5850714074996161
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.3982394884925543
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4145006407540687
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5148184737588312
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.35981164118222136
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6073888106860388
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3112862247302942
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7338841344677564
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5008738091247654
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6642749007830011
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.544283589241568
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.37577628589804357
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.514919592534716
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5865116919805975
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.521293773044795
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5752373443538894
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.61027347700613
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5524003111544449
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5606651914973304
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.19396943261698107
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6661298404003996
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42180298915189696
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47503074653460775
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5529014321112743
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6097399378430743
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5797948438202936
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49077596289461084
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7077575619606921
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7201394889760623
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2727486318543374
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6361894321782592
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8247773135335956
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5995836181026094
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43512340854979525
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42021420727370634
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5259005830771102
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5635856897440541
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6525214222942958
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6676652358977312
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.779176165843077
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47529883417459395
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.657992785042153
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7114067972706368
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5612062572188026
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3183923062079647
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.519521624816583
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6721487300629562
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45760543729069253
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8318160639529013
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8121113109449645
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4545221088588662
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7166714687331158
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5760309522993919
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3419392724506166
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4693105023721951
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.8526441645831789
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5419790903578579
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5731686836010655
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5641498174824864
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.621854412438141
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6924904833741863
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5008730787352439
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2691971020168188
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6482836809172359
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5141450519960704
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4891842867243223
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3442878227130449
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8306076674058702
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5614956716905825
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7757841198859863
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5913508926173907
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6751710991837776
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5766591197863155
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.516642015916151
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4705180027564628
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5080476999801955
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6835297896064623
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.19264298246500677
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7544335580224688
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5313351339177304
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5739572222812521
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49779352397070475
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.60662261996217
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5295937943666109
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4871718905877189
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9109103835124611
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38709341028642746
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5167061235190454
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.1500506193303458
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4473722844232745
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5810313277367762
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7710618189187897
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4494918351548837
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7869716053123087
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5764010878716883
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5754969178398889
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6142957510244657
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4312899016313163
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.43815068728544593
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5271126941312858
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3904630000897268
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.34032346895344123
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5314328393470109
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7290460410193337
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2691651731506128
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7113643954312536
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49369995995928134
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5554660810138989
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47515347074019215
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40814180594431576
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2719823113793662
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7463685710609936
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7083370075131877
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.599615972724691
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6226133190557853
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7486769659566561
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4566202563898623
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4205594633209694
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6550184873607137
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8015126581229925
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6760935169093079
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3886428404479642
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5573770974956805
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.640875864109628
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5418298439235301
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.868782562392208
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9188324109678175
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6300324515121168
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2795850594919902
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6419042606764742
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5773191111862518
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4279554229794026
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5020273836973042
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5477301823708687
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6841972998981624
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6308217712060433
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4791528934238864
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3890007392459847
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4903151528315217
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4032202797685188
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7254985307579745
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6819251884133855
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.3943321032312321
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47780978426446485
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.613116440281566
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.31471579343824413
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5060102789514519
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.39077760997939376
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7675351866634045
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40532993334820633
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5809327896341014
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7169587944824924
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4539864772054047
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5042764014366609
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4119260444789695
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.724631647700089
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5601527134007728
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8050650224676661
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6835786012284295
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5047103309795304
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41368050228890824
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7401433669304667
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47809316447260203
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3907390382398201
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6896648092478164
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3980355623318359
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7150461662753294
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7480140400596305
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7007467052210028
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5815104307136783
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6976774037797819
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4939192820552608
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40418968215631496
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48634037002857955
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6339501201739178
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41570285132357476
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6174214001524538
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7171684379320582
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6056704837572777
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.827883242505964
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.77444932986005
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4429076828761019
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8077354283516519
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6278842170498317
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.31366856496698836
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47172329663444856
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7262343128285983
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.340357412065266
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4827491590097451
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5768456929333132
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6852920329016878
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6269632286824074
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3794373279237551
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7548292771339156
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4039778553670352
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8403984233707364
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7041315787260752
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6356173378235657
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7355532098113142
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7508791582658825
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.17719158825490022
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5161697559724256
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3538084718345011
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40813199053023896
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5607404545297915
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5602243248418449
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.512073247498002
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5785349835280766
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6095122292797801
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4326824040686404
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5045302543458097
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6495877071221298
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7761513244256693
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5644106577443733
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.412465057051712
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5216809967119609
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8850683488576871
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7187407515947802
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7509076457806457
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6827153692333343
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6607397366434226
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5139069334344692
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9014329970735178
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5905327506190894
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4997496229153036
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.595152981073338
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.36781652502828255
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3307809696416132
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6314686758860987
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3305114976913385
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5505033873014921
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7246377627104404
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3786033327139738
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5661721248686071
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5343583081214661
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3881454776872259
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5894679601919462
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.674300495944895
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3845698764803393
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.27395299139278617
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5764595435888706
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4089710978853973
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4860128288999192
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6242670494208238
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3359649502941624
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46279075859840724
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5245239282274318
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.49718610660194423
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.31956411541019414
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.46866140583580396
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6638464610934907
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5024920423716724
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4803873997795972
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4426957098659599
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3816549050319229
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49309055305115235
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5673043969304781
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6300048630715975
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4132933430270812
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6952354425418072
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4615677354045196
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4569532408170777
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7395198921890185
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38238533854974877
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8305588195996398
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5867010182596581
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5860694774306474
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5860363277345016
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7945666997518612
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42334688437543044
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.576295290285123
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5362640081459195
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7077363355723211
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4788126831974069
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9739825418996033
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4255379802522363
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5084593610685526
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7474532835923917
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5026814887791582
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5996960573154615
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.512392555732534
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5025720363081766
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5597299097399595
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5960392487079537
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3924053088226517
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4837635858426132
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7418507398536623
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7915352277966727
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6161730198185558
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8408854470768776
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5068848188020546
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5386857136556849
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5985637539798953
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.8552945131382095
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.41220469829441975
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.32107569155581295
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6663354996263093
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40262481190351185
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3938636810856516
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6128954532288731
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.42557690132293335
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5674306152447208
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.37764127304599293
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.3625239363487873
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7230876739315619
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5002148486973016
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7488665529947699
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5515703625400179
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6558297044722412
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3739567512748314
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.26458183277083047
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3321559516479943
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6498724603037603
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.4321091987412197
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6859793831727213
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6377632432207583
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6964886723035012
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7001986132806206
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6247049874662444
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5171346965108728
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.33332204245061514
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7886430742400673
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5297221404313541
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.59704672917309
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.650409384008606
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.622012195525797
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7797555193672334
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.48299084537800796
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4743005609374108
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.620773221212156
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47631231424101395
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4856893137390674
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4032027459602415
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6553882302999443
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6535279502763963
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8354379068478754
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4622901315583905
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7067043061739117
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6083197450218714
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4128177283537845
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5876836317739247
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6026232955170774
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5050692861570844
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.34094650093365436
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8709256244402421
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5857820798235359
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3542989552413251
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6348916555806253
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7575013893269417
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.670147967433082
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.465095544635099
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8638630191440492
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4994666395547533
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4622666294208198
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.673120090745366
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5900077614571715
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6944650204193066
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6052812880952043
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6772408432240257
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.45230681013656887
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.49022257048729834
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.38249828584704426
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5221262788141863
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6934563963226686
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5742035952301227
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5666171355334366
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3644164266256192
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48520499929374256
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5087370683178147
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5058210596834911
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8533849320723859
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8216481804200252
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8992530902301882
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.3833520802521724
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5817320883606183
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5753612382242902
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8402486387427585
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3502059417857888
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4239321485280028
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.515928911947389
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.39024715466307497
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6965366249488109
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7872217487134885
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3717021213463697
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7467030730681387
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.28587530947370976
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.581731516048264
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7796337529954596
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5814165308235166
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4168815458936235
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8744695479576794
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8108863063735499
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6227978661567355
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5206810265344621
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6281754272698028
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5383433346007916
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.30504564405067736
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8261972029152108
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48710951110809325
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5469540455912217
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5116705873158427
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.40133790432458155
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3503869267313824
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.47716909728128554
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.621028501384643
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.9177881567733928
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8409929796777516
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5538175406379529
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5733418391467592
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.587605071077731
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.533346181654238
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.915767918319948
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7314045293649372
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5251666045304999
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.5616654683534384
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7499204941704106
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.818816255692736
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4430299693486736
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.3659635818310972
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6602396549788742
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48704900607461543
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.8007688465615767
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.3976880932448683
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6402659859266365
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7235998894827477
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48366783769581384
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6887093020790632
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48382126208719767
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.7540501933814704
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5817904154561993
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.5445820656182591
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.6436144315908311
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.2884255889861777
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.563105242485509
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.43316052507224806
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.4901393495613826
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.48649400080896965
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.7477505194754612
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.44263592557939424
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6074433048373375
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.652488324643362
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6275859021136891
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.43675018106926095
+  },
+  {
+    "treatment": 0,
+    "outcome": 0.47983090506263903
+  },
+  {
+    "treatment": 1,
+    "outcome": 0.6271519363626362
+  }
+]

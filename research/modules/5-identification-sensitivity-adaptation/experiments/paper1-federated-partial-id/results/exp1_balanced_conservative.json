@@ -1,0 +1,34 @@
+{
+  "lower": 0.1736985991672491,
+  "upper": 0.663532829719954,
+  "width": 0.48983423055270486,
+  "numSites": 3,
+  "totalSampleSize": 1002,
+  "strategy": "conservative",
+  "siteBounds": [
+    {
+      "lower": 0.1736985991672491,
+      "upper": 0.663532829719954,
+      "width": 0.48983423055270486,
+      "assumption": "mtr",
+      "sampleSize": 334,
+      "siteId": "site-1-bounds"
+    },
+    {
+      "lower": 0.1736985991672491,
+      "upper": 0.663532829719954,
+      "width": 0.48983423055270486,
+      "assumption": "mtr",
+      "sampleSize": 334,
+      "siteId": "site-2-bounds"
+    },
+    {
+      "lower": 0.1736985991672491,
+      "upper": 0.663532829719954,
+      "width": 0.48983423055270486,
+      "assumption": "mtr",
+      "sampleSize": 334,
+      "siteId": "site-3-bounds"
+    }
+  ]
+}
