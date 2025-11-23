@@ -113,18 +113,16 @@ Output: Adaptive federated inference
 
 | Scale    | Module 1 Width | Module 2 FRI | Module 3 Score | Integrated Decision | Throughput | Time |
 | -------- | -------------- | ------------ | -------------- | ------------------- | ---------- | ---- |
-| **1k**   | 0.390          | 1.961        | 0.95           | Point (cautious)    | 60k pts/s  | 0.5s |
-| **100k** | 0.400          | 2.147        | N/A\*          | Point (confident)   | 54k pts/s  | 8s   |
-| **2.8m** | 0.400          | 2.149        | N/A\*          | Point (confident)   | 54k pts/s  | 50s  |
-
-\*Module 3 diagnostics computed but not detailed (focus on scalability at large scales)
+| **1k**   | 0.390          | 1.961        | 0.91           | Point (cautious)    | 60k pts/s  | 0.5s |
+| **100k** | 0.400          | 2.147        | 1.00           | Point (confident)   | 54k pts/s  | 8s   |
+| **2.8m** | 0.400          | 2.149        | 1.00           | Point (confident)   | 54k pts/s  | 50s  |
 
 **Key Observations**:
 
 1. **Module 1 (width)**: Converges from 0.390 (1k) → 0.400 (100k/2.8m), validating asymptotic stability
 2. **Module 2 (FRI)**: Strong convergence 1.961 → 2.149, exceeding moderate threshold (>2.0) at 2.8m
-3. **Module 3 (diagnostics)**: High scores (0.86-1.00) at 1k trigger appropriate point estimation
-4. **Integrated decision**: Consistent point estimation across scales, with 1k being more cautious
+3. **Module 3 (diagnostics)**: Demonstrates law of large numbers effect—covariate balance improves with sample size (1k: SMD≈0.05, score=0.91; 100k: SMD=0.0015, score=1.00). Real-world multi-site data would exhibit systematic institutional differences and unmeasured confounding not present in single-source synthetic data.
+4. **Integrated decision**: Consistent point estimation across scales, with 1k being more cautious due to sampling variation
 5. **Computational**: Linear O(n) scaling, 54-60k patients/sec throughput validates production deployment
 
 ### 3.2 Module-Specific Highlights (Details in Companion Papers)
@@ -133,7 +131,7 @@ Output: Adaptive federated inference
 
 **Module 2 Key Result**: FRI inter-site CV collapsed from 9.7% (1k) → 0.16% (2.8m). Decision-theoretic thresholds: FRI=2.15 (2.8m) > 2.0 (moderate), suitable for clinical guidelines.
 
-**Module 3 Key Result**: Diagnostic scores 0.86-1.00 (1k) with CV=7.2%, detecting site heterogeneity. Threshold sensitivity: 0.80 (default) balances rigor and pragmatism.
+**Module 3 Key Result**: Diagnostic scores reflect statistical power scaling—1k: 0.86-1.00 (mean=0.91, SMD≈0.05) with natural sampling variation; 100k/2.8m: 1.00 (SMD<0.002) demonstrating law of large numbers in covariate balance. Threshold sensitivity: 0.80 (default) balances rigor and pragmatism.
 
 ### 3.3 Emergent Integration Effects
 
