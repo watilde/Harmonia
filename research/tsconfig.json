@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "paths": {
+      "@harmonia/core": ["packages/core/src"],
+      "@harmonia/core/*": ["packages/core/src/*"]
+    },
+    "rootDir": ".",
+    "outDir": "../dist/research"
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "dist", "**/node_modules"]
+}

@@ -4,6 +4,7 @@
   "description": "Research experiments and analysis for Harmonia Causal Inference",
   "private": true,
   "scripts": {
+    "figures:generate": "npx ts-node scripts/generate-manuscript-figures.ts",
     "data:download": "npx ts-node data/pipelines/data/download/synthea.ts",
     "data:download:1k": "npx ts-node data/pipelines/data/download/synthea.ts 1k",
     "data:download:100k": "npx ts-node data/pipelines/data/download/synthea.ts 100k",
@@ -17,13 +18,16 @@
     "csv-parse": "^6.1.0"
   },
   "devDependencies": {
+    "@types/jsdom": "^27.0.0",
     "@types/katex": "^0.16.7",
     "@types/node": "^20.0.0",
     "chart.js": "^4.5.1",
     "chartjs-node-canvas": "^5.0.0",
     "highlight.js": "^11.11.1",
+    "jsdom": "^27.2.0",
     "katex": "^0.16.25",
     "marked": "^17.0.0",
+    "plotly.js-dist-min": "^3.3.0",
     "puppeteer": "^24.30.0",
     "ts-node": "^10.9.0",
     "typescript": "^5.0.0"

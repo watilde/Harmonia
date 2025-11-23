@@ -4,6 +4,16 @@
   "description": "Core federated learning algorithms and utilities",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./causal": {
+      "types": "./dist/causal/index.d.ts",
+      "default": "./dist/causal/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc -b",
     "clean": "rm -rf dist",

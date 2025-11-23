@@ -66,7 +66,7 @@ Each package ships a `dist/` folder, but all logic is maintained inside `src/`. 
 
 ### `research/` — Experiment Modules
 
-While this README focuses on `src`, any research module (e.g., `research/modules/manski-bounds`) packages its own pipelines, manuscripts, and experiment notebooks. When a new module is added, it should rely on the APIs documented above instead of duplicating business logic.
+While this README focuses on `src`, any research module (e.g., `research/modules/1-manski-bounds`) packages its own pipelines, manuscripts, and experiment notebooks. When a new module is added, it should rely on the APIs documented above instead of duplicating business logic.
 
 ## How the Pieces Talk to Each Other
 
