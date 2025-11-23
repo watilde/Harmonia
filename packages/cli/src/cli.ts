@@ -15,12 +15,7 @@ import { Command } from 'commander';
 import { studyList, studyStatus, studyValidate, studyStart } from './commands/study';
 import { resultsShow, resultsExport } from './commands/results';
 import { init } from './commands/init';
-import { train } from './commands/train';
-import {
-  coordinatorStartRound,
-  coordinatorStatus,
-  coordinatorAggregate,
-} from './commands/coordinator';
+
 import { causalCommand } from './commands/causal';
 
 const program = new Command();
@@ -46,61 +41,7 @@ program
   .option('-i, --interactive', 'Interactive mode', false)
   .action(init);
 
-// ============================================================================
-// TRAIN COMMAND (Sites - New file-based workflow)
-// ============================================================================
 
-program
-  .command('train')
-  .description('Train for one round (file-based)')
-  .option('--study-id <id>', 'Study identifier (required)')
-  .option('--round <n>', 'Round number (required)')
-  .option('--site-id <id>', 'Site identifier (required)')
-  .option('--repo-path <path>', 'Repository path', process.cwd())
-  .option('--db-type <type>', 'Database type (postgresql, sqlserver)', 'postgresql')
-  .option('--db-host <host>', 'Database host', 'localhost')
-  .option('--db-port <port>', 'Database port')
-  .option('--db-name <name>', 'Database name')
-  .option('--db-user <user>', 'Database user')
-  .option('--db-password <password>', 'Database password')
-  .option('--encryption-key <key>', 'Encryption key (hex)')
-  .action(train);
-
-// ============================================================================
-// COORDINATOR COMMANDS (New file-based workflow)
-// ============================================================================
-
-const coordinatorCommand = program
-  .command('coordinator')
-  .description('Coordinator commands (file-based)');
-
-coordinatorCommand
-  .command('start-round')
-  .description('Start a new round')
-  .option('--study-id <id>', 'Study identifier (required)')
-  .option('--round <n>', 'Round number (required)')
-  .option('--repo-path <path>', 'Repository path', process.cwd())
-  .action(coordinatorStartRound);
-
-coordinatorCommand
-  .command('status')
-  .description('Check round status')
-  .option('--study-id <id>', 'Study identifier (required)')
-  .option('--round <n>', 'Round number (required)')
-  .option('--repo-path <path>', 'Repository path', process.cwd())
-  .option('--format <format>', 'Output format (table, json)', 'table')
-  .action(coordinatorStatus);
-
-coordinatorCommand
-  .command('aggregate')
-  .description('Aggregate updates')
-  .option('--study-id <id>', 'Study identifier (required)')
-  .option('--round <n>', 'Round number (required)')
-  .option('--repo-path <path>', 'Repository path', process.cwd())
-  .option('--min-participants <n>', 'Minimum participants', '2')
-  .option('--strategy <strategy>', 'Aggregation strategy (weighted, uniform)', 'weighted')
-  .option('--encryption-key <key>', 'Encryption key (hex)')
-  .action(coordinatorAggregate);
 
 // ============================================================================
 // STUDY COMMANDS (Coordinators)
@@ -176,12 +117,7 @@ program.parse(process.argv);
 if (!process.argv.slice(2).length) {
   console.log('🔬 Harmonia - Privacy-Preserving Federated Learning\n');
   program.outputHelp();
-  console.log('\n✨ File-Based Workflow Commands:');
-  console.log('  harmonia init                     Initialize study (coordinator)');
-  console.log('  harmonia train                    Train for one round (sites)');
-  console.log('  harmonia coordinator start-round  Start a round (coordinator)');
-  console.log('  harmonia coordinator status       Check status (coordinator)');
-  console.log('  harmonia coordinator aggregate    Aggregate updates (coordinator)');
+
   console.log('\n🔬 Causal Inference Commands:');
   console.log('  harmonia causal generate-data          Generate synthetic data');
   console.log('  harmonia causal compute-bounds         Compute partial ID bounds');
@@ -195,8 +131,6 @@ if (!process.argv.slice(2).length) {
   console.log('  harmonia study start              Start training from config');
   console.log('  harmonia results show             View results');
   console.log('\nFor more help:');
-  console.log('  harmonia init --help');
-  console.log('  harmonia train --help');
-  console.log('  harmonia coordinator --help');
+  console.log('  harmonia causal --help');
   console.log('\nDocumentation: https://github.com/watilde/Harmonia/docs/');
 }
