@@ -44,6 +44,7 @@ Real-world federated networks exhibit heterogeneous assumption quality. **Questi
 **FRCI is a self-adaptive ecosystem** with inter-module feedback loops creating emergent properties:
 
 **Three feedback loops:**
+
 1. **Diagnostics → Method Selection**: Module 3 scores trigger Module 1 (bounds) or point estimation
 2. **Bound Width → Threshold Re-evaluation**: Wide bounds (>0.5) trigger stricter diagnostic thresholds
 3. **FRI → Weight Adjustment**: Low FRI sites (<1.5) are down-weighted in aggregation
@@ -53,7 +54,7 @@ Real-world federated networks exhibit heterogeneous assumption quality. **Questi
 **Emergent properties**: Self-correcting (mitigates weak sites), conservative when uncertain, efficient when confident—impossible with individual modules.
 
 ![Emergent Properties from Multi-Module Integration](figures/fig1_integration_loops.png)
-*Figure 1: Multi-module feedback loops creating emergent properties. The three modules (Diagnostics, Bounds+Aggregation, E-values) interact through automatic adjustments: diagnostic scores trigger method selection, bound widths re-evaluate thresholds, and FRI values adjust site weights. Central formula shows integrated weighting.*
+_Figure 1: Multi-module feedback loops creating emergent properties. The three modules (Diagnostics, Bounds+Aggregation, E-values) interact through automatic adjustments: diagnostic scores trigger method selection, bound widths re-evaluate thresholds, and FRI values adjust site weights. Central formula shows integrated weighting._
 
 ---
 
@@ -141,6 +142,7 @@ Output: Adaptive federated inference
 **Site 2 example (1k scale):** unconf score=0.70, FRI=1.929
 
 Individual modules (no integration):
+
 - Module 1: $w_2 = 0.333$ (equal sample-size weighting)
 - Module 2: FRI=1.929 < 2.0 → caution flag
 - Module 3: Score=0.89 > 0.8 → point estimation
@@ -163,7 +165,7 @@ Adaptive strategy: Small networks (<10k) use full pipeline (0.5s); large network
 **Table 2: Federated vs. Centralized Data Transfer**
 
 | Scale | Patients  | Centralized | Federated | Reduction |
-|-------|-----------|-------------|-----------|-----------|
+| ----- | --------- | ----------- | --------- | --------- |
 | 1k    | 1,130     | 201 KB      | 264 bytes | 762×      |
 | 100k  | 235,222   | 41.9 MB     | 264 bytes | 158,711×  |
 | 2.8m  | 2,709,803 | 482 MB      | 264 bytes | 1.8M×     |
@@ -252,6 +254,7 @@ These emergent properties create a **self-correcting ecosystem** impossible with
 We develop the first complete federated causal inference framework integrating minimax-optimal aggregation, robustness quantification, and automatic diagnostic adaptation with formal guarantees. Empirical validation across three scales (1k-2.8m patients) demonstrates linear O(n) scalability and 54k patients/sec throughput, validating production readiness.
 
 **Key contributions:**
+
 1. Integration theory with emergent properties: Multi-module feedback loops create self-correction, adaptive thresholding, and computational efficiency impossible with individual modules
 2. Large-scale validation: Demonstrated feasibility across three orders of magnitude
 3. Communication efficiency: 1.8M× reduction (264 bytes vs. 482 MB) with <1.3% utility loss

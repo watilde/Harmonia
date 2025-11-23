@@ -135,7 +135,7 @@ Under homogeneity, $\epsilon_k \approx \epsilon$ for all sites. Then any weighti
 | Conservative         | 0.4616     | 0.4014     | 0.4009     | 0.4213     | Baseline (widest)                |
 
 ![Strategy Comparison Across Scales](figures/fig1_strategy_comparison.png)
-*Figure 1: Weighting strategy performance across three dataset scales (1k, 100k, 2.8m patients). Inverse-width weighting (blue) achieves the narrowest bounds at 1k scale (15.5% improvement) and converges to sample-size weighting (orange) at larger scales. Conservative aggregation (red) produces the widest bounds. The convergence pattern validates Theorem 1's prediction: inverse-width dominates under heterogeneity (CV=6.3% at 1k) but becomes equivalent to sample-size under homogeneity (CV=0.14% at 2.8m).*
+_Figure 1: Weighting strategy performance across three dataset scales (1k, 100k, 2.8m patients). Inverse-width weighting (blue) achieves the narrowest bounds at 1k scale (15.5% improvement) and converges to sample-size weighting (orange) at larger scales. Conservative aggregation (red) produces the widest bounds. The convergence pattern validates Theorem 1's prediction: inverse-width dominates under heterogeneity (CV=6.3% at 1k) but becomes equivalent to sample-size under homogeneity (CV=0.14% at 2.8m)._
 
 **Key Findings**:
 
@@ -148,12 +148,13 @@ Under homogeneity, $\epsilon_k \approx \epsilon$ for all sites. Then any weighti
 **Convergence Pattern:**
 
 Coefficient of Variation (CV) of site-level widths:
+
 - **1k scale**: CV = 6.3% (heterogeneous)
 - **100k scale**: CV = 0.39% (converging)
 - **2.8m scale**: CV = 0.14% (homogeneous)
 
 ![Heterogeneity Convergence Pattern](figures/fig2_heterogeneity_convergence.png)
-*Figure 2: Heterogeneity convergence from 1k to 2.8m patients. Top panel shows coefficient of variation (CV) decreasing exponentially from 6.3% to 0.14%, marking the transition from heterogeneous to homogeneous regime. Bottom panel shows bound width differences between strategies collapsing from 15.5% (1k) to 0.22% (2.8m), confirming theoretical prediction that inverse-width advantage diminishes under homogeneity.*
+_Figure 2: Heterogeneity convergence from 1k to 2.8m patients. Top panel shows coefficient of variation (CV) decreasing exponentially from 6.3% to 0.14%, marking the transition from heterogeneous to homogeneous regime. Bottom panel shows bound width differences between strategies collapsing from 15.5% (1k) to 0.22% (2.8m), confirming theoretical prediction that inverse-width advantage diminishes under homogeneity._
 
 As heterogeneity decreases, all strategies converge. Under homogeneity, εₖ ≈ ε for all sites, so any weighting yields similar error. However, sampling theory implies ε ∝ 1/√nₖ, so minimum-variance estimation requires wₖ = nₖ / N (sample-size weighting). Thus, inverse-width converges to sample-size under homogeneity.
 
@@ -207,15 +208,16 @@ All dropout combinations produce width changes <0.5%, confirming interchangeabil
 **Table 2: Data Transfer Requirements**
 
 | Scale | Patients  | Centralized | Federated (All Strategies) | Reduction |
-|-------|-----------|-------------|----------------------------|-----------|
+| ----- | --------- | ----------- | -------------------------- | --------- |
 | 1k    | 1,130     | 201 KB      | 150 bytes                  | 1,341×    |
 | 100k  | 235,222   | 41.9 MB     | 150 bytes                  | 279,130×  |
 | 2.8m  | 2,709,803 | 482 MB      | 150 bytes                  | 3.2M×     |
 
 ![Communication Efficiency Comparison](figures/fig3_communication_efficiency.png)
-*Figure 3: Dramatic communication efficiency across scales. Logarithmic scale bar chart shows centralized approach (red bars) requiring 201 KB to 482 MB data transfer, growing linearly with patient count. Federated approach (green bars) maintains constant 150 bytes regardless of scale, achieving 1,341× to 3.2 million× reduction. The federated bar is barely visible at this scale, illustrating the massive efficiency gain while preserving full statistical utility.*
+_Figure 3: Dramatic communication efficiency across scales. Logarithmic scale bar chart shows centralized approach (red bars) requiring 201 KB to 482 MB data transfer, growing linearly with patient count. Federated approach (green bars) maintains constant 150 bytes regardless of scale, achieving 1,341× to 3.2 million× reduction. The federated bar is barely visible at this scale, illustrating the massive efficiency gain while preserving full statistical utility._
 
 **Per-Site Transmission (40 bytes):**
+
 - Lower bound: 8 bytes (double)
 - Upper bound: 8 bytes (double)
 - Sample size: 4 bytes (int32)
@@ -224,6 +226,7 @@ All dropout combinations produce width changes <0.5%, confirming interchangeabil
 **Total: 3 sites × 40 bytes = 120 bytes**
 
 Additional coordinator overhead for strategy comparison:
+
 - Strategy metadata: ~30 bytes (6 strategies × 5 bytes)
 - **Total: 150 bytes (constant across all scales)**
 
@@ -242,10 +245,10 @@ Additional coordinator overhead for strategy comparison:
 
 5. **Privacy-Utility Trade-off:**
 
-| Metric               | Centralized | Federated | Difference   |
-|----------------------|-------------|-----------|--------------|
-| Bound width (1k)     | 0.385       | 0.390     | +1.3%        |
-| Bound width (2.8m)   | 0.399       | 0.400     | +0.25%       |
+| Metric               | Centralized | Federated     | Difference    |
+| -------------------- | ----------- | ------------- | ------------- |
+| Bound width (1k)     | 0.385       | 0.390         | +1.3%         |
+| Bound width (2.8m)   | 0.399       | 0.400         | +0.25%        |
 | **Data transferred** | **482 MB**  | **150 bytes** | **-99.9999%** |
 
 **Conclusion:** Federated aggregation achieves 3.2M× communication reduction with <1.3% utility loss. All six strategies evaluated simultaneously without privacy compromise.
@@ -265,10 +268,11 @@ The **heterogeneity-dependence** of optimal weighting has practical implications
 **Decision rule based on site heterogeneity (CV of bound widths):**
 
 - **CV > 5%** (heterogeneous): Use inverse-width → 10-20% improvement expected
-- **CV < 1%** (homogeneous): Use sample-size → computationally simpler, equivalent performance  
+- **CV < 1%** (homogeneous): Use sample-size → computationally simpler, equivalent performance
 - **1% ≤ CV ≤ 5%** (boundary): Report both strategies as sensitivity analysis
 
 **Empirical validation from this study:**
+
 - 1k (CV=6.3%): inverse-width optimal → 15.5% improvement
 - 100k (CV=0.39%): strategies converge → 0.1% difference
 - 2.8m (CV=0.14%): homogeneous → all strategies equivalent
@@ -296,8 +300,9 @@ The **heterogeneity-dependence** of optimal weighting has practical implications
 We prove inverse-width weighting is minimax-optimal for aggregating federated Manski bounds under heterogeneity (Theorem 1). Empirical validation across three scales (1k-2.8m patients) confirms 15.5% improvement at small scale (CV=6.3%), converging to equivalence at large scale (CV=0.14%).
 
 **Key contributions:**
+
 1. Formal proof of minimax optimality via KKT conditions
-2. Systematic comparison of six strategies across three orders of magnitude  
+2. Systematic comparison of six strategies across three orders of magnitude
 3. Strategy selection guidelines based on site heterogeneity (CV threshold)
 4. Communication efficiency: 3.2M× reduction with <1.3% utility loss
 

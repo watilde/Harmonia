@@ -29,7 +29,7 @@
 Causal inference from observational data faces two fundamental challenges: (1) **Unmeasured confounding** - the strong ignorability assumption is untestable and often implausible in healthcare settings where treatment decisions involve unobserved factors; (2) **Privacy constraints** - multi-site studies cannot share individual-level data due to HIPAA, GDPR, and institutional policies. Traditional approaches either make strong unverifiable assumptions or require centralized data access. **Partial identification** offers a middle ground: by relaxing untestable assumptions, we obtain **bounds** on causal effects that are more credible than point estimates, while federated computation preserves privacy.
 
 ![Federated vs Centralized Architecture](figures/fig0_architecture_comparison.png)
-*Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months, with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy.*
+_Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months, with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy._
 
 ### 1.2 Manski Bounds and MTR Assumptions
 
@@ -144,7 +144,7 @@ subject to: Σwₖ = 1, wₖ ≥ 0
 1. **Convergence Pattern**: Site-level coefficient of variation decreases exponentially from 6.3% (1k) → 0.39% (100k) → 0.14% (2.8m), validating asymptotic stability at ~80k patients per site.
 
 ![Site-Level Bounds Convergence](figures/fig1_bounds_convergence.png)
-*Figure 1: Convergence pattern from heterogeneous to stable bounds. Blue line shows mean bound width stabilizing at 0.400 (40 percentage points). Red line shows coefficient of variation collapsing from 6.3% to 0.14%, marking transition from heterogeneity zone (CV >5%, inverse-width optimal) to homogeneity zone (CV <1%, practical convergence at ~80k patients/site).*
+_Figure 1: Convergence pattern from heterogeneous to stable bounds. Blue line shows mean bound width stabilizing at 0.400 (40 percentage points). Red line shows coefficient of variation collapsing from 6.3% to 0.14%, marking transition from heterogeneity zone (CV >5%, inverse-width optimal) to homogeneity zone (CV <1%, practical convergence at ~80k patients/site)._
 
 2. **Bound Width Stability**: Mean width stabilizes at 0.400 (40 percentage points) for scales ≥100k, indicating true population-level uncertainty rather than sampling error.
 
@@ -173,24 +173,25 @@ subject to: Σwₖ = 1, wₖ ≥ 0
 **Table 3: Data Transfer Requirements**
 
 | Scale | Total Patients | Centralized Transfer | Federated Transfer | Reduction Factor |
-|-------|---------------|---------------------|-------------------|------------------|
-| 1k    | 1,130         | 201 KB              | 150 bytes         | 1,341× (1.3K×)   |
-| 100k  | 235,222       | 41.9 MB             | 150 bytes         | 279,130× (279K×) |
-| 2.8m  | 2,709,803     | 482 MB              | 150 bytes         | 3.2M× (3.2M×)    |
+| ----- | -------------- | -------------------- | ------------------ | ---------------- |
+| 1k    | 1,130          | 201 KB               | 150 bytes          | 1,341× (1.3K×)   |
+| 100k  | 235,222        | 41.9 MB              | 150 bytes          | 279,130× (279K×) |
+| 2.8m  | 2,709,803      | 482 MB               | 150 bytes          | 3.2M× (3.2M×)    |
 
 **Centralized Baseline:** Assumes 20 covariates per patient (8 bytes each) + patient ID (16 bytes) + treatment/outcome (2 bytes) = 178 bytes per patient.
 
 **Federated Approach (Ours):** Each site transmits only 50 bytes:
+
 - Site identifier: 20 bytes (e.g., "site_1")
 - Lower bound: 8 bytes (double)
-- Upper bound: 8 bytes (double)  
+- Upper bound: 8 bytes (double)
 - Sample size: 4 bytes (int32)
 - Assumption type: 10 bytes (e.g., "mtr")
 
 **Total for 3 sites: 150 bytes** (constant regardless of patient count)
 
 ![Communication Efficiency Comparison](figures/fig2_communication_efficiency.png)
-*Figure 2: Dramatic communication reduction across scales. Red bars (centralized) show exponential growth from 201 KB to 482 MB. Green bars (federated) remain constant at 150 bytes across all scales, achieving 1,341× to 3.2 million-fold reduction.*
+_Figure 2: Dramatic communication reduction across scales. Red bars (centralized) show exponential growth from 201 KB to 482 MB. Green bars (federated) remain constant at 150 bytes across all scales, achieving 1,341× to 3.2 million-fold reduction._
 
 **Key Observations:**
 
@@ -204,7 +205,7 @@ subject to: Σwₖ = 1, wₖ ≥ 0
 3. **Privacy Guarantees:** No patient-level data transmitted—only aggregated bounds that satisfy HIPAA Safe Harbor de-identification requirements (45 C.F.R. § 164.514(b)): no individual identifiers, aggregated statistics only, group size >3.
 
 ![HIPAA Safe Harbor Compliance](figures/fig3_hipaa_safe_harbor.png)
-*Figure 3: HIPAA Safe Harbor compliance comparison. Left column (centralized, red X marks) shows identifiers present in transmitted data requiring manual de-identification. Right column (federated FRCI, green checkmarks) shows all identifiers remain local, achieving automatic Safe Harbor compliance per 45 C.F.R. § 164.514(b).*
+_Figure 3: HIPAA Safe Harbor compliance comparison. Left column (centralized, red X marks) shows identifiers present in transmitted data requiring manual de-identification. Right column (federated FRCI, green checkmarks) shows all identifiers remain local, achieving automatic Safe Harbor compliance per 45 C.F.R. § 164.514(b)._
 
 4. **Regulatory Advantages:** Sites retain all patient data locally, providing regulatory benefits:
    - **HIPAA Safe Harbor Compliance (Certain):** Transmitted bounds contain no individual identifiers from the 18-category Safe Harbor list, automatically satisfying de-identification requirements
@@ -215,23 +216,24 @@ subject to: Σwₖ = 1, wₖ ≥ 0
 
 **Regulatory Evidence Table:**
 
-| Regulatory Aspect | Centralized | Federated (Ours) | Legal Basis |
-|-------------------|-------------|------------------|-------------|
-| HIPAA Safe Harbor Status | Requires manual de-identification | Auto-satisfied (no identifiers) | 45 C.F.R. § 164.514(b) |
-| Data Use Agreement | Required for identifiable data | Not required (de-identified) | 45 C.F.R. § 164.514(e) |
-| IRB Multi-Site Coordination | Required (complex) | May be simplified (local data) | 45 C.F.R. Part 46 |
+| Regulatory Aspect           | Centralized                       | Federated (Ours)                | Legal Basis            |
+| --------------------------- | --------------------------------- | ------------------------------- | ---------------------- |
+| HIPAA Safe Harbor Status    | Requires manual de-identification | Auto-satisfied (no identifiers) | 45 C.F.R. § 164.514(b) |
+| Data Use Agreement          | Required for identifiable data    | Not required (de-identified)    | 45 C.F.R. § 164.514(e) |
+| IRB Multi-Site Coordination | Required (complex)                | May be simplified (local data)  | 45 C.F.R. Part 46      |
 
 **Comparison to Point Identification Methods:**
 
-| Approach | Data Shared | Transfer Size (2.8m) | Privacy Risk |
-|----------|-------------|---------------------|--------------|
-| Raw data pooling | All patient records | 482 MB | High (requires encryption, audit trails) |
-| Meta-analysis | Site-level statistics | ~1 KB | Low (aggregated only) |
-| Federated bounds (ours) | Only bounds | 150 bytes | Minimal (non-identifiable) |
+| Approach                | Data Shared           | Transfer Size (2.8m) | Privacy Risk                             |
+| ----------------------- | --------------------- | -------------------- | ---------------------------------------- |
+| Raw data pooling        | All patient records   | 482 MB               | High (requires encryption, audit trails) |
+| Meta-analysis           | Site-level statistics | ~1 KB                | Low (aggregated only)                    |
+| Federated bounds (ours) | Only bounds           | 150 bytes            | Minimal (non-identifiable)               |
 
 **Network Latency Analysis:**
 
 Assuming 100 Mbps connection:
+
 - Centralized (2.8m): 482 MB / 100 Mbps = **38.6 seconds** network transfer
 - Federated (ours): 150 bytes / 100 Mbps = **0.000012 seconds** (negligible)
 

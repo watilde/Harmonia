@@ -30,6 +30,7 @@ Causal inference from observational data relies on three assumptions: **unconfou
 **Federated challenge**: Multi-site studies compound this problem—sites have varying data quality, patient populations, and treatment practices, leading to heterogeneous assumption satisfaction. **Question**: Should networks use point estimation, bounds, or sensitivity analysis? Current approaches apply the same method to all sites, ignoring heterogeneity [6,7].
 
 **Our solution**: A **design-failure-aware framework** that:
+
 1. Diagnoses assumptions at each site (3-dimensional scoring)
 2. Selects inference mode automatically (point/bounds/sensitivity)
 3. Adapts to heterogeneous assumption quality
@@ -62,7 +63,7 @@ unconf_score = (1 - max(|smd|)) * overlap * (1 - |residual_cor|)
 **Interpretation**: Score > 0.8: strong exchangeability; 0.5-0.8: moderate concerns; <0.5: severe confounding.
 
 ![Three-Dimensional Diagnostic System](figures/fig1_diagnostic_system.png)
-*Figure 1: Automatic diagnostic-driven method selection framework. Three-dimensional cube shows score thresholds: green zone (>0.8) triggers point estimation, yellow zone (0.5-0.8) triggers partial identification bounds, red zone (<0.5) triggers sensitivity analysis. Three sites plotted show heterogeneous assumption quality, with Site 1 in optimal zone, Sites 2-3 near boundaries.*
+_Figure 1: Automatic diagnostic-driven method selection framework. Three-dimensional cube shows score thresholds: green zone (>0.8) triggers point estimation, yellow zone (0.5-0.8) triggers partial identification bounds, red zone (<0.5) triggers sensitivity analysis. Three sites plotted show heterogeneous assumption quality, with Site 1 in optimal zone, Sites 2-3 near boundaries._
 
 #### 2.1.2 Positivity Score
 
@@ -213,7 +214,7 @@ federated_score = Σ(n_k / N) * overall_score_k
 **Table 2: Data Transfer Requirements**
 
 | Scale | Patients  | Centralized | Federated | Reduction |
-|-------|-----------|-------------|-----------|-----------|
+| ----- | --------- | ----------- | --------- | --------- |
 | 1k    | 1,130     | 201 KB      | 150 bytes | 1,341×    |
 | 100k  | 235,222   | 41.9 MB     | 150 bytes | 279,130×  |
 | 2.8m  | 2,709,803 | 482 MB      | 150 bytes | 3.2M×     |
@@ -232,7 +233,7 @@ federated_score = Σ(n_k / N) * overall_score_k
    - Site A: psychiatric history (stigmatizing)
    - Site B: genetic risk factors (sensitive)
    - Site C: treatment adherence (standard)
-   
+
    Centralized exposes all covariates; federated transmits only 0-1 scores, hiding covariate presence entirely.
 
 4. **Privacy Guarantees:** HIPAA Safe Harbor compliant (no individual identifiers, 45 C.F.R. § 164.514(b)). No Data Use Agreements required for de-identified scores. Zero utility loss: scalar scores capture all information for mode selection while hiding underlying distributions.
@@ -297,6 +298,7 @@ The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds,
 We develop the first three-dimensional diagnostic framework (unconfoundedness, positivity, specification) for federated causal inference with automatic mode selection. Empirical validation across three scales (1k-2.8m patients) demonstrates heterogeneity detection (CV=7.2%) and linear O(n) scalability. Explicit safeguards prevent overconfident inference in heterogeneous networks.
 
 **Key contributions:**
+
 1. Automatic diagnostic framework with threshold-based mode selection (>0.8→point, 0.5-0.8→bounds, <0.5→sensitivity)
 2. Empirical validation across three orders of magnitude with real OMOP data
 3. Communication efficiency: 3.2M× reduction with complete covariate privacy (0% disclosure)

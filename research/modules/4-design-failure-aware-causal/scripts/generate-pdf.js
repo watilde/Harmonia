@@ -19,17 +19,17 @@ async function generatePDF(markdownFile, outputPDF) {
 
     // Get the directory of the markdown file for resolving relative paths
     const markdownDir = path.dirname(path.resolve(markdownFile));
-    
+
     // Convert images to base64 and embed directly
     let processedHtml = html;
     const imageRegex = /src="figures\/([^"]+)"/g;
     let match;
     let imageCount = 0;
-    
+
     while ((match = imageRegex.exec(html)) !== null) {
       const imageName = match[1];
       const imagePath = path.join(markdownDir, 'figures', imageName);
-      
+
       try {
         if (fs.existsSync(imagePath)) {
           const imageData = fs.readFileSync(imagePath);
@@ -37,11 +37,8 @@ async function generatePDF(markdownFile, outputPDF) {
           const ext = path.extname(imageName).substring(1);
           const mimeType = ext === 'png' ? 'image/png' : 'image/jpeg';
           const dataUrl = `data:${mimeType};base64,${base64Image}`;
-          
-          processedHtml = processedHtml.replace(
-            `src="figures/${imageName}"`,
-            `src="${dataUrl}"`
-          );
+
+          processedHtml = processedHtml.replace(`src="figures/${imageName}"`, `src="${dataUrl}"`);
           imageCount++;
           console.log(`  ✓ Embedded image: ${imageName}`);
         } else {
@@ -51,7 +48,7 @@ async function generatePDF(markdownFile, outputPDF) {
         console.warn(`  ⚠ Failed to load image ${imageName}: ${err.message}`);
       }
     }
-    
+
     console.log(`  ✓ Total images embedded: ${imageCount}`);
 
     // Create full HTML document with styling and MathJax
@@ -185,23 +182,26 @@ ${processedHtml}
 
     // Set content
     console.log('  Rendering HTML...');
-    await page.setContent(fullHTML, { 
-      waitUntil: ['load', 'domcontentloaded', 'networkidle0'] 
+    await page.setContent(fullHTML, {
+      waitUntil: ['load', 'domcontentloaded', 'networkidle0'],
     });
-    
+
     // Wait for images to load
     await page.evaluate(() => {
       return Promise.all(
         Array.from(document.images)
-          .filter(img => !img.complete)
-          .map(img => new Promise(resolve => {
-            img.onload = img.onerror = resolve;
-          }))
+          .filter((img) => !img.complete)
+          .map(
+            (img) =>
+              new Promise((resolve) => {
+                img.onload = img.onerror = resolve;
+              })
+          )
       );
     });
-    
+
     // Wait for MathJax to render
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Generate PDF
     console.log('  Generating PDF...');

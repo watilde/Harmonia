@@ -32,6 +32,7 @@ Causal inference from observational data requires addressing unmeasured confound
 **Gap**: E-values are single-site metrics. In federated settings, **how should site-level E-values be aggregated with validity guarantees?**
 
 **Example - 3-hospital diabetes network:**
+
 - Academic (n=900): E-value=2.8 (robust)
 - Community A (n=380): E-value=1.6 (moderate)
 - Community B (n=380): E-value=1.9 (moderate)
@@ -116,7 +117,7 @@ Primary focus: Sample-size weighting (theoretically justified, see Section 2.4).
 **Problem**: How to interpret FRI values? When is FRI "high enough" for clinical recommendations?
 
 ![Decision-Theoretic E-value Thresholds](figures/fig1_evalue_thresholds.png)
-*Figure 1: Decision-theoretic framework for interpreting Federated Robustness Index (FRI) values. The color-coded zones (red: exploratory, yellow: clinical guidelines, green: regulatory approval) match FRI thresholds to clinical stakes and risk tolerance.*
+_Figure 1: Decision-theoretic framework for interpreting Federated Robustness Index (FRI) values. The color-coded zones (red: exploratory, yellow: clinical guidelines, green: regulatory approval) match FRI thresholds to clinical stakes and risk tolerance._
 
 **Decision-theoretic framework**:
 
@@ -235,7 +236,7 @@ E-value formula: $E = RR + \sqrt{RR \times (RR - 1)}$
 **Table 2: Data Transfer Requirements**
 
 | Scale | Patients  | Centralized | Federated | Reduction |
-|-------|-----------|-------------|-----------|-----------|
+| ----- | --------- | ----------- | --------- | --------- |
 | 1k    | 1,130     | 201 KB      | 174 bytes | 1,156×    |
 | 100k  | 235,222   | 41.9 MB     | 174 bytes | 240,805×  |
 | 2.8m  | 2,709,803 | 482 MB      | 174 bytes | 2.8M×     |
@@ -251,10 +252,10 @@ E-value formula: $E = RR + \sqrt{RR \times (RR - 1)}$
 3. **Unique Confounder Privacy Advantage:** Sites compute E-values using local confounders without revealing which variables were measured. Centralized analysis exposes full covariate structure (100% disclosure); federated hides it (0% disclosure).
 
    **Example - 3-hospital psychiatric study:**
-   - Site A: genetic markers (stigmatizing) 
+   - Site A: genetic markers (stigmatizing)
    - Site B: socioeconomic factors (sensitive)
    - Site C: compliance (standard)
-   
+
    Centralized exposes all confounders to network; federated transmits only scalar E-values.
 
 4. **Privacy Guarantees:** HIPAA Safe Harbor compliant (no individual identifiers, 45 C.F.R. § 164.514(b)). No Data Use Agreements required for de-identified E-values. Differential privacy compatible via Laplace noise: $E'_k = E_k + \text{Lap}(0, \Delta/\epsilon)$.
@@ -322,6 +323,7 @@ Our 2.8m-patient federated analysis yielded FRI=2.15, indicating an unmeasured c
 We prove FRI preserves robustness guarantees under convex aggregation (Theorem 1) and validate convergence across three scales (1.961→2.149, CV: 9.7%→0.16%). Decision-theoretic thresholds (FRI>3.0 high-stakes, >2.0 moderate, >1.5 exploratory) transform E-values into prescriptive decision tools.
 
 **Key contributions:**
+
 1. First formal proof of federated E-value validity
 2. Decision-theoretic threshold calibration grounded in cost-benefit analysis
 3. Empirical validation across three orders of magnitude (1k-2.8m patients)

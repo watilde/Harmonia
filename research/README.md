@@ -22,6 +22,7 @@ research/
 ```
 
 Each module contains:
+
 - `manuscripts/` — Papers and figures
 - `experiments/` — Validation scripts
 - `scripts/` — PDF generation
@@ -29,12 +30,14 @@ Each module contains:
 ## Usage
 
 **Generate PDFs:**
+
 ```bash
 cd research/modules/1-manski-bounds
 node scripts/generate-pdf.js
 ```
 
 **Run experiments:**
+
 ```bash
 cd research/modules/1-manski-bounds
 bash experiments/run-manski-experiment.sh

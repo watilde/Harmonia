@@ -29,14 +29,15 @@ for (const scale of scales) {
   const numCovariates = 20;
   const bytesPerPatient = numCovariates * 8 + 18;
   const centralizedBytes = scale.patients * bytesPerPatient;
-  
+
   const federatedBytesPerSite = 50; // siteId(20) + bounds(16) + sampleSize(4) + assumption(10)
   const federatedBytes = federatedBytesPerSite * 3; // 3 sites
-  
+
   const reductionFactor = centralizedBytes / federatedBytes;
-  const magnitude = reductionFactor > 1e6 
-    ? `${(reductionFactor / 1e6).toFixed(1)}M×`
-    : `${(reductionFactor / 1e3).toFixed(1)}K×`;
+  const magnitude =
+    reductionFactor > 1e6
+      ? `${(reductionFactor / 1e6).toFixed(1)}M×`
+      : `${(reductionFactor / 1e3).toFixed(1)}K×`;
 
   results.push({
     scale: scale.name,
