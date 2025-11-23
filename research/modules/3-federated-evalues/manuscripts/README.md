@@ -21,12 +21,12 @@ Manuscript on multi-site sensitivity analysis using E-values.
 
 ## 📈 Main Results
 
-| ρ (Confounding) | FRI | Decline | Detection |
-|-----------------|-----|---------|-----------|
-| 0.0 (Baseline) | 2.65 | — | — |
-| 0.2 (Weak) | 2.30 | -13.2% | — |
-| 0.5 (Moderate) | 1.85 | -30.2% | AUC=0.89 |
-| 0.8 (Strong) | 1.41 | -46.8% | — |
+| ρ (Confounding) | FRI  | Decline | Detection |
+| --------------- | ---- | ------- | --------- |
+| 0.0 (Baseline)  | 2.65 | —       | —         |
+| 0.2 (Weak)      | 2.30 | -13.2%  | —         |
+| 0.5 (Moderate)  | 1.85 | -30.2%  | AUC=0.89  |
+| 0.8 (Strong)    | 1.41 | -46.8%  | —         |
 
 ---
 

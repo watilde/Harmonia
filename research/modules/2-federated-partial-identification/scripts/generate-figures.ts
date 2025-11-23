@@ -2,7 +2,7 @@
 /**
  * Generate figures for Federated Partial Identification manuscript
  * Module 1: Optimal weighting strategies for federated bounds
- * 
+ *
  * Creates publication-quality graphs for research paper
  */
 
@@ -41,10 +41,7 @@ const colors = {
 /**
  * Save Chart.js figure as PNG
  */
-async function saveFigureAsPNG(
-  config: ChartConfiguration,
-  outputPath: string
-): Promise<void> {
+async function saveFigureAsPNG(config: ChartConfiguration, outputPath: string): Promise<void> {
   mkdirSync(dirname(outputPath), { recursive: true });
   const buffer = await chartJSNodeCanvas.renderToBuffer(config);
   writeFileSync(outputPath, buffer);
@@ -75,7 +72,10 @@ async function generateFigures(): Promise<void> {
       plugins: {
         title: {
           display: true,
-          text: ['Figure 1: Bound Width by Aggregation Strategy', '(Imbalanced Sites: n=100, 334, 1000)'],
+          text: [
+            'Figure 1: Bound Width by Aggregation Strategy',
+            '(Imbalanced Sites: n=100, 334, 1000)',
+          ],
           font: { size: 18, weight: 'bold' },
           padding: 20,
         },
@@ -114,7 +114,7 @@ async function generateFigures(): Promise<void> {
         },
         {
           label: 'Mean Width',
-          data: [0.482, 0.479, 0.490, 0.480],
+          data: [0.482, 0.479, 0.49, 0.48],
           backgroundColor: colors.red,
           borderColor: 'black',
           borderWidth: 2,
@@ -139,13 +139,22 @@ async function generateFigures(): Promise<void> {
       },
       scales: {
         x: {
-          title: { display: true, text: 'Aggregation Strategy', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'Aggregation Strategy',
+            font: { size: 16, weight: 'bold' },
+          },
           ticks: { font: { size: 14 } },
         },
         y: {
           type: 'linear',
           position: 'left',
-          title: { display: true, text: 'Coverage (%)', font: { size: 16, weight: 'bold' }, color: colors.blue },
+          title: {
+            display: true,
+            text: 'Coverage (%)',
+            font: { size: 16, weight: 'bold' },
+            color: colors.blue,
+          },
           min: 90,
           max: 100,
           grid: { color: '#e0e0e0' },
@@ -154,9 +163,14 @@ async function generateFigures(): Promise<void> {
         y1: {
           type: 'linear',
           position: 'right',
-          title: { display: true, text: 'Mean Width', font: { size: 16, weight: 'bold' }, color: colors.red },
+          title: {
+            display: true,
+            text: 'Mean Width',
+            font: { size: 16, weight: 'bold' },
+            color: colors.red,
+          },
           min: 0.47,
-          max: 0.50,
+          max: 0.5,
           grid: { drawOnChartArea: false },
           ticks: { font: { size: 14 } },
         },
@@ -170,12 +184,19 @@ async function generateFigures(): Promise<void> {
 
   // Figure 3: 10-Hospital Vasopressor Study
   const hospitals = [
-    'Academic 1', 'Academic 2', 'Academic 3', 'Academic 4',
-    'Community 1', 'Community 2', 'Community 3', 'Community 4',
-    'Community 5', 'Community 6',
+    'Academic 1',
+    'Academic 2',
+    'Academic 3',
+    'Academic 4',
+    'Community 1',
+    'Community 2',
+    'Community 3',
+    'Community 4',
+    'Community 5',
+    'Community 6',
   ];
-  const lowerBounds = [0.12, 0.11, 0.13, 0.12, 0.08, 0.07, 0.09, 0.06, 0.08, 0.10];
-  const upperBounds = [0.38, 0.37, 0.39, 0.38, 0.42, 0.43, 0.41, 0.44, 0.42, 0.40];
+  const lowerBounds = [0.12, 0.11, 0.13, 0.12, 0.08, 0.07, 0.09, 0.06, 0.08, 0.1];
+  const upperBounds = [0.38, 0.37, 0.39, 0.38, 0.42, 0.43, 0.41, 0.44, 0.42, 0.4];
 
   const fig3Config: ChartConfiguration = {
     type: 'scatter',
@@ -225,7 +246,11 @@ async function generateFigures(): Promise<void> {
           ticks: { font: { size: 12 }, maxRotation: 45, minRotation: 45 },
         },
         y: {
-          title: { display: true, text: 'Vasopressor Effect Bounds', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'Vasopressor Effect Bounds',
+            font: { size: 16, weight: 'bold' },
+          },
           grid: { color: '#e0e0e0' },
           ticks: { font: { size: 14 } },
         },

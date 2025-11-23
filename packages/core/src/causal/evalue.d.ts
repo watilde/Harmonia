@@ -9,14 +9,14 @@
  * the observed effect.
  */
 export interface EvalueResult {
-    evalue: number;
-    interpretation: string;
-    robustness_level: 'none' | 'weak' | 'moderate' | 'good' | 'strong';
+  evalue: number;
+  interpretation: string;
+  robustness_level: 'none' | 'weak' | 'moderate' | 'good' | 'strong';
 }
 export interface BoundEvalues {
-    conservative: EvalueResult;
-    optimistic: EvalueResult;
-    bounds_include_null: boolean;
+  conservative: EvalueResult;
+  optimistic: EvalueResult;
+  bounds_include_null: boolean;
 }
 /**
  * Compute E-value for a risk ratio
@@ -51,7 +51,11 @@ export declare function computeEvalueFromATE(ate: number, baseline_risk?: number
  * @param baseline_risk - Optional baseline risk
  * @returns Conservative and optimistic E-values
  */
-export declare function computeEvaluesForBounds(lower: number, upper: number, baseline_risk?: number): BoundEvalues;
+export declare function computeEvaluesForBounds(
+  lower: number,
+  upper: number,
+  baseline_risk?: number
+): BoundEvalues;
 /**
  * Format E-value result for display
  */
@@ -64,7 +68,11 @@ export declare function formatEvalue(result: EvalueResult): string;
  * @param baseline_risk - Optional baseline risk
  * @returns E-value for CI limit closer to null
  */
-export declare function computeEvalueForCI(ci_lower: number, ci_upper: number, baseline_risk?: number): EvalueResult;
+export declare function computeEvalueForCI(
+  ci_lower: number,
+  ci_upper: number,
+  baseline_risk?: number
+): EvalueResult;
 /**
  * Compute bias factor for given confounding strength
  *

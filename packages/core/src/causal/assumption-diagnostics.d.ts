@@ -12,26 +12,26 @@
  * - 0.0: Severe violation
  */
 export interface Patient {
-    person_id: string;
-    treatment: 0 | 1;
-    outcome: 0 | 1;
-    age?: number;
-    gender?: string;
-    covariates?: Record<string, number>;
-    propensity_score?: number;
+  person_id: string;
+  treatment: 0 | 1;
+  outcome: 0 | 1;
+  age?: number;
+  gender?: string;
+  covariates?: Record<string, number>;
+  propensity_score?: number;
 }
 export interface AssumptionScores {
-    unconfoundedness_score: number;
-    positivity_score: number;
-    specification_score: number;
-    overall_score: number;
+  unconfoundedness_score: number;
+  positivity_score: number;
+  specification_score: number;
+  overall_score: number;
 }
 export interface ViolationDetails {
-    assumption: 'unconfoundedness' | 'positivity' | 'specification';
-    score: number;
-    severity: 'none' | 'mild' | 'moderate' | 'severe';
-    description: string;
-    recommendation: string;
+  assumption: 'unconfoundedness' | 'positivity' | 'specification';
+  score: number;
+  severity: 'none' | 'mild' | 'moderate' | 'severe';
+  description: string;
+  recommendation: string;
 }
 /**
  * Detect unconfoundedness violation

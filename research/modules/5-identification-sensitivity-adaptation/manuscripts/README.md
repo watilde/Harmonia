@@ -15,14 +15,17 @@
 The FRCI framework integrates three modules for robust federated causal inference:
 
 ### Module 1: Optimal Aggregation
+
 - Inverse-width weighting reduces bounds by 2.2% vs sample-size
 - Best strategy for heterogeneous sites
 
-### Module 2: Robustness Quantification  
+### Module 2: Robustness Quantification
+
 - FRI correlates with confounding (r=-0.96)
 - AUC=0.89 for detecting moderate confounding
 
 ### Module 3: Automatic Adaptation
+
 - 90% mode selection accuracy
 - 94% coverage vs 82.8% for fixed methods
 
@@ -31,6 +34,7 @@ The FRCI framework integrates three modules for robust federated causal inferenc
 ## 📈 Integrated Results
 
 **End-to-end heterogeneous network** (10 sites):
+
 - 23% → Sensitivity analysis (≥1 site score <0.5)
 - 51% → Bounds aggregation (all sites 0.5-0.8)
 - 26% → Point estimation (all sites >0.8)
@@ -62,7 +66,7 @@ cd research/modules/5-frci
 
 # Individual modules
 cd experiments/paper1-federated-partial-id && ./run-experiment.sh
-cd experiments/paper2-federated-robustness && ./run-experiment.sh  
+cd experiments/paper2-federated-robustness && ./run-experiment.sh
 cd experiments/paper3-design-failure-aware && ./run-experiment.sh
 ```
 
@@ -70,11 +74,11 @@ cd experiments/paper3-design-failure-aware && ./run-experiment.sh
 
 ## 📊 Comparison with Existing Methods
 
-| Framework | Privacy | Validity | Robustness | Adaptation |
-|-----------|---------|----------|------------|------------|
-| Federated TMLE | ✅ | ❌ | ❌ | ❌ |
-| Federated PSM | ✅ | ❌ | ❌ | ❌ |
-| **FRCI** | **✅** | **✅** | **✅** | **✅** |
+| Framework      | Privacy | Validity | Robustness | Adaptation |
+| -------------- | ------- | -------- | ---------- | ---------- |
+| Federated TMLE | ✅      | ❌       | ❌         | ❌         |
+| Federated PSM  | ✅      | ❌       | ❌         | ❌         |
+| **FRCI**       | **✅**  | **✅**   | **✅**     | **✅**     |
 
 ---
 

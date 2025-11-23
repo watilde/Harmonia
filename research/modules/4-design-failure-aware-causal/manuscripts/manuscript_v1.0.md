@@ -34,6 +34,7 @@ Causal inference from observational data relies on three core assumptions [1,2]:
 3. **Specification**: Models correctly capture functional form
 
 **Problem**: These assumptions are **empirically unverifiable** in observational data [3]. When violated:
+
 - Point estimates are biased
 - Confidence intervals understate uncertainty
 - Clinical decisions may be misguided
@@ -44,11 +45,11 @@ Causal inference from observational data relies on three core assumptions [1,2]:
 
 Multi-site studies compound assumption challenges:
 
-| Site | Population | Data Quality | Assumption Scores |
-|------|------------|--------------|-------------------|
-| Academic Hospital | ICU patients | High | Unconf: 0.85, Pos: 0.90 |
-| Community Hospital | General ward | Medium | Unconf: 0.65, Pos: 0.70 |
-| Rural Clinic | Outpatient | Low | Unconf: 0.45, Pos: 0.55 |
+| Site               | Population   | Data Quality | Assumption Scores       |
+| ------------------ | ------------ | ------------ | ----------------------- |
+| Academic Hospital  | ICU patients | High         | Unconf: 0.85, Pos: 0.90 |
+| Community Hospital | General ward | Medium       | Unconf: 0.65, Pos: 0.70 |
+| Rural Clinic       | Outpatient   | Low          | Unconf: 0.45, Pos: 0.55 |
 
 **Question**: Should we use point estimation (academic), bounds (community), or sensitivity analysis (rural) for the **network**?
 
@@ -90,6 +91,7 @@ unconf_score = 1 - |residual_cor| - max(|smd|) + overlap
 ```
 
 **Interpretation**:
+
 - Score > 0.8: Strong evidence of exchangeability
 - 0.5 - 0.8: Moderate concerns
 - < 0.5: Severe residual confounding
@@ -106,11 +108,12 @@ tail_mass = sum(ps < 0.1) + sum(ps > 0.9)  # Proportion in tails
 # Effective sample size
 n_eff = 1 / sum((ps * (1-ps))^{-2})
 
-# Score  
+# Score
 pos_score = 1 - (tail_mass / n) + (n_eff / n)
 ```
 
 **Interpretation**:
+
 - Score > 0.8: Good overlap
 - 0.5 - 0.8: Some positivity violations
 - < 0.5: Severe overlap issues
@@ -124,7 +127,7 @@ pos_score = 1 - (tail_mass / n) + (n_eff / n)
 R2_Y = explained_variance(Y, Y_pred)
 residual_patterns = test_residual_autocorrelation()
 
-# Propensity model fit  
+# Propensity model fit
 AUC_T = roc_auc(T, T_pred)
 calibration = hosmer_lemeshow_test()
 
@@ -133,6 +136,7 @@ spec_score = (R2_Y + AUC_T + calibration) / 3
 ```
 
 **Interpretation**:
+
 - Score > 0.8: Good model fit
 - 0.5 - 0.8: Some misspecification
 - < 0.5: Severe misspecification
@@ -175,14 +179,15 @@ ELSE:
 
 **Controlled Violation Injection**:
 
-| Scenario | Unconfoundedness | Positivity | Specification | Expected Mode |
-|----------|------------------|------------|---------------|---------------|
-| **Clean** | No violations | Full overlap | Correct models | Point estimate |
-| **Mild** | r² < 0.1 | 5% tails | AUC > 0.9 | Point/Bounds |
-| **Moderate** | 0.1 ≤ r² < 0.3 | 15% tails | 0.7 < AUC < 0.9 | Bounds |
-| **Severe** | r² ≥ 0.3 | 30% tails | AUC < 0.7 | Sensitivity |
+| Scenario     | Unconfoundedness | Positivity   | Specification   | Expected Mode  |
+| ------------ | ---------------- | ------------ | --------------- | -------------- |
+| **Clean**    | No violations    | Full overlap | Correct models  | Point estimate |
+| **Mild**     | r² < 0.1         | 5% tails     | AUC > 0.9       | Point/Bounds   |
+| **Moderate** | 0.1 ≤ r² < 0.3   | 15% tails    | 0.7 < AUC < 0.9 | Bounds         |
+| **Severe**   | r² ≥ 0.3         | 30% tails    | AUC < 0.7       | Sensitivity    |
 
 **Validation**:
+
 1. Generate data with controlled violations
 2. Compute diagnostic scores
 3. Assess mode selection accuracy
@@ -194,23 +199,23 @@ ELSE:
 
 ### 3.1 Diagnostic Score Distribution
 
-| Scenario | Unconf. Score | Positivity Score | Specif. Score | Overall Score | Selected Mode |
-|----------|---------------|------------------|---------------|---------------|---------------|
-| Clean | 0.92 ± 0.04 | 0.94 ± 0.03 | 0.91 ± 0.05 | **0.92** | Point estimate |
-| Mild | 0.78 ± 0.06 | 0.82 ± 0.05 | 0.76 ± 0.07 | **0.79** | Point/Bounds |
-| Moderate | 0.61 ± 0.08 | 0.65 ± 0.07 | 0.59 ± 0.09 | **0.62** | Bounds |
-| Severe | 0.38 ± 0.10 | 0.42 ± 0.09 | 0.35 ± 0.11 | **0.38** | Sensitivity |
+| Scenario | Unconf. Score | Positivity Score | Specif. Score | Overall Score | Selected Mode  |
+| -------- | ------------- | ---------------- | ------------- | ------------- | -------------- |
+| Clean    | 0.92 ± 0.04   | 0.94 ± 0.03      | 0.91 ± 0.05   | **0.92**      | Point estimate |
+| Mild     | 0.78 ± 0.06   | 0.82 ± 0.05      | 0.76 ± 0.07   | **0.79**      | Point/Bounds   |
+| Moderate | 0.61 ± 0.08   | 0.65 ± 0.07      | 0.59 ± 0.09   | **0.62**      | Bounds         |
+| Severe   | 0.38 ± 0.10   | 0.42 ± 0.09      | 0.35 ± 0.11   | **0.38**      | Sensitivity    |
 
 **Key finding**: Diagnostic scores successfully discriminate violation severity (ANOVA p < 0.001).
 
 ### 3.2 Mode Selection Accuracy
 
-| True Scenario | Predicted Mode | Accuracy | Precision | Recall |
-|---------------|----------------|----------|-----------|--------|
-| Clean → Point | Point estimate | **94%** | 0.92 | 0.96 |
-| Mild → Point/Bounds | Mixed | **87%** | 0.85 | 0.89 |
-| Moderate → Bounds | Bounds | **89%** | 0.87 | 0.91 |
-| Severe → Sensitivity | Sensitivity | **91%** | 0.89 | 0.93 |
+| True Scenario        | Predicted Mode | Accuracy | Precision | Recall |
+| -------------------- | -------------- | -------- | --------- | ------ |
+| Clean → Point        | Point estimate | **94%**  | 0.92      | 0.96   |
+| Mild → Point/Bounds  | Mixed          | **87%**  | 0.85      | 0.89   |
+| Moderate → Bounds    | Bounds         | **89%**  | 0.87      | 0.91   |
+| Severe → Sensitivity | Sensitivity    | **91%**  | 0.89      | 0.93   |
 
 **Overall accuracy**: 90.3% (95% CI: 88.1%-92.5%)
 
@@ -220,14 +225,15 @@ ELSE:
 
 Compare confidence interval/bound coverage at nominal 95% level:
 
-| Method | Clean | Mild | Moderate | Severe | Average |
-|--------|-------|------|----------|--------|---------|
-| **Standard point estimate** | 95% | 91% | 78% | 67% | 82.8% |
-| **Adaptive (our method)** | 95% | 93% | 94% | 94% | **94.0%** |
-| **Always bounds** | 98% | 97% | 96% | 95% | 96.5% (over-conservative) |
-| **Always sensitivity** | 99% | 98% | 97% | 96% | 97.5% (very conservative) |
+| Method                      | Clean | Mild | Moderate | Severe | Average                   |
+| --------------------------- | ----- | ---- | -------- | ------ | ------------------------- |
+| **Standard point estimate** | 95%   | 91%  | 78%      | 67%    | 82.8%                     |
+| **Adaptive (our method)**   | 95%   | 93%  | 94%      | 94%    | **94.0%**                 |
+| **Always bounds**           | 98%   | 97%  | 96%      | 95%    | 96.5% (over-conservative) |
+| **Always sensitivity**      | 99%   | 98%  | 97%      | 96%    | 97.5% (very conservative) |
 
 **Key findings**:
+
 1. ✅ **Adaptive method maintains validity** across all scenarios (94% avg coverage)
 2. ❌ **Standard methods fail under violations** (67% coverage in severe case)
 3. ⚠️ **Always-conservative approaches** sacrifice precision unnecessarily in clean data
@@ -236,13 +242,14 @@ Compare confidence interval/bound coverage at nominal 95% level:
 
 **Scenario**: 3 sites with different violation levels
 
-| Site | Sample Size | Violation Level | Score | Site Mode |
-|------|-------------|-----------------|-------|-----------|
-| Site 1 | 1000 | Clean | 0.89 | Point estimate |
-| Site 2 | 334 | Moderate | 0.65 | Bounds |
-| Site 3 | 100 | Severe | 0.42 | Sensitivity |
+| Site   | Sample Size | Violation Level | Score | Site Mode      |
+| ------ | ----------- | --------------- | ----- | -------------- |
+| Site 1 | 1000        | Clean           | 0.89  | Point estimate |
+| Site 2 | 334         | Moderate        | 0.65  | Bounds         |
+| Site 3 | 100         | Severe          | 0.42  | Sensitivity    |
 
 **Federated decision**:
+
 - Weighted score = 0.78 (borderline)
 - Minimum score = 0.42 (Site 3)
 - **Network mode** = **Sensitivity analysis** (conservative)
@@ -250,19 +257,20 @@ Compare confidence interval/bound coverage at nominal 95% level:
 **Rationale**: Weakest site (Site 3) dictates network-wide caution, preventing overconfidence from strong sites.
 
 **Frequency**: In 1,000 heterogeneous simulations:
+
 - 23% triggered network-wide sensitivity analysis
 - 51% triggered bounds
 - 26% allowed point estimation (all sites clean)
 
 ### 3.5 Computational Cost
 
-| Operation | Per-Site Time | Memory |
-|-----------|---------------|--------|
-| Diagnostic computation | 127ms | 45MB |
-| Mode selection | <1ms | <1MB |
-| Point estimation (if selected) | 89ms | 38MB |
-| Bounds (if selected) | 45ms | 22MB |
-| Sensitivity (if selected) | 102ms | 51MB |
+| Operation                      | Per-Site Time | Memory |
+| ------------------------------ | ------------- | ------ |
+| Diagnostic computation         | 127ms         | 45MB   |
+| Mode selection                 | <1ms          | <1MB   |
+| Point estimation (if selected) | 89ms          | 38MB   |
+| Bounds (if selected)           | 45ms          | 22MB   |
+| Sensitivity (if selected)      | 102ms         | 51MB   |
 
 **Total overhead**: Diagnostics add ~15% computational cost but prevent invalid inference.
 
@@ -273,24 +281,25 @@ To verify diagnostic accuracy and inference validity, we conducted 1,000 Monte C
 #### 3.6.1 Diagnostic Score Stability
 
 | Scenario | Unconf. (Mean±SD) | Positivity (Mean±SD) | Spec. (Mean±SD) | Overall (Mean±SD) |
-|----------|-------------------|----------------------|-----------------|-------------------|
-| Clean | 0.92±0.04 | 0.94±0.03 | 0.91±0.05 | 0.92±0.03 |
-| Mild | 0.78±0.06 | 0.82±0.05 | 0.76±0.07 | 0.79±0.05 |
-| Moderate | 0.61±0.08 | 0.65±0.07 | 0.59±0.09 | 0.62±0.06 |
-| Severe | 0.38±0.10 | 0.42±0.09 | 0.35±0.11 | 0.38±0.08 |
+| -------- | ----------------- | -------------------- | --------------- | ----------------- |
+| Clean    | 0.92±0.04         | 0.94±0.03            | 0.91±0.05       | 0.92±0.03         |
+| Mild     | 0.78±0.06         | 0.82±0.05            | 0.76±0.07       | 0.79±0.05         |
+| Moderate | 0.61±0.08         | 0.65±0.07            | 0.59±0.09       | 0.62±0.06         |
+| Severe   | 0.38±0.10         | 0.42±0.09            | 0.35±0.11       | 0.38±0.08         |
 
 **Key finding**: Low variance across iterations (SD ≤ 0.11) indicates stable diagnostics.
 
 #### 3.6.2 Coverage by True Violation Level
 
-| True Violation | Selected Mode (%) | Coverage (95% nominal) | Width | Bias |
-|----------------|-------------------|------------------------|-------|------|
-| Clean | Point: 94%, Bounds: 6% | 95.2% | 0.14 | 0.001 |
-| Mild | Point: 43%, Bounds: 54%, Sens: 3% | 93.1% | 0.18 | 0.003 |
-| Moderate | Bounds: 89%, Sens: 8%, Point: 3% | 94.0% | 0.31 | 0.002 |
-| Severe | Sens: 91%, Bounds: 9% | 94.2% | 0.48 | 0.004 |
+| True Violation | Selected Mode (%)                 | Coverage (95% nominal) | Width | Bias  |
+| -------------- | --------------------------------- | ---------------------- | ----- | ----- |
+| Clean          | Point: 94%, Bounds: 6%            | 95.2%                  | 0.14  | 0.001 |
+| Mild           | Point: 43%, Bounds: 54%, Sens: 3% | 93.1%                  | 0.18  | 0.003 |
+| Moderate       | Bounds: 89%, Sens: 8%, Point: 3%  | 94.0%                  | 0.31  | 0.002 |
+| Severe         | Sens: 91%, Bounds: 9%             | 94.2%                  | 0.48  | 0.004 |
 
 **Key findings**:
+
 1. ✅ **Adaptive method maintains coverage**: ≥93.1% across all scenarios
 2. ✅ **Minimal bias**: |bias| ≤ 0.004 in all cases
 3. ✅ **Width appropriately increases**: 0.14 (clean) → 0.48 (severe) reflecting uncertainty
@@ -299,11 +308,11 @@ To verify diagnostic accuracy and inference validity, we conducted 1,000 Monte C
 
 Diagnostic performance for detecting violations (score < 0.8):
 
-| Violation Type | AUC | Sensitivity | Specificity | Threshold |
-|----------------|-----|-------------|-------------|------------|
-| Any violation | 0.94 | 89% | 92% | score < 0.80 |
-| Moderate+ | 0.91 | 87% | 89% | score < 0.65 |
-| Severe | 0.96 | 91% | 94% | score < 0.50 |
+| Violation Type | AUC  | Sensitivity | Specificity | Threshold    |
+| -------------- | ---- | ----------- | ----------- | ------------ |
+| Any violation  | 0.94 | 89%         | 92%         | score < 0.80 |
+| Moderate+      | 0.91 | 87%         | 89%         | score < 0.65 |
+| Severe         | 0.96 | 91%         | 94%         | score < 0.50 |
 
 **Clinical interpretation**: Diagnostic scores reliably detect assumption violations (AUC ≥ 0.91).
 
@@ -325,12 +334,12 @@ Diagnostic performance for detecting violations (score < 0.8):
 
 ### 4.2 Comparison with Existing Approaches
 
-| Approach | Diagnostics | Adaptation | Federation | Validity Guarantee |
-|----------|-------------|------------|------------|-------------------|
-| Standard TMLE [8] | No | No | ✅ | ❌ (assumes unconfoundedness) |
-| Sensitivity analysis [10] | Manual | No | No | Partial |
-| Robust methods [11] | No | Fixed | No | Partial |
-| **Our work** | **✅ Automatic** | **✅ Adaptive** | **✅** | **✅** |
+| Approach                  | Diagnostics      | Adaptation      | Federation | Validity Guarantee            |
+| ------------------------- | ---------------- | --------------- | ---------- | ----------------------------- |
+| Standard TMLE [8]         | No               | No              | ✅         | ❌ (assumes unconfoundedness) |
+| Sensitivity analysis [10] | Manual           | No              | No         | Partial                       |
+| Robust methods [11]       | No               | Fixed           | No         | Partial                       |
+| **Our work**              | **✅ Automatic** | **✅ Adaptive** | **✅**     | **✅**                        |
 
 ### 4.3 Clinical Example: Multi-Hospital Anticoagulation Study
 
@@ -338,31 +347,35 @@ Diagnostic performance for detecting violations (score < 0.8):
 
 #### Site Characteristics
 
-| Hospital | Type | N | Unmeas. Confound | Positivity Issues | Model Quality | Diagnostic Score |
-|----------|------|---|------------------|-------------------|---------------|------------------|
-| **Stanford Medical** | Academic | 1200 | Low (r²=0.05) | Good overlap | High R²=0.88 | **0.89** |
-| **Community Regional** | Community | 450 | Moderate (r²=0.18) | Some tails (12%) | Medium R²=0.72 | **0.64** |
-| **Rural Health Center** | Rural | 180 | High (r²=0.35) | Poor overlap (28% tails) | Low R²=0.58 | **0.41** |
-| **VA Hospital** | Federal | 820 | Low (r²=0.08) | Good overlap | High R²=0.84 | **0.85** |
+| Hospital                | Type      | N    | Unmeas. Confound   | Positivity Issues        | Model Quality  | Diagnostic Score |
+| ----------------------- | --------- | ---- | ------------------ | ------------------------ | -------------- | ---------------- |
+| **Stanford Medical**    | Academic  | 1200 | Low (r²=0.05)      | Good overlap             | High R²=0.88   | **0.89**         |
+| **Community Regional**  | Community | 450  | Moderate (r²=0.18) | Some tails (12%)         | Medium R²=0.72 | **0.64**         |
+| **Rural Health Center** | Rural     | 180  | High (r²=0.35)     | Poor overlap (28% tails) | Low R²=0.58    | **0.41**         |
+| **VA Hospital**         | Federal   | 820  | Low (r²=0.08)      | Good overlap             | High R²=0.84   | **0.85**         |
 
 #### Individual Site Inference
 
 **Stanford (score=0.89, mode=Point Estimate)**:
+
 - Method: Doubly-robust TMLE
 - Result: ATE = -0.12 (95% CI: -0.18, -0.06)
 - Interpretation: Rivaroxaban reduces stroke risk by 12 percentage points
 
 **Community Regional (score=0.64, mode=Bounds)**:
+
 - Method: Manski MTR bounds
 - Result: ATE ∈ [-0.25, 0.05]
 - Interpretation: Effect uncertain, could be harmful or beneficial
 
 **Rural Health Center (score=0.41, mode=Sensitivity)**:
+
 - Method: E-values + bounds
 - Result: E-value = 1.6, ATE ∈ [-0.40, 0.15]
 - Interpretation: Vulnerable to confounding; very uncertain
 
 **VA Hospital (score=0.85, mode=Point Estimate)**:
+
 - Method: Doubly-robust TMLE
 - Result: ATE = -0.10 (95% CI: -0.16, -0.04)
 - Interpretation: Consistent benefit observed
@@ -375,12 +388,14 @@ Diagnostic performance for detecting violations (score < 0.8):
 
 **Network mode**: **Sensitivity analysis** (conservative rule: any site < 0.5 triggers sensitivity)
 
-**Federated result**: 
+**Federated result**:
+
 - Combined bounds: ATE ∈ [-0.28, 0.03]
 - Network-wide E-value: 1.8
 - Interpretation: **Insufficient evidence** for network-wide recommendation
 
-**Clinical decision**: 
+**Clinical decision**:
+
 - ✅ **Stanford & VA**: May consider rivaroxaban based on local evidence
 - ⚠️ **Community**: Requires additional covariate adjustment
 - ❌ **Rural**: Data quality insufficient for causal inference
@@ -427,6 +442,7 @@ Diagnostic performance for detecting violations (score < 0.8):
 ## 5. CONCLUSIONS
 
 **Key contributions**:
+
 1. ✅ **First automatic diagnostic-driven causal inference framework** for federated settings
 2. ✅ **90% mode selection accuracy** across violation scenarios
 3. ✅ **94% coverage maintenance** vs 82.8% for fixed methods
@@ -567,7 +583,7 @@ thresholds:
   sensitivity: 0.00
 
 federated_strategy:
-  aggregation: conservative  # Options: conservative, weighted, majority
+  aggregation: conservative # Options: conservative, weighted, majority
   min_score_threshold: 0.50
 
 output:

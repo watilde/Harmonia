@@ -36,6 +36,7 @@ Multi-site observational studies using electronic health records (EHRs) promise 
 **Impossibility result**: No framework can achieve all three simultaneously [6].
 
 **Current federated causal methods** [7-9]:
+
 - ✅ Preserve privacy (no raw data sharing)
 - ✅ Provide point estimates (narrow uncertainty)
 - ❌ **Assume no unmeasured confounding** (untestable, often violated)
@@ -46,11 +47,11 @@ Multi-site observational studies using electronic health records (EHRs) promise 
 
 Real-world federated networks exhibit heterogeneous assumption quality:
 
-| Site Type | Population | Data Quality | Common Issues |
-|-----------|------------|--------------|---------------|
-| Academic hospital | ICU, complex cases | High | Selection bias |
-| Community hospital | General ward | Medium | Unmeasured severity |
-| Rural clinic | Outpatient | Low | Sparse treatments, poor overlap |
+| Site Type          | Population         | Data Quality | Common Issues                   |
+| ------------------ | ------------------ | ------------ | ------------------------------- |
+| Academic hospital  | ICU, complex cases | High         | Selection bias                  |
+| Community hospital | General ward       | Medium       | Unmeasured severity             |
+| Rural clinic       | Outpatient         | Low          | Sparse treatments, poor overlap |
 
 **Question**: Should we trust point estimates when one site has severe violations?
 
@@ -61,16 +62,19 @@ Real-world federated networks exhibit heterogeneous assumption quality:
 We propose a unified framework integrating three modules:
 
 **Module 1: Optimal Aggregation**
+
 - Compare weighting strategies (n, √n, log n, inverse-width)
 - Minimize federated bound width while maintaining validity
 - **Result**: Inverse-width outperforms in heterogeneous settings
 
 **Module 2: Robustness Quantification**
+
 - Federated Robustness Index (FRI) aggregating site E-values
 - Quantify sensitivity to unmeasured confounding
 - **Result**: FRI correlates with true confounding (r=-0.96)
 
 **Module 3: Automatic Adaptation**
+
 - Diagnose assumptions at each site (3D scoring)
 - Select inference mode: point estimate → bounds → sensitivity
 - **Result**: 94% coverage vs 82.8% for fixed methods
@@ -102,11 +106,11 @@ $$\mathcal{L}_{fed} = \sum_{k=1}^K w_k \mathcal{L}_k, \quad \mathcal{U}_{fed} = 
 
 **Strategies evaluated**:
 
-| Strategy | Weight | Optimal When |
-|----------|--------|--------------|
-| Sample-size | $w_k = n_k / N$ | Homogeneous sites |
-| Inverse-width | $w_k = (1/W_k) / \sum_j (1/W_j)$ | Heterogeneous precision |
-| Conservative | $\mathcal{L} = \max_k \mathcal{L}_k, \mathcal{U} = \min_k \mathcal{U}_k$ | Maximum caution |
+| Strategy      | Weight                                                                   | Optimal When            |
+| ------------- | ------------------------------------------------------------------------ | ----------------------- |
+| Sample-size   | $w_k = n_k / N$                                                          | Homogeneous sites       |
+| Inverse-width | $w_k = (1/W_k) / \sum_j (1/W_j)$                                         | Heterogeneous precision |
+| Conservative  | $\mathcal{L} = \max_k \mathcal{L}_k, \mathcal{U} = \min_k \mathcal{U}_k$ | Maximum caution         |
 
 **Theorem 1** (Validity): Convex aggregation preserves identified set validity under uniform monotonicity assumptions.
 
@@ -128,11 +132,13 @@ where $E_k$ is site $k$'s E-value.
 **Diagnostic system**: For each site, compute scores ∈ [0,1]:
 
 1. **Unconfoundedness**: Residual confounding after adjustment
+
    ```
    unconf_score = 1 - |residual_correlation| + overlap
    ```
 
 2. **Positivity**: Treatment probability support
+
    ```
    pos_score = 1 - (tail_mass / n) + (n_eff / n)
    ```
@@ -146,6 +152,7 @@ where $E_k$ is site $k$'s E-value.
 $$\text{score}_k = (\text{unconf}_k + \text{pos}_k + \text{spec}_k) / 3$$
 
 **Automatic mode selection**:
+
 ```
 IF score > 0.8:   Point estimation (TMLE, doubly-robust)
 IF 0.5-0.8:       Partial identification (Module 1)
@@ -153,6 +160,7 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 ```
 
 **Federated aggregation**:
+
 - If ANY site has score < 0.5: Network-wide sensitivity analysis
 - If ALL sites have score > 0.8: Point estimation with meta-analysis
 - Otherwise: Bounds aggregation
@@ -161,13 +169,13 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 
 **Validation scenarios**:
 
-| Experiment | Sites | Sample Sizes | Violations | Modules Tested |
-|------------|-------|--------------|------------|----------------|
-| Balanced aggregation | 3 | 334 each | None | Module 1 |
-| Imbalanced aggregation | 3 | 100, 334, 1000 | None | Module 1 |
-| Confounding injection | 3 | 334 each | ρ = 0, 0.2, 0.5, 0.8 | Module 2 |
-| Heterogeneous violations | 3 | 334 each | Clean/moderate/severe | Module 3 |
-| End-to-end integration | 10 | 50-1000 | Mixed | All modules |
+| Experiment               | Sites | Sample Sizes   | Violations            | Modules Tested |
+| ------------------------ | ----- | -------------- | --------------------- | -------------- |
+| Balanced aggregation     | 3     | 334 each       | None                  | Module 1       |
+| Imbalanced aggregation   | 3     | 100, 334, 1000 | None                  | Module 1       |
+| Confounding injection    | 3     | 334 each       | ρ = 0, 0.2, 0.5, 0.8  | Module 2       |
+| Heterogeneous violations | 3     | 334 each       | Clean/moderate/severe | Module 3       |
+| End-to-end integration   | 10    | 50-1000        | Mixed                 | All modules    |
 
 **Data**: Synthetic OMOP CDM data with controlled ground truth.
 
@@ -179,18 +187,18 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 
 **Balanced sites** (n=334 each):
 
-| Strategy | Width | Notes |
-|----------|-------|-------|
+| Strategy       | Width  | Notes                       |
+| -------------- | ------ | --------------------------- |
 | All strategies | 0.4898 | Converge (theory confirmed) |
 
 **Imbalanced sites** (n=100, 334, 1000):
 
-| Strategy | Width | Improvement |
-|----------|-------|-------------|
-| **Inverse-width** | **0.4793** | **Best** |
-| Uniform | 0.4794 | -0.02% |
-| Sample-size | 0.4814 | -0.44% |
-| Conservative | 0.4898 | -2.19% (widest) |
+| Strategy          | Width      | Improvement     |
+| ----------------- | ---------- | --------------- |
+| **Inverse-width** | **0.4793** | **Best**        |
+| Uniform           | 0.4794     | -0.02%          |
+| Sample-size       | 0.4814     | -0.44%          |
+| Conservative      | 0.4898     | -2.19% (widest) |
 
 **Key finding**: Inverse-width provides **2.2% tighter bounds** than sample-size weighting by down-weighting noisy small-site estimates.
 
@@ -199,13 +207,14 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 **Confounding detection**:
 
 | ρ (True Confounding) | FRI (Sample-size) | Decline from Baseline |
-|----------------------|-------------------|----------------------|
-| 0.0 (Baseline) | 2.65 | — |
-| 0.2 (Weak) | 2.30 | -13.2% |
-| 0.5 (Moderate) | 1.85 | -30.2% |
-| 0.8 (Strong) | 1.41 | -46.8% |
+| -------------------- | ----------------- | --------------------- |
+| 0.0 (Baseline)       | 2.65              | —                     |
+| 0.2 (Weak)           | 2.30              | -13.2%                |
+| 0.5 (Moderate)       | 1.85              | -30.2%                |
+| 0.8 (Strong)         | 1.41              | -46.8%                |
 
 **Validation metrics**:
+
 - **Correlation**: FRI vs ρ: r = -0.96, p < 0.001
 - **ROC AUC**: 0.89 for detecting ρ ≥ 0.5
 - **Optimal threshold**: FRI < 2.0 (85% sensitivity, 92% specificity)
@@ -216,21 +225,21 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 
 **Mode selection accuracy**:
 
-| True Scenario | Predicted Mode | Accuracy |
-|---------------|----------------|----------|
-| Clean → Point | Point estimate | 94% |
-| Mild → Mixed | Point/Bounds | 87% |
-| Moderate → Bounds | Bounds | 89% |
-| Severe → Sensitivity | Sensitivity | 91% |
+| True Scenario        | Predicted Mode | Accuracy |
+| -------------------- | -------------- | -------- |
+| Clean → Point        | Point estimate | 94%      |
+| Mild → Mixed         | Point/Bounds   | 87%      |
+| Moderate → Bounds    | Bounds         | 89%      |
+| Severe → Sensitivity | Sensitivity    | 91%      |
 
 **Overall**: 90.3% accuracy (95% CI: 88.1%-92.5%)
 
 **Inference validity** (nominal 95% coverage):
 
-| Method | Clean | Mild | Moderate | Severe | Average |
-|--------|-------|------|----------|--------|---------|
-| Standard point | 95% | 91% | 78% | 67% | 82.8% |
-| **FRCI adaptive** | **95%** | **93%** | **94%** | **94%** | **94.0%** |
+| Method            | Clean   | Mild    | Moderate | Severe  | Average   |
+| ----------------- | ------- | ------- | -------- | ------- | --------- |
+| Standard point    | 95%     | 91%     | 78%      | 67%     | 82.8%     |
+| **FRCI adaptive** | **95%** | **93%** | **94%**  | **94%** | **94.0%** |
 
 **Key finding**: Adaptive framework maintains validity across all violation scenarios.
 
@@ -238,17 +247,19 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 
 **Heterogeneous network** (10 sites):
 
-| Site | n | Violation | Score | Site Mode | Contributed to Network |
-|------|---|-----------|-------|-----------|------------------------|
-| 1-3 | 500-1000 | Clean | 0.89 | Point | 45% weight |
-| 4-7 | 200-400 | Moderate | 0.65 | Bounds | 35% weight |
-| 8-10 | 50-150 | Severe | 0.42 | Sensitivity | 20% weight |
+| Site | n        | Violation | Score | Site Mode   | Contributed to Network |
+| ---- | -------- | --------- | ----- | ----------- | ---------------------- |
+| 1-3  | 500-1000 | Clean     | 0.89  | Point       | 45% weight             |
+| 4-7  | 200-400  | Moderate  | 0.65  | Bounds      | 35% weight             |
+| 8-10 | 50-150   | Severe    | 0.42  | Sensitivity | 20% weight             |
 
 **Network decision**:
+
 - Minimum score = 0.42 (Sites 8-10)
 - **Network mode** = **Sensitivity analysis** (conservative)
 
 **Frequency analysis** (1,000 heterogeneous simulations):
+
 - 23% → Network-wide sensitivity (≥1 site score < 0.5)
 - 51% → Bounds aggregation (all sites 0.5-0.8)
 - 26% → Point estimation (all sites > 0.8)
@@ -257,12 +268,12 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 
 ### 3.5 Comparison with Existing Methods
 
-| Framework | Privacy | Validity Under Violations | Robustness Metrics | Adaptation |
-|-----------|---------|---------------------------|-------------------|------------|
-| Federated TMLE [7] | ✅ | ❌ (assumes no confounding) | ❌ | ❌ |
-| Federated PSM [8] | ✅ | ❌ (assumes no confounding) | ❌ | ❌ |
-| Sensitivity analysis [12] | N/A | ✅ (single-site) | ✅ | ❌ |
-| **FRCI (our work)** | **✅** | **✅** | **✅** | **✅** |
+| Framework                 | Privacy | Validity Under Violations   | Robustness Metrics | Adaptation |
+| ------------------------- | ------- | --------------------------- | ------------------ | ---------- |
+| Federated TMLE [7]        | ✅      | ❌ (assumes no confounding) | ❌                 | ❌         |
+| Federated PSM [8]         | ✅      | ❌ (assumes no confounding) | ❌                 | ❌         |
+| Sensitivity analysis [12] | N/A     | ✅ (single-site)            | ✅                 | ❌         |
+| **FRCI (our work)**       | **✅**  | **✅**                      | **✅**             | **✅**     |
 
 ---
 
@@ -271,14 +282,16 @@ IF score < 0.5:   Sensitivity analysis (Module 2)
 ### 4.1 Unified Framework Advantages
 
 **Integration benefits**:
+
 1. **Optimal aggregation** (Module 1) provides tightest bounds
 2. **Robustness quantification** (Module 2) assesses sensitivity
 3. **Automatic adaptation** (Module 3) prevents overconfidence
 
 **Example workflow**:
+
 ```
 Site 1: score=0.91 → Point estimate → E-value=2.8
-Site 2: score=0.67 → Bounds [0.05, 0.30] → E-value=1.9  
+Site 2: score=0.67 → Bounds [0.05, 0.30] → E-value=1.9
 Site 3: score=0.43 → Sensitivity analysis → E-value=1.2
 
 Network: min_score=0.43 → Sensitivity mode
@@ -289,11 +302,13 @@ Network: min_score=0.43 → Sensitivity mode
 ### 4.2 Clinical Decision-Making Impact
 
 **Traditional federated approach**:
+
 - Combines point estimates across sites
 - Reports: "ATE = 0.15, 95% CI (0.08, 0.22)"
 - Problem: Assumes all assumptions hold
 
 **FRCI approach**:
+
 - Diagnoses violations at each site
 - Site with score=0.43 triggers network caution
 - Reports: "ATE ∈ [-0.05, 0.30], FRI=1.76 (E-value<2.0)"
@@ -303,25 +318,27 @@ Network: min_score=0.43 → Sensitivity mode
 
 ### 4.3 Computational Feasibility
 
-| Operation | Per-Site Time | Scalability |
-|-----------|---------------|-------------|
-| Diagnostics (Module 3) | 127ms | O(N) |
-| Bounds (Module 1) | 45ms | O(N) |
-| E-values (Module 2) | 15ms | O(1) |
-| Aggregation | <1ms | O(K) |
-| **Total** | **~200ms** | **Linear** |
+| Operation              | Per-Site Time | Scalability |
+| ---------------------- | ------------- | ----------- |
+| Diagnostics (Module 3) | 127ms         | O(N)        |
+| Bounds (Module 1)      | 45ms          | O(N)        |
+| E-values (Module 2)    | 15ms          | O(1)        |
+| Aggregation            | <1ms          | O(K)        |
+| **Total**              | **~200ms**    | **Linear**  |
 
 **Network-level**: 10-site federation completes in <3 seconds.
 
 ### 4.4 Limitations and Future Work
 
 **Current limitations**:
+
 1. **Identification-level**: No finite-sample confidence intervals (future: bootstrap)
 2. **Threshold sensitivity**: Mode selection thresholds (0.5, 0.8) empirically derived
 3. **Synthetic validation**: Real-world validation with MIMIC/OMOP needed
 4. **Single confounder**: E-values assume one unmeasured confounder
 
 **Future directions**:
+
 1. **Confidence intervals for bounds** using intersection bounds [13]
 2. **Machine learning diagnostics** for assumption violations
 3. **Continuous adaptation** (smooth interpolation between modes)
@@ -330,12 +347,12 @@ Network: min_score=0.43 → Sensitivity mode
 
 ### 4.5 Comparison with Meta-Analysis
 
-| Aspect | Traditional Meta-Analysis | FRCI |
-|--------|---------------------------|------|
-| Data sharing | Study-level aggregates | Privacy-preserving (bounds only) |
-| Heterogeneity | I² statistic | Robustness scores + FRI |
-| Assumptions | Assumes exchangeability | Explicit diagnostics |
-| Violations | Fixed-effects/random-effects | Adaptive mode selection |
+| Aspect        | Traditional Meta-Analysis    | FRCI                             |
+| ------------- | ---------------------------- | -------------------------------- |
+| Data sharing  | Study-level aggregates       | Privacy-preserving (bounds only) |
+| Heterogeneity | I² statistic                 | Robustness scores + FRI          |
+| Assumptions   | Assumes exchangeability      | Explicit diagnostics             |
+| Violations    | Fixed-effects/random-effects | Adaptive mode selection          |
 
 **FRCI advantage**: Explicit safeguards against assumption violations, not just heterogeneity.
 
@@ -344,6 +361,7 @@ Network: min_score=0.43 → Sensitivity mode
 ## 5. CONCLUSIONS
 
 **Key contributions**:
+
 1. ✅ **First unified federated robust causal inference framework**
 2. ✅ **Optimal aggregation**: Inverse-width reduces bounds by 2.2%
 3. ✅ **Robustness quantification**: FRI correlates with confounding (r=-0.96)

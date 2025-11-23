@@ -6,26 +6,30 @@
 
 ## Notation
 
-| Symbol | Meaning |
-|--------|---------|
-| $T$ | Treatment (binary: 0 or 1) |
-| $Y$ | Outcome (binary: 0 or 1) |
-| $Z$ | Instrumental variable (binary: 0 or 1) |
-| $U$ | Unmeasured confounder |
-| $\tau$ | Average Treatment Effect (ATE) |
-| $P(t,y \mid z)$ | Observed conditional probability |
-| $P(t,y \mid z,u)$ | Conditional probability given $U$ |
+| Symbol            | Meaning                                |
+| ----------------- | -------------------------------------- |
+| $T$               | Treatment (binary: 0 or 1)             |
+| $Y$               | Outcome (binary: 0 or 1)               |
+| $Z$               | Instrumental variable (binary: 0 or 1) |
+| $U$               | Unmeasured confounder                  |
+| $\tau$            | Average Treatment Effect (ATE)         |
+| $P(t,y \mid z)$   | Observed conditional probability       |
+| $P(t,y \mid z,u)$ | Conditional probability given $U$      |
 
 ## Instrumental Variable Assumptions
 
 ### 1. Relevance
+
 The instrument $Z$ affects treatment $T$:
+
 $$
 P(T=1 \mid Z=1) \neq P(T=1 \mid Z=0)
 $$
 
 ### 2. Exclusion Restriction
+
 The instrument $Z$ affects outcome $Y$ **only through** treatment $T$:
+
 $$
 Y(t,z) = Y(t,z') \quad \forall t, z, z'
 $$
@@ -33,13 +37,17 @@ $$
 Equivalently, $Z$ has no direct effect on $Y$ conditional on $T$ and unmeasured confounders.
 
 ### 3. Independence
+
 The instrument $Z$ is independent of unmeasured confounders $U$:
+
 $$
 Z \perp U
 $$
 
 ### 4. Monotonicity (Optional)
+
 The instrument affects treatment in the same direction for all individuals:
+
 $$
 T(z=1) \geq T(z=0) \quad \forall u
 $$
@@ -49,6 +57,7 @@ This rules out "defiers" who do the opposite of what the instrument suggests.
 ## Problem Setup
 
 We observe the joint distribution:
+
 $$
 P(T=t, Y=y \mid Z=z) \quad \forall t,y,z \in \{0,1\}
 $$
@@ -56,11 +65,13 @@ $$
 This gives us **8 probabilities** (2×2×2).
 
 We want to identify:
+
 $$
 \tau = \mathbb{E}[Y(1) - Y(0)] = P(Y(1)=1) - P(Y(0)=1)
 $$
 
 However, there exist **unmeasured confounders $U$** such that:
+
 $$
 T \not\perp Y \mid U
 $$
@@ -74,12 +85,14 @@ Under IV assumptions, we can derive **bounds** on $\tau$ without fully identifyi
 Define latent response types based on potential outcomes:
 
 **For treatment $T$:**
+
 - Type (never-taker): $T(0)=0, T(1)=0$
 - Type (complier): $T(0)=0, T(1)=1$
 - Type (always-taker): $T(0)=1, T(1)=1$
 - Type (defier): $T(0)=1, T(1)=0$ (ruled out by monotonicity)
 
 **For outcome $Y$ given treatment:**
+
 - $Y(t)$ for $t \in \{0,1\}$
 
 ### Constraints from Observed Data
@@ -101,17 +114,21 @@ $$
 **Decision variables:** $p_u = P(U=u)$ for each latent type $u$
 
 **Objective:** Minimize or maximize
+
 $$
 \tau = \sum_u p_u \cdot [P(Y=1 \mid T=1, U=u) - P(Y=1 \mid T=0, U=u)]
 $$
 
 **Constraints:**
+
 1. **Match observed distribution:**
+
    $$
    \sum_u P(T=t, Y=y \mid Z=z, U=u) \cdot p_u = P(T=t, Y=y \mid Z=z) \quad \forall t,y,z
    $$
 
 2. **Simplex constraints:**
+
    $$
    \sum_u p_u = 1, \quad p_u \geq 0 \quad \forall u
    $$
@@ -124,6 +141,7 @@ $$
 ### Result
 
 **Balke-Pearl Bounds:**
+
 $$
 \boxed{\tau \in [\tau_L^{BP}, \tau_U^{BP}]}
 $$
@@ -131,6 +149,7 @@ $$
 where $\tau_L^{BP}$ and $\tau_U^{BP}$ are solutions to the LP problems above.
 
 **Properties:**
+
 - Bounds are **sharp** (cannot be improved without additional assumptions)
 - Bounds are **narrower** than Manski bounds when IV is strong
 - Bounds **widen** when IV is weak (low relevance)
@@ -140,6 +159,7 @@ where $\tau_L^{BP}$ and $\tau_U^{BP}$ are solutions to the LP problems above.
 ### Case 1: Perfect Instrument (No Unmeasured Confounding)
 
 If $Z$ is randomly assigned and perfectly predicts $T$, the bounds collapse to a point:
+
 $$
 \tau_L^{BP} = \tau_U^{BP} = \mathbb{E}[Y \mid Z=1] - \mathbb{E}[Y \mid Z=0]
 $$
@@ -149,6 +169,7 @@ This is the standard IV estimator.
 ### Case 2: Weak Instrument
 
 If $P(T=1 \mid Z=1) \approx P(T=1 \mid Z=0)$, the bounds approach Manski bounds:
+
 $$
 \tau_L^{BP} \to \tau_L^{Manski}, \quad \tau_U^{BP} \to \tau_U^{Manski}
 $$
@@ -162,15 +183,15 @@ If monotonicity is violated (defiers exist), the bounds widen significantly and 
 Suppose we observe:
 
 | $Z$ | $T$ | $Y$ | $P(T,Y \mid Z)$ |
-|-----|-----|-----|-----------------|
-| 0 | 0 | 0 | 0.3 |
-| 0 | 0 | 1 | 0.2 |
-| 0 | 1 | 0 | 0.1 |
-| 0 | 1 | 1 | 0.4 |
-| 1 | 0 | 0 | 0.2 |
-| 1 | 0 | 1 | 0.1 |
-| 1 | 1 | 0 | 0.2 |
-| 1 | 1 | 1 | 0.5 |
+| --- | --- | --- | --------------- |
+| 0   | 0   | 0   | 0.3             |
+| 0   | 0   | 1   | 0.2             |
+| 0   | 1   | 0   | 0.1             |
+| 0   | 1   | 1   | 0.4             |
+| 1   | 0   | 0   | 0.2             |
+| 1   | 0   | 1   | 0.1             |
+| 1   | 1   | 0   | 0.2             |
+| 1   | 1   | 1   | 0.5             |
 
 **Step 1:** Formulate LP with latent response types
 
@@ -179,11 +200,13 @@ Suppose we observe:
 **Step 3:** Solve for maximum $\tau$ (upper bound)
 
 **Result (hypothetical):**
+
 $$
 \tau \in [0.10, 0.45]
 $$
 
 Compare with Manski bounds (hypothetical):
+
 $$
 \tau \in [-0.20, 0.80]
 $$
@@ -192,20 +215,22 @@ Balke-Pearl bounds are **narrower** due to IV information.
 
 ## Comparison with Manski Bounds
 
-| Aspect | Manski Bounds | Balke-Pearl Bounds |
-|--------|---------------|-------------------|
-| **Assumptions** | Minimal (SUTVA only) | IV assumptions (relevance, exclusion, independence) |
-| **Width** | Wider (worst-case) | Narrower (when IV is strong) |
-| **Complexity** | Simple formulas | Linear programming required |
-| **Data Requirements** | $T$, $Y$ only | $T$, $Y$, $Z$ (instrument) |
-| **Robustness** | Robust (few assumptions) | Sensitive to IV validity |
+| Aspect                | Manski Bounds            | Balke-Pearl Bounds                                  |
+| --------------------- | ------------------------ | --------------------------------------------------- |
+| **Assumptions**       | Minimal (SUTVA only)     | IV assumptions (relevance, exclusion, independence) |
+| **Width**             | Wider (worst-case)       | Narrower (when IV is strong)                        |
+| **Complexity**        | Simple formulas          | Linear programming required                         |
+| **Data Requirements** | $T$, $Y$ only            | $T$, $Y$, $Z$ (instrument)                          |
+| **Robustness**        | Robust (few assumptions) | Sensitive to IV validity                            |
 
 **When to use Balke-Pearl:**
+
 - Valid instrument available
 - Relevance is strong ($Z$ predicts $T$)
 - Willing to assume exclusion restriction
 
 **When to use Manski:**
+
 - No valid instrument
 - IV assumptions questionable
 - Want robust worst-case bounds
@@ -224,6 +249,7 @@ $$
 $$
 
 **Challenges:**
+
 - LP solving requires more computation than Manski bounds
 - Sites must share 8 probabilities (instead of 3 for Manski)
 - Privacy: More information revealed per site
@@ -233,11 +259,13 @@ $$
 ### LP Solver Requirements
 
 **Libraries:**
+
 - **glpk.js:** JavaScript binding for GLPK (GNU Linear Programming Kit)
 - **highs:** High-performance LP solver
 - **lpsolve:** Alternative LP solver
 
 **Formulation:**
+
 - Variables: $p_u$ for each latent type $u$
 - Objective: Linear in $p_u$
 - Constraints: Linear equality and inequality
@@ -255,10 +283,12 @@ With monotonicity (no defiers): $2^3 = 8$ latent types.
 ### Numerical Stability
 
 **Issues:**
+
 - Small probabilities ($< 10^{-6}$) can cause numerical errors
 - Infeasible LP if observed data inconsistent with IV assumptions
 
 **Solutions:**
+
 - Add small regularization ($\epsilon = 10^{-8}$) to probabilities
 - Check feasibility before solving
 - Use high-precision arithmetic if needed
@@ -270,11 +300,13 @@ With monotonicity (no defiers): $2^3 = 8$ latent types.
 Construct confidence intervals for bounds using:
 
 **Bootstrap method:**
+
 1. Resample data from each site
 2. Recompute Balke-Pearl bounds on bootstrap samples
 3. Compute 2.5th and 97.5th percentiles
 
 **Delta method:**
+
 - Compute asymptotic variance of bounds
 - Use normal approximation for CI
 
@@ -293,6 +325,7 @@ Construct confidence intervals for bounds using:
 ### Instrument Strength
 
 **Measure relevance:**
+
 $$
 R = P(T=1 \mid Z=1) - P(T=1 \mid Z=0)
 $$
@@ -309,13 +342,13 @@ Relax monotonicity assumption and compute bounds with defiers allowed.
 
 ## References
 
-1. **Balke, A., & Pearl, J. (1994).** *Probabilistic evaluation of counterfactual queries.* AAAI.
+1. **Balke, A., & Pearl, J. (1994).** _Probabilistic evaluation of counterfactual queries._ AAAI.
 
-2. **Balke, A., & Pearl, J. (1997).** *Bounds on treatment effects from studies with imperfect compliance.* Journal of the American Statistical Association, 92(439), 1171-1176.
+2. **Balke, A., & Pearl, J. (1997).** _Bounds on treatment effects from studies with imperfect compliance._ Journal of the American Statistical Association, 92(439), 1171-1176.
 
-3. **Kitagawa, T. (2015).** *A test for instrument validity.* Econometrica, 83(5), 2043-2063.
+3. **Kitagawa, T. (2015).** _A test for instrument validity._ Econometrica, 83(5), 2043-2063.
 
-4. **Swanson, S. A., et al. (2018).** *Partial identification of the average treatment effect using instrumental variables: review of methods for binary instruments, treatments, and outcomes.* Journal of the American Statistical Association, 113(522), 933-947.
+4. **Swanson, S. A., et al. (2018).** _Partial identification of the average treatment effect using instrumental variables: review of methods for binary instruments, treatments, and outcomes._ Journal of the American Statistical Association, 113(522), 933-947.
 
 ---
 

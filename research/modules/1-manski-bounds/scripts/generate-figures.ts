@@ -30,10 +30,7 @@ const colors = {
   tertiary: '#e74c3c',
 };
 
-async function saveFigureAsPNG(
-  config: ChartConfiguration,
-  outputPath: string
-): Promise<void> {
+async function saveFigureAsPNG(config: ChartConfiguration, outputPath: string): Promise<void> {
   mkdirSync(dirname(outputPath), { recursive: true });
   const buffer = await chartJSNodeCanvas.renderToBuffer(config);
   writeFileSync(outputPath, buffer);
@@ -96,7 +93,7 @@ async function generateFigures(): Promise<void> {
       datasets: [
         {
           label: 'Bound Width',
-          data: [0.60, 0.42, 0.48, 0.35],
+          data: [0.6, 0.42, 0.48, 0.35],
           backgroundColor: [colors.tertiary, colors.secondary, colors.secondary, colors.primary],
         },
       ],

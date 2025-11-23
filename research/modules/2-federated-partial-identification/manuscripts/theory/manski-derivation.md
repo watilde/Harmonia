@@ -8,15 +8,15 @@ Manski bounds provide the **sharpest possible bounds** under minimal assumptions
 
 ## Notation
 
-| Symbol | Meaning |
-|--------|---------|
-| $Y$ | Binary outcome (0 or 1) |
-| $T$ | Binary treatment (0 or 1) |
-| $Y_1$ | Potential outcome under treatment ($T=1$) |
-| $Y_0$ | Potential outcome under control ($T=0$) |
-| $\tau$ | Average Treatment Effect (ATE): $\tau = \mathbb{E}[Y_1 - Y_0]$ |
-| $P(T=t)$ | Proportion receiving treatment $t$ |
-| $\mathbb{E}[Y \mid T=t]$ | Expected outcome among those with treatment $t$ |
+| Symbol                   | Meaning                                                        |
+| ------------------------ | -------------------------------------------------------------- |
+| $Y$                      | Binary outcome (0 or 1)                                        |
+| $T$                      | Binary treatment (0 or 1)                                      |
+| $Y_1$                    | Potential outcome under treatment ($T=1$)                      |
+| $Y_0$                    | Potential outcome under control ($T=0$)                        |
+| $\tau$                   | Average Treatment Effect (ATE): $\tau = \mathbb{E}[Y_1 - Y_0]$ |
+| $P(T=t)$                 | Proportion receiving treatment $t$                             |
+| $\mathbb{E}[Y \mid T=t]$ | Expected outcome among those with treatment $t$                |
 
 ## Problem Setup
 
@@ -27,6 +27,7 @@ $$
 $$
 
 However, we only observe:
+
 - $Y_1$ for treated individuals ($T=1$)
 - $Y_0$ for control individuals ($T=0$)
 
@@ -47,10 +48,12 @@ $$
 $$
 
 **Observed terms:**
+
 - $\mathbb{E}[Y_1 \mid T=1] = \mathbb{E}[Y \mid T=1]$ (observed outcome among treated)
 - $\mathbb{E}[Y_0 \mid T=0] = \mathbb{E}[Y \mid T=0]$ (observed outcome among control)
 
 **Unobserved terms:**
+
 - $\mathbb{E}[Y_1 \mid T=0]$ (counterfactual: what would control group's outcome be if treated?)
 - $\mathbb{E}[Y_0 \mid T=1]$ (counterfactual: what would treated group's outcome be if untreated?)
 
@@ -164,7 +167,7 @@ $$
 
 where $\tau_L^{WC}$ is the worst-case lower bound.
 
-**Upper bound:** 
+**Upper bound:**
 
 Under MTR, we have:
 
@@ -231,10 +234,12 @@ Manski bounds are **sharp**: they cannot be improved without additional assumpti
 ### Informativeness
 
 Worst-case bounds are **uninformative** when:
+
 - Bound width = 1 (maximum possible for binary outcomes)
 - Bounds include 0 (cannot reject null hypothesis of no effect)
 
 MTR bounds are **informative** when:
+
 - Bound width < 1 (tighter than worst-case)
 - Bounds exclude 0 (sign of treatment effect is identified)
 
@@ -273,6 +278,7 @@ where $w_s = n_s / N$ (site sample size / total sample size).
 ### Numerical Stability
 
 When computing $P(T=1) \cdot \mathbb{E}[Y \mid T=1]$:
+
 - Use sample proportions directly to avoid floating point errors
 - Compute as: (# treated with Y=1) / (total sample size)
 
@@ -284,13 +290,13 @@ When computing $P(T=1) \cdot \mathbb{E}[Y \mid T=1]$:
 
 ## References
 
-1. **Manski, C. F. (1990).** *Nonparametric bounds on treatment effects.* American Economic Review, 80(2), 319-323.
+1. **Manski, C. F. (1990).** _Nonparametric bounds on treatment effects._ American Economic Review, 80(2), 319-323.
 
-2. **Manski, C. F. (2003).** *Partial Identification of Probability Distributions.* Springer.
+2. **Manski, C. F. (2003).** _Partial Identification of Probability Distributions._ Springer.
 
-3. **Manski, C. F., & Pepper, J. V. (2000).** *Monotone instrumental variables: with an application to the returns to schooling.* Econometrica, 68(4), 997-1010.
+3. **Manski, C. F., & Pepper, J. V. (2000).** _Monotone instrumental variables: with an application to the returns to schooling._ Econometrica, 68(4), 997-1010.
 
-4. **Imbens, G. W., & Manski, C. F. (2004).** *Confidence intervals for partially identified parameters.* Econometrica, 72(6), 1845-1857.
+4. **Imbens, G. W., & Manski, C. F. (2004).** _Confidence intervals for partially identified parameters._ Econometrica, 72(6), 1845-1857.
 
 ---
 

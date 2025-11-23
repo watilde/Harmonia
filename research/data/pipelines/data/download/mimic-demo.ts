@@ -47,7 +47,14 @@ const TABLES = [
   'domain',
   'relationship',
 ];
-const ESSENTIAL_TABLES = ['person', 'visit_occurrence', 'condition_occurrence', 'drug_exposure', 'measurement', 'observation'];
+const ESSENTIAL_TABLES = [
+  'person',
+  'visit_occurrence',
+  'condition_occurrence',
+  'drug_exposure',
+  'measurement',
+  'observation',
+];
 
 const repoRoot = path.resolve(__dirname, '../../../..');
 const dataDir = path.join(repoRoot, 'data/raw/omop-data/mimic-demo');
@@ -110,8 +117,6 @@ async function main(): Promise<void> {
   }
 }
 
-
-
 function detectDownloadTool(): DownloadTool {
   if (commandExists('wget')) {
     return 'wget';
@@ -134,8 +139,6 @@ async function promptYesNo(
   const answer = (await rl.question(question)).trim().toLowerCase();
   return answer === 'y' || answer === 'yes';
 }
-
-
 
 async function performDownload(tool: DownloadTool): Promise<void> {
   console.log('');
@@ -194,8 +197,6 @@ function downloadFile(tool: DownloadTool, url: string, destination: string): Pro
     child.on('error', () => resolve(false));
   });
 }
-
-
 
 async function summarize(): Promise<void> {
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');

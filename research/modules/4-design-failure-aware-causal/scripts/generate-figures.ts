@@ -2,7 +2,7 @@
 /**
  * Generate figures for Design-Failure-Aware Causal Inference manuscript
  * Module 3: Automatic adaptation to assumption violations
- * 
+ *
  * Creates publication-quality graphs for research paper
  */
 
@@ -40,10 +40,7 @@ const colors = {
 /**
  * Save Chart.js figure as PNG
  */
-async function saveFigureAsPNG(
-  config: ChartConfiguration,
-  outputPath: string
-): Promise<void> {
+async function saveFigureAsPNG(config: ChartConfiguration, outputPath: string): Promise<void> {
   mkdirSync(dirname(outputPath), { recursive: true });
   const buffer = await chartJSNodeCanvas.renderToBuffer(config);
   writeFileSync(outputPath, buffer);
@@ -127,7 +124,12 @@ async function generateFigures(): Promise<void> {
   console.log('  ✓ figure1.png');
 
   // Figure 2: Mode Selection Accuracy
-  const modeScenarios = ['Clean\n→Point', 'Mild\n→Mixed', 'Moderate\n→Bounds', 'Severe\n→Sensitivity'];
+  const modeScenarios = [
+    'Clean\n→Point',
+    'Mild\n→Mixed',
+    'Moderate\n→Bounds',
+    'Severe\n→Sensitivity',
+  ];
   const accuracy = [94, 87, 89, 91];
   const modeColors = [colors.green, colors.blue, colors.orange, colors.red];
 
@@ -162,7 +164,11 @@ async function generateFigures(): Promise<void> {
           ticks: { font: { size: 14 } },
         },
         y: {
-          title: { display: true, text: 'Selection Accuracy (%)', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'Selection Accuracy (%)',
+            font: { size: 16, weight: 'bold' },
+          },
           min: 80,
           max: 100,
           grid: { color: '#e0e0e0' },
@@ -212,7 +218,10 @@ async function generateFigures(): Promise<void> {
       plugins: {
         title: {
           display: true,
-          text: ['Figure 3: Coverage Maintenance Across Violation Scenarios', '(95% Nominal Level)'],
+          text: [
+            'Figure 3: Coverage Maintenance Across Violation Scenarios',
+            '(95% Nominal Level)',
+          ],
           font: { size: 18, weight: 'bold' },
           padding: 20,
         },
@@ -224,7 +233,11 @@ async function generateFigures(): Promise<void> {
       },
       scales: {
         x: {
-          title: { display: true, text: 'True Violation Level', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'True Violation Level',
+            font: { size: 16, weight: 'bold' },
+          },
           ticks: { font: { size: 14 } },
         },
         y: {

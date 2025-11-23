@@ -32,6 +32,7 @@ Causal inference from observational data requires addressing unmeasured confound
 **E-values** quantify robustness: the minimum strength of unmeasured confounding (as a risk ratio) required to nullify an observed association [4,5]. An E-value of 2.5 means an unmeasured confounder must have risk ratio ≥2.5 with both treatment and outcome to explain away the effect.
 
 **Advantages**:
+
 - Intuitive interpretation (risk ratio scale)
 - No additional data requirements
 - Clinical assessability (compare to known confounders)
@@ -42,13 +43,14 @@ Causal inference from observational data requires addressing unmeasured confound
 
 Consider a 3-hospital network studying ICU vasopressor effects on mortality:
 
-| Site | Sample Size | ATE Bound | E-value |
-|------|-------------|-----------|---------|
-| Academic Hospital | 1000 | [0.05, 0.25] | 2.8 |
-| Community Hospital A | 334 | [-0.10, 0.30] | 1.6 |
-| Community Hospital B | 100 | [-0.05, 0.20] | 1.9 |
+| Site                 | Sample Size | ATE Bound     | E-value |
+| -------------------- | ----------- | ------------- | ------- |
+| Academic Hospital    | 1000        | [0.05, 0.25]  | 2.8     |
+| Community Hospital A | 334         | [-0.10, 0.30] | 1.6     |
+| Community Hospital B | 100         | [-0.05, 0.20] | 1.9     |
 
 **Questions**:
+
 1. What is the **federated E-value** for the network?
 2. Should large hospitals (n=1000) dominate, or should all sites be weighted equally?
 3. How does heterogeneity (different ATEs, populations) affect interpretation?
@@ -85,14 +87,14 @@ where $w_k$ are federation weights satisfying $\sum_k w_k = 1$ and $w_k \geq 0$.
 
 ### 2.3 Aggregation Strategies
 
-| Strategy | Weight Formula | Properties |
-|----------|---------------|------------|
-| **Sample-size** | $w_k = n_k / N$ | Proportional to precision |
-| **Square-root** | $w_k = \sqrt{n_k} / \sum_j \sqrt{n_j}$ | Moderate compromise |
-| **Logarithmic** | $w_k = \log n_k / \sum_j \log n_j$ | Less size-dependent |
-| **Equal** | $w_k = 1/K$ | Democratic (all sites equal) |
-| **Conservative** | $\text{FRI} = \min_k E_k$ | Most cautious |
-| **Optimistic** | $\text{FRI} = \max_k E_k$ | Least cautious |
+| Strategy         | Weight Formula                         | Properties                   |
+| ---------------- | -------------------------------------- | ---------------------------- |
+| **Sample-size**  | $w_k = n_k / N$                        | Proportional to precision    |
+| **Square-root**  | $w_k = \sqrt{n_k} / \sum_j \sqrt{n_j}$ | Moderate compromise          |
+| **Logarithmic**  | $w_k = \log n_k / \sum_j \log n_j$     | Less size-dependent          |
+| **Equal**        | $w_k = 1/K$                            | Democratic (all sites equal) |
+| **Conservative** | $\text{FRI} = \min_k E_k$              | Most cautious                |
+| **Optimistic**   | $\text{FRI} = \max_k E_k$              | Least cautious               |
 
 ### 2.4 Experimental Design
 
@@ -112,6 +114,7 @@ We generate synthetic data with unmeasured confounder $U$:
 **Confounding levels**: ρ = 0 (baseline), 0.2 (weak), 0.5 (moderate), 0.8 (strong)
 
 **Validation**:
+
 1. Compute site E-values at each confounding level
 2. Aggregate to FRI using each strategy
 3. Assess FRI vs true ρ correlation
@@ -123,52 +126,54 @@ We generate synthetic data with unmeasured confounder $U$:
 
 ### 3.1 Baseline (ρ = 0, No Confounding)
 
-| Site | Sample Size | E-value | FRI Contribution |
-|------|-------------|---------|------------------|
-| Site 1 | 334 | 2.71 | 0.90 |
-| Site 2 | 334 | 2.68 | 0.89 |
-| Site 3 | 334 | 2.58 | 0.86 |
-| **Federated (Sample-size)** | 1002 | **2.65** | — |
+| Site                        | Sample Size | E-value  | FRI Contribution |
+| --------------------------- | ----------- | -------- | ---------------- |
+| Site 1                      | 334         | 2.71     | 0.90             |
+| Site 2                      | 334         | 2.68     | 0.89             |
+| Site 3                      | 334         | 2.58     | 0.86             |
+| **Federated (Sample-size)** | 1002        | **2.65** | —                |
 
 **FRI aggregation strategies** (baseline):
 
-| Strategy | FRI | Interpretation |
-|----------|-----|----------------|
-| Sample-size | **2.65** | Default (balanced sites) |
-| √n | **2.65** | Identical (balanced) |
-| Log n | **2.65** | Identical (balanced) |
-| Equal | **2.66** | Slight difference |
-| Conservative | **2.58** | Minimum (most cautious) |
+| Strategy     | FRI      | Interpretation           |
+| ------------ | -------- | ------------------------ |
+| Sample-size  | **2.65** | Default (balanced sites) |
+| √n           | **2.65** | Identical (balanced)     |
+| Log n        | **2.65** | Identical (balanced)     |
+| Equal        | **2.66** | Slight difference        |
+| Conservative | **2.58** | Minimum (most cautious)  |
 
 **Key finding**: All strategies converge at baseline (no confounding), confirming internal validity.
 
 ### 3.2 Confounding Injection Results
 
 | ρ (True Confounding) | Site 1 E-value | Site 2 E-value | Site 3 E-value | FRI (Sample-size) | FRI Decline |
-|----------------------|----------------|----------------|----------------|-------------------|-------------|
-| 0.0 (Baseline) | 2.71 | 2.68 | 2.58 | **2.65** | — |
-| 0.2 (Weak) | 2.34 | 2.31 | 2.25 | **2.30** | -13.2% |
-| 0.5 (Moderate) | 1.89 | 1.85 | 1.81 | **1.85** | -30.2% |
-| 0.8 (Strong) | 1.45 | 1.41 | 1.38 | **1.41** | -46.8% |
+| -------------------- | -------------- | -------------- | -------------- | ----------------- | ----------- |
+| 0.0 (Baseline)       | 2.71           | 2.68           | 2.58           | **2.65**          | —           |
+| 0.2 (Weak)           | 2.34           | 2.31           | 2.25           | **2.30**          | -13.2%      |
+| 0.5 (Moderate)       | 1.89           | 1.85           | 1.81           | **1.85**          | -30.2%      |
+| 0.8 (Strong)         | 1.45           | 1.41           | 1.38           | **1.41**          | -46.8%      |
 
 **Correlation**: FRI vs ρ: **r = -0.96, p < 0.001** (strong linear relationship)
 
 **ROC Analysis** (detecting ρ ≥ 0.5):
+
 - AUC = **0.89** (95% CI: 0.82-0.96)
 - Optimal threshold: FRI < 2.0
 - Sensitivity: 85%, Specificity: 92%
 
 ### 3.3 Strategy Comparison (ρ = 0.5)
 
-| Strategy | FRI | Change from Baseline | Detection Performance |
-|----------|-----|----------------------|-----------------------|
-| Sample-size | **1.85** | -30.2% | AUC=0.89 |
-| √n | **1.86** | -29.8% | AUC=0.88 |
-| Log n | **1.88** | -29.1% | AUC=0.87 |
-| Equal | **1.85** | -30.5% | AUC=0.89 |
-| Conservative | **1.81** | -29.8% | AUC=0.92 (high specificity) |
+| Strategy     | FRI      | Change from Baseline | Detection Performance       |
+| ------------ | -------- | -------------------- | --------------------------- |
+| Sample-size  | **1.85** | -30.2%               | AUC=0.89                    |
+| √n           | **1.86** | -29.8%               | AUC=0.88                    |
+| Log n        | **1.88** | -29.1%               | AUC=0.87                    |
+| Equal        | **1.85** | -30.5%               | AUC=0.89                    |
+| Conservative | **1.81** | -29.8%               | AUC=0.92 (high specificity) |
 
 **Key findings**:
+
 1. **Sample-size weighting**: Best balance of power and validity
 2. **Conservative**: Highest specificity (fewer false alarms) but lower sensitivity
 3. **Equal weighting**: Robust to site imbalance but reduced power
@@ -177,11 +182,11 @@ We generate synthetic data with unmeasured confounder $U$:
 
 With sites n = 100, 334, 1000:
 
-| Strategy | FRI (ρ=0) | FRI (ρ=0.5) | Sensitivity to Confounding |
-|----------|-----------|-------------|---------------------------|
-| Sample-size | 2.71 | 1.89 | -30.3% |
-| Equal | 2.58 | 1.82 | -29.5% |
-| Conservative | 2.45 | 1.75 | -28.6% |
+| Strategy     | FRI (ρ=0) | FRI (ρ=0.5) | Sensitivity to Confounding |
+| ------------ | --------- | ----------- | -------------------------- |
+| Sample-size  | 2.71      | 1.89        | -30.3%                     |
+| Equal        | 2.58      | 1.82        | -29.5%                     |
+| Conservative | 2.45      | 1.75        | -28.6%                     |
 
 **Insight**: Large sites (n=1000) with higher E-values dominate sample-size weighting, improving overall FRI. Equal weighting down-weights these high-precision sites, reducing overall robustness signal.
 
@@ -189,14 +194,15 @@ With sites n = 100, 334, 1000:
 
 To verify FRI validity and statistical properties, we conducted 1,000 Monte Carlo simulations at each confounding level with known ground truth.
 
-| ρ (True Confounding) | FRI Mean | FRI SD | Coverage (True in 95% CI) | Bias |
-|----------------------|----------|--------|--------------------------|------|
-| 0.0 (None) | 2.65 | 0.18 | 95.3% | 0.00 |
-| 0.2 (Weak) | 2.30 | 0.16 | 95.1% | -0.01 |
-| 0.5 (Moderate) | 1.85 | 0.14 | 94.8% | 0.00 |
-| 0.8 (Strong) | 1.41 | 0.11 | 95.2% | +0.01 |
+| ρ (True Confounding) | FRI Mean | FRI SD | Coverage (True in 95% CI) | Bias  |
+| -------------------- | -------- | ------ | ------------------------- | ----- |
+| 0.0 (None)           | 2.65     | 0.18   | 95.3%                     | 0.00  |
+| 0.2 (Weak)           | 2.30     | 0.16   | 95.1%                     | -0.01 |
+| 0.5 (Moderate)       | 1.85     | 0.14   | 94.8%                     | 0.00  |
+| 0.8 (Strong)         | 1.41     | 0.11   | 95.2%                     | +0.01 |
 
 **Key findings**:
+
 1. **Unbiased**: FRI estimator has negligible bias across all confounding levels (|bias| ≤ 0.01)
 2. **Valid coverage**: 95% confidence intervals maintain nominal coverage ≥94.8%
 3. **Decreasing variance**: Standard deviation decreases with stronger confounding (0.18 → 0.11), reflecting tighter bounds at high ρ
@@ -212,12 +218,12 @@ To verify FRI validity and statistical properties, we conducted 1,000 Monte Carl
 
 **FRI Thresholds** (empirical guidelines):
 
-| FRI Value | Interpretation | Action |
-|-----------|----------------|--------|
-| FRI > 3.0 | Highly robust | Moderate confidence in effect |
-| 2.0 < FRI ≤ 3.0 | Moderately robust | Sensitivity analysis recommended |
-| 1.5 < FRI ≤ 2.0 | Weak robustness | Caution required |
-| FRI ≤ 1.5 | Vulnerable | Effect easily explained by confounding |
+| FRI Value       | Interpretation    | Action                                 |
+| --------------- | ----------------- | -------------------------------------- |
+| FRI > 3.0       | Highly robust     | Moderate confidence in effect          |
+| 2.0 < FRI ≤ 3.0 | Moderately robust | Sensitivity analysis recommended       |
+| 1.5 < FRI ≤ 2.0 | Weak robustness   | Caution required                       |
+| FRI ≤ 1.5       | Vulnerable        | Effect easily explained by confounding |
 
 **Clinical example**: FRI=2.5 means an unmeasured confounder must have RR≥2.5 with both treatment and outcome to nullify the effect. Compare to known confounders (e.g., disease severity typically RR=1.5-2.0).
 
@@ -227,19 +233,19 @@ To verify FRI validity and statistical properties, we conducted 1,000 Monte Carl
 
 **Site characteristics**:
 
-| Hospital | Type | N | Treatment Rate | ATE Bound | E-value |
-|----------|------|---|----------------|-----------|----------|
-| Mass General | Academic | 800 | 0.72 | [0.08, 0.22] | **3.2** |
-| Johns Hopkins | Academic | 650 | 0.68 | [0.05, 0.24] | **2.9** |
-| Community A | Community | 220 | 0.55 | [-0.05, 0.28] | **1.8** |
-| Community B | Community | 180 | 0.48 | [-0.10, 0.30] | **1.6** |
-| Rural Hospital | Rural | 90 | 0.42 | [-0.15, 0.35] | **1.4** |
+| Hospital       | Type      | N   | Treatment Rate | ATE Bound     | E-value |
+| -------------- | --------- | --- | -------------- | ------------- | ------- |
+| Mass General   | Academic  | 800 | 0.72           | [0.08, 0.22]  | **3.2** |
+| Johns Hopkins  | Academic  | 650 | 0.68           | [0.05, 0.24]  | **2.9** |
+| Community A    | Community | 220 | 0.55           | [-0.05, 0.28] | **1.8** |
+| Community B    | Community | 180 | 0.48           | [-0.10, 0.30] | **1.6** |
+| Rural Hospital | Rural     | 90  | 0.42           | [-0.15, 0.35] | **1.4** |
 
 **FRI Computation**:
 
 ```
 Sample-size weighted FRI:
-  = (800/1940)×3.2 + (650/1940)×2.9 + (220/1940)×1.8 
+  = (800/1940)×3.2 + (650/1940)×2.9 + (220/1940)×1.8
     + (180/1940)×1.6 + (90/1940)×1.4
   = 1.32 + 0.97 + 0.20 + 0.15 + 0.06
   = 2.70
@@ -248,6 +254,7 @@ Sample-size weighted FRI:
 **Interpretation**: Network-level FRI=2.70 means an unmeasured confounder must have risk ratio ≥2.70 with both vasopressor use and mortality to explain away the observed benefit.
 
 **Clinical assessment**: Compare to known ICU confounders:
+
 - Disease severity (APACHE II): RR ≈ 1.8-2.2
 - Sepsis source (pulmonary vs abdominal): RR ≈ 1.3-1.6
 - Time to treatment: RR ≈ 1.4-1.9
@@ -265,12 +272,12 @@ Sample-size weighted FRI:
 
 ### 4.4 Comparison with Alternatives
 
-| Method | Scope | Privacy | Interpretation |
-|--------|-------|---------|----------------|
-| Single-site E-value [4] | 1 site | N/A | Risk ratio |
-| Federated TMLE [6] | Multi-site | ✅ | Point estimate (assumes no confounding) |
-| Sensitivity parameters [7] | 1 site | N/A | Complex |
-| **FRI (Our work)** | **Multi-site** | **✅** | **Risk ratio (intuitive)** |
+| Method                     | Scope          | Privacy | Interpretation                          |
+| -------------------------- | -------------- | ------- | --------------------------------------- |
+| Single-site E-value [4]    | 1 site         | N/A     | Risk ratio                              |
+| Federated TMLE [6]         | Multi-site     | ✅      | Point estimate (assumes no confounding) |
+| Sensitivity parameters [7] | 1 site         | N/A     | Complex                                 |
+| **FRI (Our work)**         | **Multi-site** | **✅**  | **Risk ratio (intuitive)**              |
 
 ### 4.5 Limitations
 
@@ -305,6 +312,7 @@ Sample-size weighted FRI:
 ## 5. CONCLUSIONS
 
 **Key contributions**:
+
 1. ✅ **First federated E-value aggregation framework** with formal validation
 2. ✅ **FRI strongly correlates** with true confounding strength (r=-0.96)
 3. ✅ **Detection performance**: AUC=0.89 for moderate confounding
@@ -313,6 +321,7 @@ Sample-size weighted FRI:
 **Practical impact**: FRI enables multi-site robustness assessment for federated causal inference, complementing point estimates with quantifiable sensitivity metrics.
 
 **Future work**:
+
 - Confidence intervals for FRI (bootstrap/asymptotic)
 - Extension to multiple unmeasured confounders
 - Real-world validation with MIMIC-IV/OMOP data
@@ -347,9 +356,10 @@ harmonia causal fri-report --fri fri-results.json \
 ```
 
 **Output format** (`fri-results.json`):
+
 ```json
 {
-  "fri": 2.70,
+  "fri": 2.7,
   "strategy": "sample-size",
   "num_sites": 5,
   "site_evalues": [3.2, 2.9, 1.8, 1.6, 1.4],

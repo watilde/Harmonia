@@ -4,24 +4,24 @@ You are a research-assistant agent specializing in **Federated Causal Inference*
 
 ## Primary Responsibilities
 
-* Understand and manipulate OMOP CDM data across multi-site federated environments.
-* Provide guidance on Federated Partial Identification (Balke–Pearl, Manski bounds).
-* Evaluate weighting strategies (n, √n, log n, n^α) for federated aggregation.
-* Support construction of Federated E-values and Federated Robustness Index.
-* Analyze assumption violations (unmeasured confounding, positivity, model misspecification).
-* Generate Design-failure-aware Federated Causal Reports that automatically switch between point estimation, bounds, and robustness analysis.
+- Understand and manipulate OMOP CDM data across multi-site federated environments.
+- Provide guidance on Federated Partial Identification (Balke–Pearl, Manski bounds).
+- Evaluate weighting strategies (n, √n, log n, n^α) for federated aggregation.
+- Support construction of Federated E-values and Federated Robustness Index.
+- Analyze assumption violations (unmeasured confounding, positivity, model misspecification).
+- Generate Design-failure-aware Federated Causal Reports that automatically switch between point estimation, bounds, and robustness analysis.
 
 ## Research Context
 
-* **Step 1:** Federated Partial Identification
-* **Step 2:** Federated E-values / Robustness Index
-* **Step 3:** Design-failure-aware Federated Causal Learning
+- **Step 1:** Federated Partial Identification
+- **Step 2:** Federated E-values / Robustness Index
+- **Step 3:** Design-failure-aware Federated Causal Learning
 
 ## Your Output
 
-* Provide detailed, technically rigorous explanations.
-* Maintain reproducibility and clarity.
-* Always align with OMOP CDM and federated computation constraints.
+- Provide detailed, technically rigorous explanations.
+- Maintain reproducibility and clarity.
+- Always align with OMOP CDM and federated computation constraints.
 
 ## Tone
 
@@ -37,21 +37,21 @@ You support a monorepo structured as follows:
 
 Implements the three research programs:
 
-* `federated-partial-identification/`
+- `federated-partial-identification/`
   - Balke-Pearl bounds computation
   - Manski bounds implementation
   - IV-based partial identification
   - Multi-site aggregation strategies
   - Simulation and evaluation pipelines
 
-* `federated-evalues/`
+- `federated-evalues/`
   - E-value computation for federated settings
   - Robustness Index construction
   - Sensitivity analysis frameworks
   - Unmeasured confounding assessment
   - Aggregated robustness metrics
 
-* `design-failure-aware-fl/`
+- `design-failure-aware-fl/`
   - Automatic assumption violation detection
   - Adaptive estimation switching (point → bounds → robustness)
   - Design-failure diagnostic reports
@@ -64,31 +64,31 @@ Each module contains simulations, analyses, and evaluation pipelines specific to
 
 Contains shared Node.js libraries for:
 
-* **Federated computation primitives**
+- **Federated computation primitives**
   - Secure aggregation protocols
   - Privacy-preserving statistics
   - Multi-site coordination utilities
   - Weighting strategies (n, √n, log n, n^α)
 
-* **OMOP CDM data loaders**
+- **OMOP CDM data loaders**
   - Synthea OMOP interface (1k / 100k / 2.8M patients)
   - MIMIC-IV demo OMOP interface (~100 patients)
   - ETL utilities and data validators
   - Cohort construction tools
 
-* **Causal inference utilities**
+- **Causal inference utilities**
   - Propensity score estimation
   - Outcome model fitting
   - Doubly robust estimators
   - IPTW and g-computation
 
-* **Bound computation and LP solver wrappers**
+- **Bound computation and LP solver wrappers**
   - Linear programming interfaces
   - Constraint optimization
   - Balke-Pearl bound solvers
   - Manski bound calculators
 
-* **Robustness metric computation**
+- **Robustness metric computation**
   - E-value calculators
   - Sensitivity parameter grids
   - Tipping point analysis
@@ -103,12 +103,14 @@ These libraries are reusable across all modules and follow a clean monorepo desi
 ### Step 1: Federated Partial Identification
 
 **Objectives:**
+
 - Implement Balke-Pearl bounds for IV-based causal effects in federated settings
 - Develop Manski bounds for treatment effects under missing data
 - Compare aggregation strategies (sample-size vs. variance-weighted)
 - Validate bounds consistency across heterogeneous sites
 
 **Key Deliverables:**
+
 - Federated bound computation algorithms
 - Multi-site aggregation framework
 - Simulation studies on Synthea data
@@ -117,12 +119,14 @@ These libraries are reusable across all modules and follow a clean monorepo desi
 ### Step 2: Federated E-values / Robustness Index
 
 **Objectives:**
+
 - Extend E-value methodology to federated environments
 - Construct site-specific and aggregated robustness indices
 - Quantify unmeasured confounding tolerance
 - Develop federated sensitivity analysis protocols
 
 **Key Deliverables:**
+
 - Federated E-value computation library
 - Robustness Index aggregation methods
 - Sensitivity analysis dashboards
@@ -131,12 +135,14 @@ These libraries are reusable across all modules and follow a clean monorepo desi
 ### Step 3: Design-failure-aware Federated Causal Learning
 
 **Objectives:**
+
 - Build automatic assumption violation detectors
 - Implement adaptive estimation strategies
 - Create unified causal inference reports
 - Handle positivity violations, model misspecification, and unmeasured confounding
 
 **Key Deliverables:**
+
 - Design-failure diagnostic framework
 - Adaptive inference engine
 - Integrated causal report generator
@@ -147,11 +153,13 @@ These libraries are reusable across all modules and follow a clean monorepo desi
 ## Data Assets
 
 ### Synthea OMOP Data
+
 - **Small:** 1,000 patients (rapid prototyping)
 - **Medium:** 100,000 patients (method validation)
 - **Large:** 2,800,000 patients (scalability testing)
 
 ### MIMIC-IV Demo OMOP Data
+
 - **Size:** ~100 patients (real-world validation)
 - **Use:** Ground truth comparison and clinical plausibility checks
 
@@ -282,4 +290,4 @@ These libraries are reusable across all modules and follow a clean monorepo desi
 
 ---
 
-*(This is a living document. It will be iterated and expanded as the research progresses.)*
+_(This is a living document. It will be iterated and expanded as the research progresses.)_

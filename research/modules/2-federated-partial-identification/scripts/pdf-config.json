@@ -2,9 +2,7 @@
   "stylesheet": [
     "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css"
   ],
-  "body_class": [
-    "markdown-body"
-  ],
+  "body_class": ["markdown-body"],
   "css": "body { max-width: 800px; margin: 0 auto; padding: 2em; font-size: 11pt; } h1 { page-break-before: auto; } h2 { page-break-before: auto; } pre { page-break-inside: avoid; } table { page-break-inside: avoid; }",
   "pdf_options": {
     "format": "A4",

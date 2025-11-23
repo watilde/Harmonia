@@ -21,17 +21,17 @@ Manuscript on optimal aggregation of causal bounds across federated sites.
 
 ## 📈 Main Results
 
-| Setting | Best Strategy | Bound Width | Improvement |
-|---------|---------------|-------------|-------------|
-| Balanced (n=334 each) | All equivalent | 0.4898 | — |
-| Imbalanced (100,334,1000) | **Inverse-width** | **0.4793** | **2.2%** |
+| Setting                   | Best Strategy     | Bound Width | Improvement |
+| ------------------------- | ----------------- | ----------- | ----------- |
+| Balanced (n=334 each)     | All equivalent    | 0.4898      | —           |
+| Imbalanced (100,334,1000) | **Inverse-width** | **0.4793**  | **2.2%**    |
 
 ---
 
 ## 🔬 Methods
 
-- **Data**: Synthetic OMOP CDM  
-- **Assumptions**: Manski MTR bounds  
+- **Data**: Synthetic OMOP CDM
+- **Assumptions**: Manski MTR bounds
 - **Strategies**: n, √n, log n, inverse-width, conservative, uniform
 
 ---

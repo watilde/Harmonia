@@ -13,12 +13,12 @@
  * Data point for causal inference
  */
 export interface CausalDataPoint {
-    /** Treatment indicator (0 or 1) */
-    treatment: 0 | 1;
-    /** Outcome value (0 to 1 for binary, 0-1 range for continuous) */
-    outcome: number;
-    /** Optional: Sample weight */
-    weight?: number;
+  /** Treatment indicator (0 or 1) */
+  treatment: 0 | 1;
+  /** Outcome value (0 to 1 for binary, 0-1 range for continuous) */
+  outcome: number;
+  /** Optional: Sample weight */
+  weight?: number;
 }
 /**
  * Type alias for backward compatibility with manski-bounds.ts
@@ -29,27 +29,27 @@ export type ManskiBounds = ATEBounds;
  * Bounds on Average Treatment Effect
  */
 export interface ATEBounds {
-    /** Lower bound */
-    lower: number;
-    /** Upper bound */
-    upper: number;
-    /** Bound width (upper - lower) */
-    width: number;
-    /** Assumption level used */
-    assumption: 'worst-case' | 'mtr' | 'mts' | 'mtr-mts';
-    /** Sample size */
-    sampleSize: number;
+  /** Lower bound */
+  lower: number;
+  /** Upper bound */
+  upper: number;
+  /** Bound width (upper - lower) */
+  width: number;
+  /** Assumption level used */
+  assumption: 'worst-case' | 'mtr' | 'mts' | 'mtr-mts';
+  /** Sample size */
+  sampleSize: number;
 }
 /**
  * Configuration for bound computation
  */
 export interface BoundsConfig {
-    /** Assumption level (default: 'worst-case') */
-    assumption?: 'worst-case' | 'mtr' | 'mts' | 'mtr-mts';
-    /** Minimum outcome value (default: 0) */
-    yMin?: number;
-    /** Maximum outcome value (default: 1) */
-    yMax?: number;
+  /** Assumption level (default: 'worst-case') */
+  assumption?: 'worst-case' | 'mtr' | 'mts' | 'mtr-mts';
+  /** Minimum outcome value (default: 0) */
+  yMin?: number;
+  /** Maximum outcome value (default: 1) */
+  yMax?: number;
 }
 /**
  * Compute sharp bounds on Average Treatment Effect (ATE)
@@ -107,10 +107,13 @@ export declare function computeBoundsOverlap(bounds1: ATEBounds, bounds2: ATEBou
  * @param config - Optional configuration (yMin, yMax)
  * @returns Object with bounds under different assumptions
  */
-export declare function computeAllBounds(data: CausalDataPoint[], config?: Omit<BoundsConfig, 'assumption'>): {
-    worstCase: ATEBounds;
-    mtr: ATEBounds;
-    mts: ATEBounds;
-    mtrMts: ATEBounds;
+export declare function computeAllBounds(
+  data: CausalDataPoint[],
+  config?: Omit<BoundsConfig, 'assumption'>
+): {
+  worstCase: ATEBounds;
+  mtr: ATEBounds;
+  mts: ATEBounds;
+  mtrMts: ATEBounds;
 };
 //# sourceMappingURL=partial-id.d.ts.map

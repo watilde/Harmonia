@@ -40,11 +40,13 @@ $$
 $$
 
 **Properties:**
+
 - **Optimal under homogeneity:** If all sites have identical bounds, this recovers centralized bounds exactly
 - **Asymptotically efficient:** Minimizes variance when site effects are homogeneous
 - **Bias under heterogeneity:** Large sites dominate, can introduce bias if treatment effects vary by site
 
 **When to use:**
+
 - Sites are drawn from the same population
 - Low cross-site heterogeneity
 - Large-sample asymptotic efficiency is desired
@@ -60,11 +62,13 @@ w_s^{\sqrt{n}} = \frac{\sqrt{n_s}}{\sum_{j=1}^S \sqrt{n_j}}
 $$
 
 **Properties:**
+
 - **Compromise:** Balances between equal weights and sample-size weights
 - **Down-weights large sites:** Reduces influence of potentially heterogeneous large sites
 - **Robust to outliers:** Less sensitive to extreme site-specific bounds
 
 **When to use:**
+
 - Moderate heterogeneity across sites
 - Concern about large-site dominance
 - Desire for robustness
@@ -80,11 +84,13 @@ w_s^{\log} = \frac{\log(n_s + 1)}{\sum_{j=1}^S \log(n_j + 1)}
 $$
 
 **Properties:**
+
 - **Strong down-weighting:** Drastically reduces influence of large sites
 - **Equalizes sites:** Approximates equal weighting when sites vary greatly in size
 - **Protects against heterogeneity bias:** Prevents large outlier sites from dominating
 
 **When to use:**
+
 - High cross-site heterogeneity
 - Large imbalance in site sizes
 - Concern that large sites may be systematically different
@@ -100,12 +106,14 @@ w_s^{eq} = \frac{1}{S}
 $$
 
 **Properties:**
+
 - **Democratic:** Every site contributes equally regardless of size
 - **Maximum robustness:** No site dominates
 - **Inefficient:** Ignores information from sample sizes
 - **Higher variance:** Smaller sites have equal weight to large sites
 
 **When to use:**
+
 - Extreme heterogeneity
 - Sites represent distinct populations
 - Exploratory analysis (baseline comparison)
@@ -121,6 +129,7 @@ w_s^{\alpha} = \frac{n_s^\alpha}{\sum_{j=1}^S n_j^\alpha}, \quad \alpha \in [0, 
 $$
 
 **Properties:**
+
 - **Flexible family:** Interpolates between equal ($\alpha=0$) and sample-size ($\alpha=1$) weighting
 - **Tunable:** Choose $\alpha$ based on estimated heterogeneity
 - **Special cases:**
@@ -129,6 +138,7 @@ $$
   - $\alpha = 1$: Sample-size weighting
 
 **When to use:**
+
 - Need to balance efficiency and robustness
 - Can estimate optimal $\alpha$ from data
 - Want flexibility in aggregation
@@ -169,10 +179,12 @@ $$
 where the bias depends on the correlation between site size and site-specific effects.
 
 **When bias occurs:**
+
 - Large sites have systematically different treatment effects
 - Site sizes are correlated with patient characteristics
 
 **Mitigation:**
+
 - Use down-weighted strategies (sqrt, log)
 - Model heterogeneity explicitly (random effects)
 - Report site-specific bounds alongside aggregate
@@ -232,12 +244,12 @@ Hence, federated bounds are **at least as tight** as the widest site-specific bo
 
 From our experiments:
 
-| Strategy | Info Loss (Worst-Case) | Info Loss (MTR) |
-|----------|------------------------|-----------------|
-| Sample-size | 0.00% | 0.00% |
-| Sqrt | 0.00% | 0.00% |
-| Log | 0.00% | 0.00% |
-| Equal | 0.00% | 0.00% |
+| Strategy    | Info Loss (Worst-Case) | Info Loss (MTR) |
+| ----------- | ---------------------- | --------------- |
+| Sample-size | 0.00%                  | 0.00%           |
+| Sqrt        | 0.00%                  | 0.00%           |
+| Log         | 0.00%                  | 0.00%           |
+| Equal       | 0.00%                  | 0.00%           |
 
 **Interpretation:** Zero information loss indicates **perfect homogeneity** across sites in the Synthea 1k dataset.
 
@@ -268,6 +280,7 @@ $$
 $$
 
 **High width variance** indicates:
+
 - Some sites have much tighter/wider bounds
 - Potential data quality issues
 - Different patient populations
@@ -297,10 +310,12 @@ For each site $s$, only the following is shared:
 ### Privacy Loss
 
 Bounds reveal:
+
 - Range of plausible treatment effects
 - Approximate outcome rates (since bounds depend on $\mathbb{E}[Y \mid T]$)
 
 Bounds **do not reveal:**
+
 - Individual-level data
 - Exact outcome rates (only constrained by bounds)
 - Covariate distributions
@@ -323,13 +338,13 @@ where $\Delta$ is the sensitivity and $\epsilon$ is the privacy budget.
 
 ### Strategy Selection Guidelines
 
-| Scenario | Recommended Strategy | Rationale |
-|----------|---------------------|-----------|
-| Low heterogeneity | Sample-size | Optimal efficiency |
-| Moderate heterogeneity | Square-root | Balanced robustness |
-| High heterogeneity | Logarithmic or Equal | Prevent large-site bias |
-| Unknown heterogeneity | Report all strategies | Sensitivity analysis |
-| Balanced sites | Any (minimal difference) | Strategies converge |
+| Scenario               | Recommended Strategy     | Rationale               |
+| ---------------------- | ------------------------ | ----------------------- |
+| Low heterogeneity      | Sample-size              | Optimal efficiency      |
+| Moderate heterogeneity | Square-root              | Balanced robustness     |
+| High heterogeneity     | Logarithmic or Equal     | Prevent large-site bias |
+| Unknown heterogeneity  | Report all strategies    | Sensitivity analysis    |
+| Balanced sites         | Any (minimal difference) | Strategies converge     |
 
 ### Diagnostic Steps
 
@@ -343,13 +358,13 @@ where $\Delta$ is the sensitivity and $\epsilon$ is the privacy budget.
 
 ## References
 
-1. **Rubin, D. B. (1974).** *Estimating causal effects of treatments in randomized and nonrandomized studies.* Journal of Educational Psychology.
+1. **Rubin, D. B. (1974).** _Estimating causal effects of treatments in randomized and nonrandomized studies._ Journal of Educational Psychology.
 
-2. **Hartung, J., & Knapp, G. (2001).** *On tests of the overall treatment effect in meta-analysis with normally distributed responses.* Statistics in Medicine.
+2. **Hartung, J., & Knapp, G. (2001).** _On tests of the overall treatment effect in meta-analysis with normally distributed responses._ Statistics in Medicine.
 
-3. **DerSimonian, R., & Laird, N. (1986).** *Meta-analysis in clinical trials.* Controlled Clinical Trials.
+3. **DerSimonian, R., & Laird, N. (1986).** _Meta-analysis in clinical trials._ Controlled Clinical Trials.
 
-4. **McMahan, B., et al. (2017).** *Communication-efficient learning of deep networks from decentralized data.* AISTATS.
+4. **McMahan, B., et al. (2017).** _Communication-efficient learning of deep networks from decentralized data._ AISTATS.
 
 ---
 

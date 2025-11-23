@@ -55,7 +55,10 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
   const visitCsv = fs.readFileSync(path.join(inputDir, 'visit_occurrence.csv'), 'utf-8');
 
   const personData: PersonRow[] = parse(personCsv, { columns: true, skip_empty_lines: true });
-  const conditionData: ConditionRow[] = parse(conditionCsv, { columns: true, skip_empty_lines: true });
+  const conditionData: ConditionRow[] = parse(conditionCsv, {
+    columns: true,
+    skip_empty_lines: true,
+  });
   const visitData: VisitRow[] = parse(visitCsv, { columns: true, skip_empty_lines: true });
 
   console.log(`   Loaded ${personData.length} persons`);
@@ -71,7 +74,7 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
     los_days: number;
   }
 
-  const visitsWithLOS: VisitWithLOS[] = visitData.map(visit => {
+  const visitsWithLOS: VisitWithLOS[] = visitData.map((visit) => {
     const startDate = new Date(visit.visit_start_date);
     const endDate = new Date(visit.visit_end_date);
     const losDays = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -82,8 +85,8 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
   const sepsisConceptIds = [132797, 4011766, 4144583]; // Various sepsis concept IDs
   const sepsisPatients = new Set(
     conditionData
-      .filter(row => sepsisConceptIds.includes(Number(row.condition_concept_id)))
-      .map(row => row.person_id)
+      .filter((row) => sepsisConceptIds.includes(Number(row.condition_concept_id)))
+      .map((row) => row.person_id)
   );
 
   console.log(`   Found ${sepsisPatients.size} patients with sepsis`);
@@ -112,7 +115,7 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
   );
 
   // Calculate median LOS
-  const avgLOSValues = personVisits.map(p => p.avg_los).sort((a, b) => a - b);
+  const avgLOSValues = personVisits.map((p) => p.avg_los).sort((a, b) => a - b);
   const medianLOS = avgLOSValues[Math.floor(avgLOSValues.length / 2)];
 
   // Set outcome (above median LOS)
@@ -121,7 +124,10 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
   }
 
   // Add demographics
-  const personDemographicsMap = new Map<string, { gender_concept_id?: string; year_of_birth?: string }>();
+  const personDemographicsMap = new Map<
+    string,
+    { gender_concept_id?: string; year_of_birth?: string }
+  >();
   for (const person of personData) {
     personDemographicsMap.set(person.person_id, {
       gender_concept_id: person.gender_concept_id,
@@ -139,14 +145,18 @@ function prepareMimicData(inputDir: string, outputFile: string): number {
 
   console.log(`\n📊 Data summary:`);
   console.log(`   Total patients:     ${personVisits.length}`);
-  const treatedCount = personVisits.filter(p => p.treatment === 1).length;
-  console.log(`   Treated (sepsis):   ${treatedCount} (${((treatedCount / personVisits.length) * 100).toFixed(1)}%)`);
-  const outcomeCount = personVisits.filter(p => p.outcome === 1).length;
-  console.log(`   High LOS outcome:   ${outcomeCount} (${((outcomeCount / personVisits.length) * 100).toFixed(1)}%)`);
+  const treatedCount = personVisits.filter((p) => p.treatment === 1).length;
+  console.log(
+    `   Treated (sepsis):   ${treatedCount} (${((treatedCount / personVisits.length) * 100).toFixed(1)}%)`
+  );
+  const outcomeCount = personVisits.filter((p) => p.outcome === 1).length;
+  console.log(
+    `   High LOS outcome:   ${outcomeCount} (${((outcomeCount / personVisits.length) * 100).toFixed(1)}%)`
+  );
   console.log(`   Median LOS:         ${medianLOS.toFixed(1)} days`);
 
   // Convert to format expected by CLI (treatment, outcome, optionally confounders)
-  const outputData: OutputRecord[] = personVisits.map(person => ({
+  const outputData: OutputRecord[] = personVisits.map((person) => ({
     patientId: person.person_id,
     treatment: person.treatment,
     outcome: person.outcome,

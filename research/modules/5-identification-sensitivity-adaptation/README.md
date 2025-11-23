@@ -5,45 +5,54 @@ End-to-end research framework for three-paper series on privacy-preserving, robu
 ## 📚 Research Overview
 
 ### Paper 1: Federated Partial Identification
+
 **Goal**: Establish foundation for federated causal bounds without sharing individual data.
 
 **Key Contributions**:
+
 - Federated Balke-Pearl and Manski bounds computation
 - Novel weighting strategies: n, √n, log n, n^α
 - Theoretical analysis of optimal weighting under different conditions
 - Privacy-preserving aggregation protocols
 
 **Method**:
+
 1. Generate multi-site Synthea data
 2. Compute site-specific partial identification bounds
 3. Federate bounds using different weighting strategies
 4. Evaluate convergence, bias, and coverage properties
 
 ### Paper 2: Federated E-values and Robustness Index
+
 **Goal**: Quantify robustness of federated causal inference to unmeasured confounding.
 
 **Key Contributions**:
+
 - Federated E-value aggregation framework
 - Novel Federated Robustness Index (FRI) metric
 - Controlled confounding injection methodology
 - Site-level and global robustness assessment
 
 **Method**:
+
 1. Generate Synthea data with controlled unmeasured confounding
 2. Compute site-specific E-values
 3. Aggregate into Federated Robustness Index
 4. Validate against ground truth confounding strength
 
 ### Paper 3: Design-Failure-Aware Federated Causal Learning
+
 **Goal**: Automatic adaptation to assumption violations in federated settings.
 
 **Key Contributions**:
+
 - Multi-assumption diagnostic framework (unconfoundedness, positivity, specification)
 - Automatic inference mode selection (point estimate → bounds → E-values)
 - Federated assumption score aggregation
 - Adaptive reporting based on violation severity
 
 **Method**:
+
 1. Simulate scenarios with varying assumption violations
 2. Diagnose violations at each site
 3. Automatically select appropriate inference method
@@ -52,12 +61,14 @@ End-to-end research framework for three-paper series on privacy-preserving, robu
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 ```bash
 cd research
 npm install
 ```
 
 ### Run All Experiments
+
 ```bash
 # Master E2E pipeline
 cd research/modules/5-identification-sensitivity-adaptation
@@ -65,6 +76,7 @@ cd research/modules/5-identification-sensitivity-adaptation
 ```
 
 ### Run Individual Papers
+
 ```bash
 # Paper 1: Partial Identification
 cd experiments/paper1-federated-partial-id
@@ -84,11 +96,13 @@ cd experiments/paper3-design-failure-aware
 ### Paper 1: Weighting Strategy Evaluation
 
 **Conditions**:
+
 - Number of sites: 3, 5, 10
 - Sample sizes: Balanced (334 each), Imbalanced (100-1000)
 - Effect sizes: Small (0.05), Medium (0.15), Large (0.30)
 
 **Weighting Strategies**:
+
 1. `n` (sample size): w_i = n_i / Σn_j
 2. `sqrt-n` (√n): w_i = √n_i / Σ√n_j
 3. `log-n` (log n): w_i = log(n_i) / Σlog(n_j)
@@ -97,6 +111,7 @@ cd experiments/paper3-design-failure-aware
 6. `uniform` (equal): w_i = 1/k
 
 **Metrics**:
+
 - Bound width (tightness)
 - Coverage of true ATE
 - Variance across sites
@@ -105,18 +120,21 @@ cd experiments/paper3-design-failure-aware
 ### Paper 2: Confounding Injection
 
 **Confounding Strengths**:
+
 - None: ρ = 0 (baseline)
 - Weak: ρ = 0.2
 - Moderate: ρ = 0.5
 - Strong: ρ = 0.8
 
 **E-value Aggregation**:
+
 - Conservative: min(E_i)
 - Optimistic: max(E_i)
 - Sample-weighted: Σw_i·E_i
 - Variance-weighted: Σ(1/σ_i²)·E_i
 
 **Validation**:
+
 - Compare FRI to known confounding strength
 - Evaluate detection sensitivity
 - Assess false positive rates
@@ -124,24 +142,28 @@ cd experiments/paper3-design-failure-aware
 ### Paper 3: Violation Scenarios
 
 **Unconfoundedness Violations**:
+
 - Clean: No hidden confounders
 - Mild: 1 unmeasured confounder (r² = 0.1)
 - Moderate: 2-3 confounders (r² = 0.3)
 - Severe: Multiple confounders (r² = 0.5+)
 
 **Positivity Violations**:
+
 - Full overlap: P(T|X) ∈ [0.1, 0.9]
 - Mild: P(T|X) ∈ [0.05, 0.95]
 - Moderate: P(T|X) ∈ [0.01, 0.99]
 - Severe: Sparse regions with P(T|X) < 0.01
 
 **Specification Violations**:
+
 - Correct: Linear model, linear truth
 - Mild: Linear model, slight nonlinearity
 - Moderate: Linear model, quadratic truth
 - Severe: Linear model, complex interactions
 
 **Automatic Mode Selection**:
+
 ```
 Overall Score > 0.8  → Point Estimate (OLS/IPW)
 0.5 < Score ≤ 0.8    → Partial ID Bounds
@@ -151,6 +173,7 @@ Score ≤ 0.5          → E-values + Bounds
 ## 📁 Data Generation
 
 ### Synthea Configuration
+
 ```json
 {
   "population": 1000,
@@ -164,6 +187,7 @@ Score ≤ 0.5          → E-values + Bounds
 ```
 
 ### Site Splitting Strategies
+
 - Random: Uniform random assignment
 - Stratified: Balance by age/gender
 - Geographic: Region-based (simulated)
@@ -172,6 +196,7 @@ Score ≤ 0.5          → E-values + Bounds
 ## 🔧 Tools & Commands
 
 ### Harmonia CLI Integration
+
 All experiments use the Harmonia CLI for reproducibility:
 
 ```bash
@@ -197,6 +222,7 @@ harmonia causal compute-fri --sites-file evalues.json --strategy sample-size
 ## 📈 Expected Outputs
 
 ### Paper 1 Outputs
+
 ```
 results/
 ├── bounds_by_strategy.csv
@@ -207,6 +233,7 @@ results/
 ```
 
 ### Paper 2 Outputs
+
 ```
 results/
 ├── fri_by_confounding.csv
@@ -217,6 +244,7 @@ results/
 ```
 
 ### Paper 3 Outputs
+
 ```
 results/
 ├── mode_selection_accuracy.csv
@@ -233,18 +261,21 @@ results/
 ## 🧪 Testing
 
 ### Unit Tests
+
 ```bash
 # Test individual components
 npm test -- frci
 ```
 
 ### Integration Tests
+
 ```bash
 # Test end-to-end pipelines
 ./test-integration.sh
 ```
 
 ### Validation
+
 ```bash
 # Validate against theoretical properties
 ./validate-results.sh
@@ -263,12 +294,14 @@ npm test -- frci
 This research framework is designed for reproducibility and extension.
 
 ### Adding New Experiments
+
 1. Create experiment directory under `experiments/`
 2. Add scenario configuration to `scenarios/`
 3. Implement using Harmonia CLI commands
 4. Document in experiment README
 
 ### Extending Analysis
+
 - New weighting strategies: Edit `scenarios/01-*.json`
 - New violation types: Add to `scenarios/03-*.json`
 - New metrics: Extend post-processing scripts

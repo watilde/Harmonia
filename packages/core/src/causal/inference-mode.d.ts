@@ -19,36 +19,42 @@
 import type { AssumptionScores } from './assumption-diagnostics';
 export type InferenceMode = 'point-estimate' | 'bounds' | 'sensitivity';
 export interface InferenceModeDecision {
-    mode: InferenceMode;
-    reason: string;
-    confidence: number;
-    assumptions_met: string[];
-    assumptions_violated: string[];
-    recommendation: string;
+  mode: InferenceMode;
+  reason: string;
+  confidence: number;
+  assumptions_met: string[];
+  assumptions_violated: string[];
+  recommendation: string;
 }
 export interface ModeThresholds {
-    point_estimate_threshold: number;
-    bounds_threshold: number;
+  point_estimate_threshold: number;
+  bounds_threshold: number;
 }
 /**
  * Determine inference mode based on assumption scores
  */
-export declare function determineInferenceMode(scores: AssumptionScores, thresholds?: ModeThresholds): InferenceModeDecision;
+export declare function determineInferenceMode(
+  scores: AssumptionScores,
+  thresholds?: ModeThresholds
+): InferenceModeDecision;
 /**
  * Determine mode for multiple sites and aggregate
  */
 export interface FederatedModeDecision {
-    overall_mode: InferenceMode;
-    site_modes: Map<string, InferenceModeDecision>;
-    mode_distribution: {
-        point_estimate: number;
-        bounds: number;
-        sensitivity: number;
-    };
-    recommendation: string;
-    safest_mode: InferenceMode;
+  overall_mode: InferenceMode;
+  site_modes: Map<string, InferenceModeDecision>;
+  mode_distribution: {
+    point_estimate: number;
+    bounds: number;
+    sensitivity: number;
+  };
+  recommendation: string;
+  safest_mode: InferenceMode;
 }
-export declare function determineFederatedMode(siteScores: Map<string, AssumptionScores>, thresholds?: ModeThresholds): FederatedModeDecision;
+export declare function determineFederatedMode(
+  siteScores: Map<string, AssumptionScores>,
+  thresholds?: ModeThresholds
+): FederatedModeDecision;
 /**
  * Print inference mode decision
  */

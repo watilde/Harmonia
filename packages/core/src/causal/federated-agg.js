@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 /**
  * Federated Aggregation for Partial Identification Bounds
  *
  * Aggregates ATE bounds from multiple sites without sharing patient-level data.
  * Implements various aggregation strategies for privacy-preserving causal inference.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.federateATEBounds = federateATEBounds;
 exports.formatFederatedBounds = formatFederatedBounds;
 exports.computeCommunicationCost = computeCommunicationCost;
@@ -15,18 +15,18 @@ exports.computeCommunicationCost = computeCommunicationCost;
  * This is the most common approach: sites with more data have more influence.
  */
 function aggregateWeightedAverage(siteBounds) {
-    const totalSampleSize = siteBounds.reduce((sum, site) => sum + site.sampleSize, 0);
-    let weightedLower = 0;
-    let weightedUpper = 0;
-    for (const site of siteBounds) {
-        const weight = site.sampleSize / totalSampleSize;
-        weightedLower += site.lower * weight;
-        weightedUpper += site.upper * weight;
-    }
-    return {
-        lower: weightedLower,
-        upper: weightedUpper,
-    };
+  const totalSampleSize = siteBounds.reduce((sum, site) => sum + site.sampleSize, 0);
+  let weightedLower = 0;
+  let weightedUpper = 0;
+  for (const site of siteBounds) {
+    const weight = site.sampleSize / totalSampleSize;
+    weightedLower += site.lower * weight;
+    weightedUpper += site.upper * weight;
+  }
+  return {
+    lower: weightedLower,
+    upper: weightedUpper,
+  };
 }
 /**
  * Aggregate bounds conservatively (widest bounds)
@@ -35,9 +35,9 @@ function aggregateWeightedAverage(siteBounds) {
  * This guarantees coverage if any site has valid bounds, but may be overly conservative.
  */
 function aggregateConservative(siteBounds) {
-    const lower = Math.min(...siteBounds.map((site) => site.lower));
-    const upper = Math.max(...siteBounds.map((site) => site.upper));
-    return { lower, upper };
+  const lower = Math.min(...siteBounds.map((site) => site.lower));
+  const upper = Math.max(...siteBounds.map((site) => site.upper));
+  return { lower, upper };
 }
 /**
  * Aggregate bounds using uniform weights
@@ -46,17 +46,17 @@ function aggregateConservative(siteBounds) {
  * Useful when sites are considered equally reliable despite size differences.
  */
 function aggregateUniform(siteBounds) {
-    const numSites = siteBounds.length;
-    let sumLower = 0;
-    let sumUpper = 0;
-    for (const site of siteBounds) {
-        sumLower += site.lower;
-        sumUpper += site.upper;
-    }
-    return {
-        lower: sumLower / numSites,
-        upper: sumUpper / numSites,
-    };
+  const numSites = siteBounds.length;
+  let sumLower = 0;
+  let sumUpper = 0;
+  for (const site of siteBounds) {
+    sumLower += site.lower;
+    sumUpper += site.upper;
+  }
+  return {
+    lower: sumLower / numSites,
+    upper: sumUpper / numSites,
+  };
 }
 /**
  * Aggregate bounds using inverse-width weighting
@@ -65,21 +65,21 @@ function aggregateUniform(siteBounds) {
  * Weight = 1 / width for each site.
  */
 function aggregateInverseWidth(siteBounds) {
-    // Compute inverse-width weights
-    const weights = siteBounds.map((site) => 1 / site.width);
-    const totalWeight = weights.reduce((sum, w) => sum + w, 0);
-    let weightedLower = 0;
-    let weightedUpper = 0;
-    for (let i = 0; i < siteBounds.length; i++) {
-        const site = siteBounds[i];
-        const weight = weights[i] / totalWeight;
-        weightedLower += site.lower * weight;
-        weightedUpper += site.upper * weight;
-    }
-    return {
-        lower: weightedLower,
-        upper: weightedUpper,
-    };
+  // Compute inverse-width weights
+  const weights = siteBounds.map((site) => 1 / site.width);
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+  let weightedLower = 0;
+  let weightedUpper = 0;
+  for (let i = 0; i < siteBounds.length; i++) {
+    const site = siteBounds[i];
+    const weight = weights[i] / totalWeight;
+    weightedLower += site.lower * weight;
+    weightedUpper += site.upper * weight;
+  }
+  return {
+    lower: weightedLower,
+    upper: weightedUpper,
+  };
 }
 /**
  * Aggregate ATE bounds from multiple sites
@@ -110,58 +110,62 @@ function aggregateInverseWidth(siteBounds) {
  * ```
  */
 function federateATEBounds(siteBounds, config = {}) {
-    if (!siteBounds || siteBounds.length === 0) {
-        throw new Error('Site bounds cannot be empty');
-    }
-    const strategy = config.strategy ?? 'weighted-average';
-    const minSites = config.minSites ?? 2;
-    if (siteBounds.length < minSites) {
-        throw new Error(`At least ${minSites} sites required, got ${siteBounds.length}`);
-    }
-    // Check all sites use same assumption
-    const assumptions = new Set(siteBounds.map((site) => site.assumption));
-    if (assumptions.size > 1) {
-        throw new Error('All sites must use the same assumption level: ' + Array.from(assumptions).join(', '));
-    }
-    // Aggregate based on strategy
-    let aggregated;
-    switch (strategy) {
-        case 'weighted-average':
-            aggregated = aggregateWeightedAverage(siteBounds);
-            break;
-        case 'conservative':
-            aggregated = aggregateConservative(siteBounds);
-            break;
-        case 'uniform':
-            aggregated = aggregateUniform(siteBounds);
-            break;
-        case 'inverse-width':
-            aggregated = aggregateInverseWidth(siteBounds);
-            break;
-        default:
-            throw new Error(`Unknown aggregation strategy: ${strategy}`);
-    }
-    const totalSampleSize = siteBounds.reduce((sum, site) => sum + site.sampleSize, 0);
-    return {
-        lower: aggregated.lower,
-        upper: aggregated.upper,
-        width: aggregated.upper - aggregated.lower,
-        numSites: siteBounds.length,
-        totalSampleSize,
-        strategy,
-        siteBounds: [...siteBounds],
-    };
+  if (!siteBounds || siteBounds.length === 0) {
+    throw new Error('Site bounds cannot be empty');
+  }
+  const strategy = config.strategy ?? 'weighted-average';
+  const minSites = config.minSites ?? 2;
+  if (siteBounds.length < minSites) {
+    throw new Error(`At least ${minSites} sites required, got ${siteBounds.length}`);
+  }
+  // Check all sites use same assumption
+  const assumptions = new Set(siteBounds.map((site) => site.assumption));
+  if (assumptions.size > 1) {
+    throw new Error(
+      'All sites must use the same assumption level: ' + Array.from(assumptions).join(', ')
+    );
+  }
+  // Aggregate based on strategy
+  let aggregated;
+  switch (strategy) {
+    case 'weighted-average':
+      aggregated = aggregateWeightedAverage(siteBounds);
+      break;
+    case 'conservative':
+      aggregated = aggregateConservative(siteBounds);
+      break;
+    case 'uniform':
+      aggregated = aggregateUniform(siteBounds);
+      break;
+    case 'inverse-width':
+      aggregated = aggregateInverseWidth(siteBounds);
+      break;
+    default:
+      throw new Error(`Unknown aggregation strategy: ${strategy}`);
+  }
+  const totalSampleSize = siteBounds.reduce((sum, site) => sum + site.sampleSize, 0);
+  return {
+    lower: aggregated.lower,
+    upper: aggregated.upper,
+    width: aggregated.upper - aggregated.lower,
+    numSites: siteBounds.length,
+    totalSampleSize,
+    strategy,
+    siteBounds: [...siteBounds],
+  };
 }
 /**
  * Format federated bounds for display
  */
 function formatFederatedBounds(bounds, decimals = 3) {
-    const lower = bounds.lower.toFixed(decimals);
-    const upper = bounds.upper.toFixed(decimals);
-    const width = bounds.width.toFixed(decimals);
-    return (`Federated ATE ∈ [${lower}, ${upper}] ` +
-        `(width=${width}, ${bounds.numSites} sites, n=${bounds.totalSampleSize}, ` +
-        `strategy=${bounds.strategy})`);
+  const lower = bounds.lower.toFixed(decimals);
+  const upper = bounds.upper.toFixed(decimals);
+  const width = bounds.width.toFixed(decimals);
+  return (
+    `Federated ATE ∈ [${lower}, ${upper}] ` +
+    `(width=${width}, ${bounds.numSites} sites, n=${bounds.totalSampleSize}, ` +
+    `strategy=${bounds.strategy})`
+  );
 }
 /**
  * Compute communication cost (bytes transferred per site)
@@ -174,14 +178,14 @@ function formatFederatedBounds(bounds, decimals = 3) {
  * - Assumption (string)
  */
 function computeCommunicationCost(siteBounds) {
-    // Rough estimate:
-    // Site ID: ~20 bytes
-    // Lower bound: 8 bytes (double)
-    // Upper bound: 8 bytes (double)
-    // Sample size: 4 bytes (int)
-    // Assumption: ~10 bytes (string)
-    const bytesPerSite = 20 + 8 + 8 + 4 + 10;
-    const totalBytes = bytesPerSite * siteBounds.length;
-    return { bytesPerSite, totalBytes };
+  // Rough estimate:
+  // Site ID: ~20 bytes
+  // Lower bound: 8 bytes (double)
+  // Upper bound: 8 bytes (double)
+  // Sample size: 4 bytes (int)
+  // Assumption: ~10 bytes (string)
+  const bytesPerSite = 20 + 8 + 8 + 4 + 10;
+  const totalBytes = bytesPerSite * siteBounds.length;
+  return { bytesPerSite, totalBytes };
 }
 //# sourceMappingURL=federated-agg.js.map

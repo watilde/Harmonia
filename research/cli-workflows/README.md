@@ -24,6 +24,7 @@ cd research/cli-workflows
 **Purpose**: Basic partial identification with Manski bounds in federated settings.
 
 **What it does**:
+
 - Generates synthetic OMOP data for 3 hospital sites
 - Computes worst-case and MTR bounds at each site
 - Federates bounds using different aggregation strategies
@@ -40,11 +41,13 @@ cd research/cli-workflows
 **Purpose**: Research Module 1 - Optimal weighting strategies for federated bounds.
 
 **What it does**:
+
 - **Experiment 1**: Balanced sites (n=334 each) with strategy comparison
 - **Experiment 2**: Imbalanced sites (100, 334, 1000) demonstrating inverse-width advantage
 - **Experiment 3**: Worst-case vs MTR bounds comparison
 
 **Key findings**:
+
 - Inverse-width weighting minimizes bound width
 - 0.44% tighter than sample-size weighting in imbalanced settings
 - 2.2% tighter than conservative aggregation
@@ -62,6 +65,7 @@ cd research/cli-workflows
 **Purpose**: Research Module 2 - Federated Robustness Index for multi-site sensitivity analysis.
 
 **What it does**:
+
 - Generates data for 5-site hospital network (varying sizes: 90-800 patients)
 - Computes bounds and E-values at each site
 - Calculates Federated Robustness Index (FRI)
@@ -69,6 +73,7 @@ cd research/cli-workflows
 - Assesses network-wide robustness levels
 
 **Key findings**:
+
 - FRI aggregates robustness evidence across heterogeneous sites
 - Sample-size weighting recommended for FRI
 - Network FRI correlates with confounding strength (r=-0.96)
@@ -86,6 +91,7 @@ cd research/cli-workflows
 **Purpose**: Research Module 3 - Automatic adaptation to assumption violations.
 
 **What it does**:
+
 - Generates data for different violation scenarios (clean, mild, moderate, severe)
 - Diagnoses assumptions for each scenario
 - Automatically selects appropriate inference mode
@@ -93,6 +99,7 @@ cd research/cli-workflows
 - Generates summary report
 
 **Key findings**:
+
 - Automatic mode switching based on diagnostics
 - Safe causal inference under violations
 - Conservative estimation when needed
@@ -110,6 +117,7 @@ cd research/cli-workflows
 **Purpose**: Complete hierarchical framework integration - all three research modules.
 
 **What it does**:
+
 1. **Module 0**: Generate 4-hospital network data
 2. **Module 3**: Run assumption diagnostics at each site
 3. **Module 3**: Automatic inference mode selection per site
@@ -119,6 +127,7 @@ cd research/cli-workflows
 7. **Integration**: Adaptive network-wide decision making
 
 **Key features**:
+
 - Demonstrates complete hierarchical framework end-to-end
 - Automatic adaptation based on site quality
 - Integrated decision making across modules
@@ -133,11 +142,13 @@ cd research/cli-workflows
 ## CLI Commands Reference
 
 ### Data Generation
+
 ```bash
 harmonia causal generate-data -n 334 --output site-data.json
 ```
 
 ### Assumption Diagnostics
+
 ```bash
 harmonia causal diagnose-assumptions \
   --data-file site-data.json \
@@ -145,6 +156,7 @@ harmonia causal diagnose-assumptions \
 ```
 
 ### Bounds Computation
+
 ```bash
 # MTR bounds
 harmonia causal compute-bounds \
@@ -154,6 +166,7 @@ harmonia causal compute-bounds \
 ```
 
 ### Bounds Federation
+
 ```bash
 harmonia causal federate-bounds \
   -s site1-bounds.json site2-bounds.json site3-bounds.json \
@@ -162,6 +175,7 @@ harmonia causal federate-bounds \
 ```
 
 ### E-value Sensitivity Analysis
+
 ```bash
 harmonia causal compute-evalue \
   --bounds-file bounds.json \
@@ -169,6 +183,7 @@ harmonia causal compute-evalue \
 ```
 
 ### Federated Robustness Index
+
 ```bash
 harmonia causal compute-fri \
   --sites-file site-evalues.json \
@@ -183,6 +198,7 @@ harmonia causal compute-fri \
 The `utils/` directory contains shared utilities:
 
 ### `utils/shared-functions.sh`
+
 Comprehensive bash function library (420 lines, 18 functions):
 
 - **Data Generation**: `generate_site_data()`, `generate_balanced_sites()`, `generate_imbalanced_sites()`
@@ -193,6 +209,7 @@ Comprehensive bash function library (420 lines, 18 functions):
 - **Reporting**: `print_section_header()`, `print_success()`, etc.
 
 **Usage in your scripts**:
+
 ```bash
 source "utils/shared-functions.sh"
 
@@ -206,6 +223,7 @@ compare_fri_strategies sites.json "$OUTPUT_DIR" "network"
 ## Prerequisites
 
 1. **Build the CLI**:
+
 ```bash
 cd /home/user/webapp
 npm run build -w @harmonia/cli
@@ -213,6 +231,7 @@ npm run build -w @harmonia/core
 ```
 
 2. **Install jq** (for JSON processing):
+
 ```bash
 # macOS
 brew install jq
@@ -222,6 +241,7 @@ sudo apt-get install jq
 ```
 
 3. **Ensure scripts are executable** (already done):
+
 ```bash
 chmod +x *.sh
 ```
@@ -230,13 +250,13 @@ chmod +x *.sh
 
 ## Workflow Selection Guide
 
-| Research Goal | Workflow | Output |
-|--------------|----------|--------|
-| Learn basic partial identification | 1-manski-bounds.sh | Basic bounds demo |
-| Module 1: Optimal weighting | 2-federated-partial-identification.sh | Strategy comparison |
-| Module 2: Robustness assessment | 3-federated-evalues.sh | FRI and E-values |
-| Module 3: Assumption violations | 4-design-failure-aware-causal.sh | Adaptive inference |
-| Complete hierarchical framework | 5-identification-sensitivity-adaptation.sh | Integrated pipeline |
+| Research Goal                      | Workflow                                   | Output              |
+| ---------------------------------- | ------------------------------------------ | ------------------- |
+| Learn basic partial identification | 1-manski-bounds.sh                         | Basic bounds demo   |
+| Module 1: Optimal weighting        | 2-federated-partial-identification.sh      | Strategy comparison |
+| Module 2: Robustness assessment    | 3-federated-evalues.sh                     | FRI and E-values    |
+| Module 3: Assumption violations    | 4-design-failure-aware-causal.sh           | Adaptive inference  |
+| Complete hierarchical framework    | 5-identification-sensitivity-adaptation.sh | Integrated pipeline |
 
 ---
 
@@ -296,22 +316,23 @@ These workflows implement the research methods:
 ✅ **Accessibility**: No programming knowledge required  
 ✅ **Modularity**: Reusable functions in shared library  
 ✅ **Integration**: Easy to incorporate into pipelines  
-✅ **Education**: Step-by-step demonstrations  
+✅ **Education**: Step-by-step demonstrations
 
 ---
 
 ## References
 
-- Manski, C. F. (2003). *Partial Identification of Probability Distributions*
-- VanderWeele, T. J., & Ding, P. (2017). *Sensitivity analysis in observational research*
-- Pearl, J. (2009). *Causality: Models, Reasoning, and Inference*
-- Ding, P., & VanderWeele, T. J. (2016). *Sensitivity analysis without assumptions*
+- Manski, C. F. (2003). _Partial Identification of Probability Distributions_
+- VanderWeele, T. J., & Ding, P. (2017). _Sensitivity analysis in observational research_
+- Pearl, J. (2009). _Causality: Models, Reasoning, and Inference_
+- Ding, P., & VanderWeele, T. J. (2016). _Sensitivity analysis without assumptions_
 
 ---
 
 ## Support
 
 For questions or issues:
+
 1. Check CLI help: `npx harmonia causal --help`
 2. See command-specific help: `npx harmonia causal compute-bounds --help`
 3. Review output JSON files for details

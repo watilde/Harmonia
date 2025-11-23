@@ -5,16 +5,19 @@ This directory contains mathematical foundations, derivations, and theoretical b
 ## Contents
 
 ### 1. E-value Theory
+
 - **evalue-derivation.md** - E-value formula derivation (VanderWeele & Ding, 2017)
 - **bias-factor-analysis.md** - Relationship between bias factors and E-values
 - **evalue-for-bounds.md** - E-values for partially identified effects
 
 ### 2. Federated Robustness Index
+
 - **fri-definition.md** - Mathematical definition and properties
 - **fri-aggregation.md** - Aggregation strategies for federated E-values
 - **fri-interpretation.md** - Practical interpretation guidelines
 
 ### 3. Sensitivity Analysis
+
 - **tipping-point-analysis.md** - When do conclusions change?
 - **confounding-strength-grids.md** - Exploring sensitivity landscapes
 - **heterogeneity-in-sensitivity.md** - Cross-site variation in robustness
@@ -32,6 +35,7 @@ E\text{-value} = RR + \sqrt{RR \times (RR - 1)}
 $$
 
 **Properties:**
+
 1. E-value ≥ 1 (minimum is 1, when RR = 1)
 2. Larger E-values indicate greater robustness
 3. E-value is on the risk ratio scale
@@ -45,6 +49,7 @@ RR_{TU} = RR_{YU} = E\text{-value}
 $$
 
 where:
+
 - $RR_{TU}$ = Risk ratio relating $U$ to treatment $T$
 - $RR_{YU}$ = Risk ratio relating $U$ to outcome $Y$
 
@@ -75,27 +80,29 @@ $$
 For partially identified effects with bounds $[L, U]$:
 
 **Conservative approach:**
+
 - If $0 \in [L, U]$: E-value = 1 (no robustness, null is plausible)
 - If $L > 0$: E-value based on $L$ (conservative lower bound)
 - If $U < 0$: E-value based on $|U|$ (conservative upper bound)
 
 **Optimistic approach:**
+
 - E-value based on bound farthest from null
 - Represents "best-case" robustness
 
 ## Mathematical Notation
 
-| Symbol | Meaning |
-|--------|---------|
-| $E$ | E-value |
-| $RR$ | Risk ratio (observed treatment-outcome association) |
-| $RR_{TU}$ | Risk ratio for unmeasured confounder $U$ and treatment $T$ |
-| $RR_{YU}$ | Risk ratio for unmeasured confounder $U$ and outcome $Y$ |
-| $B$ | Bias factor |
-| $\tau$ | Treatment effect (log scale) |
-| $E^{(s)}$ | Site-specific E-value for site $s$ |
-| $E_{\min}$ | Minimum E-value across sites |
-| $E_{\text{avg}}$ | Average E-value across sites |
+| Symbol           | Meaning                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| $E$              | E-value                                                    |
+| $RR$             | Risk ratio (observed treatment-outcome association)        |
+| $RR_{TU}$        | Risk ratio for unmeasured confounder $U$ and treatment $T$ |
+| $RR_{YU}$        | Risk ratio for unmeasured confounder $U$ and outcome $Y$   |
+| $B$              | Bias factor                                                |
+| $\tau$           | Treatment effect (log scale)                               |
+| $E^{(s)}$        | Site-specific E-value for site $s$                         |
+| $E_{\min}$       | Minimum E-value across sites                               |
+| $E_{\text{avg}}$ | Average E-value across sites                               |
 
 ## Federated Extensions
 
@@ -139,6 +146,7 @@ $$
 $$
 
 **Interpretation:**
+
 - $E_{\min}$: Worst-case robustness (most vulnerable site)
 - $E_{\text{med}}$: Typical robustness
 - $E_{\text{avg}}$: Population-weighted robustness
@@ -148,12 +156,12 @@ $$
 
 Based on VanderWeele & Ding (2017) and empirical calibration:
 
-| E-value | Interpretation | Confounding Required |
-|---------|----------------|---------------------|
-| 1.0 - 1.5 | Weak robustness | Easily explained by weak confounding |
-| 1.5 - 2.0 | Moderate robustness | Moderate confounding needed |
-| 2.0 - 3.0 | Good robustness | Strong confounding needed |
-| > 3.0 | Strong robustness | Very strong confounding needed |
+| E-value   | Interpretation      | Confounding Required                 |
+| --------- | ------------------- | ------------------------------------ |
+| 1.0 - 1.5 | Weak robustness     | Easily explained by weak confounding |
+| 1.5 - 2.0 | Moderate robustness | Moderate confounding needed          |
+| 2.0 - 3.0 | Good robustness     | Strong confounding needed            |
+| > 3.0     | Strong robustness   | Very strong confounding needed       |
 
 **Context matters:** Compare E-value to known confounders in the domain.
 
@@ -171,7 +179,7 @@ on the contour.
 
 ## Limitations
 
-1. **Assumes unmeasured confounding structure:** 
+1. **Assumes unmeasured confounding structure:**
    - E-value assumes specific confounding model
    - May not capture complex confounding patterns
 
@@ -189,15 +197,15 @@ on the contour.
 
 ## References
 
-1. **VanderWeele, T. J., & Ding, P. (2017).** *Sensitivity analysis in observational research: introducing the E-value.* Annals of Internal Medicine, 167(4), 268-274.
+1. **VanderWeele, T. J., & Ding, P. (2017).** _Sensitivity analysis in observational research: introducing the E-value._ Annals of Internal Medicine, 167(4), 268-274.
 
-2. **Ding, P., & VanderWeele, T. J. (2016).** *Sensitivity analysis without assumptions.* Epidemiology, 27(3), 368-377.
+2. **Ding, P., & VanderWeele, T. J. (2016).** _Sensitivity analysis without assumptions._ Epidemiology, 27(3), 368-377.
 
-3. **VanderWeele, T. J., & Ding, P. (2017).** *Sensitivity analysis in observational research: introducing the E-value.* Reply to commentaries. Annals of Internal Medicine, 167(4), 295-296.
+3. **VanderWeele, T. J., & Ding, P. (2017).** _Sensitivity analysis in observational research: introducing the E-value._ Reply to commentaries. Annals of Internal Medicine, 167(4), 295-296.
 
-4. **Mathur, M. B., Ding, P., Riddell, C. A., & VanderWeele, T. J. (2018).** *Web site and R package for computing E-values.* Epidemiology, 29(5), e45-e47.
+4. **Mathur, M. B., Ding, P., Riddell, C. A., & VanderWeele, T. J. (2018).** _Web site and R package for computing E-values._ Epidemiology, 29(5), e45-e47.
 
-5. **Smith, L. H., & VanderWeele, T. J. (2019).** *Bounding bias due to selection.* Epidemiology, 30(4), 509-516.
+5. **Smith, L. H., & VanderWeele, T. J. (2019).** _Bounding bias due to selection._ Epidemiology, 30(4), 509-516.
 
 ---
 

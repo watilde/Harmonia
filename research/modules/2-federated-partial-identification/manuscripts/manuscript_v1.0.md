@@ -45,30 +45,33 @@ The choice of weights $w_k$ affects bound width and precision. While sample-size
 
 We evaluated six strategies:
 
-| Strategy | Weight Formula | Properties |
-|----------|---------------|------------|
-| **Sample-size (n)** | $w_k = n_k / N$ | Optimal under homogeneity |
-| **Square-root (√n)** | $w_k = \sqrt{n_k} / \sum_j \sqrt{n_j}$ | Moderate compromise |
-| **Logarithmic (log n)** | $w_k = \log n_k / \sum_j \log n_j$ | Less size-dependent |
-| **Power (n^α)** | $w_k = n_k^\alpha / \sum_j n_j^\alpha$ | Tunable (α=0.5, 0.7, 0.9) |
-| **Inverse-width** | $w_k = (1/W_k) / \sum_j (1/W_j)$ | Precision-weighted |
-| **Uniform** | $w_k = 1/K$ | Equal site trust |
+| Strategy                | Weight Formula                         | Properties                |
+| ----------------------- | -------------------------------------- | ------------------------- |
+| **Sample-size (n)**     | $w_k = n_k / N$                        | Optimal under homogeneity |
+| **Square-root (√n)**    | $w_k = \sqrt{n_k} / \sum_j \sqrt{n_j}$ | Moderate compromise       |
+| **Logarithmic (log n)** | $w_k = \log n_k / \sum_j \log n_j$     | Less size-dependent       |
+| **Power (n^α)**         | $w_k = n_k^\alpha / \sum_j n_j^\alpha$ | Tunable (α=0.5, 0.7, 0.9) |
+| **Inverse-width**       | $w_k = (1/W_k) / \sum_j (1/W_j)$       | Precision-weighted        |
+| **Uniform**             | $w_k = 1/K$                            | Equal site trust          |
 
 **Key insight**: Inverse-width weighting uses bound precision (1/width) rather than just sample size, giving more weight to sites with tighter bounds regardless of n.
 
 ### 2.2 Experimental Design
 
 **Experiment 1: Balanced Sites**
+
 - 3 sites, n=334 each (total N=1002)
 - Treatment rate = 0.5
 - Expected result: All strategies equivalent
 
 **Experiment 2: Imbalanced Sites**
+
 - 3 sites: n=100, 334, 1000 (total N=1434)
 - Treatment rate = 0.5
 - Tests weighting strategy impact
 
 **Experiment 3: Heterogeneous Effects** (Planned)
+
 - Different true ATEs per site
 - Tests robustness to effect heterogeneity
 
@@ -97,25 +100,26 @@ harmonia causal federate-bounds \
 
 ### 3.1 Balanced Sites (n=334 each)
 
-| Strategy | Lower Bound | Upper Bound | Width | Notes |
-|----------|-------------|-------------|-------|-------|
-| weighted-average | 0.1737 | 0.6635 | **0.4898** | Sample-size default |
-| inverse-width | 0.1737 | 0.6635 | **0.4898** | Identical (balanced) |
-| conservative | 0.1737 | 0.6635 | **0.4898** | Max{L}, Min{U} |
-| uniform | 0.1737 | 0.6635 | **0.4898** | Equal weights |
+| Strategy         | Lower Bound | Upper Bound | Width      | Notes                |
+| ---------------- | ----------- | ----------- | ---------- | -------------------- |
+| weighted-average | 0.1737      | 0.6635      | **0.4898** | Sample-size default  |
+| inverse-width    | 0.1737      | 0.6635      | **0.4898** | Identical (balanced) |
+| conservative     | 0.1737      | 0.6635      | **0.4898** | Max{L}, Min{U}       |
+| uniform          | 0.1737      | 0.6635      | **0.4898** | Equal weights        |
 
 **Key finding**: All strategies converge when sites are balanced, confirming theoretical predictions.
 
 ### 3.2 Imbalanced Sites (n=100, 334, 1000)
 
-| Strategy | Lower Bound | Upper Bound | Width | Improvement |
-|----------|-------------|-------------|-------|-------------|
-| **inverse-width** ⭐ | 0.1819 | 0.6612 | **0.4793** | Tightest |
-| uniform | 0.1818 | 0.6613 | **0.4794** | -0.02% |
-| weighted-average | 0.1807 | 0.6621 | **0.4814** | -0.44% |
-| conservative | 0.1737 | 0.6635 | **0.4898** | -2.19% (widest) |
+| Strategy             | Lower Bound | Upper Bound | Width      | Improvement     |
+| -------------------- | ----------- | ----------- | ---------- | --------------- |
+| **inverse-width** ⭐ | 0.1819      | 0.6612      | **0.4793** | Tightest        |
+| uniform              | 0.1818      | 0.6613      | **0.4794** | -0.02%          |
+| weighted-average     | 0.1807      | 0.6621      | **0.4814** | -0.44%          |
+| conservative         | 0.1737      | 0.6635      | **0.4898** | -2.19% (widest) |
 
 **Key findings**:
+
 1. **Inverse-width outperforms** sample-size weighting (0.4793 vs 0.4814, 0.44% tighter)
 2. **Precision matters** more than raw sample size in heterogeneous settings
 3. **Conservative strategy** provides safety but is 2.2% wider than inverse-width (0.490 vs 0.479)
@@ -138,12 +142,12 @@ Inverse-width advantage = (W_sample - W_inverse) / W_sample × 100%
 
 To verify validity guarantees, we conducted 1,000 Monte Carlo simulations with known ground truth (ATE=0.15).
 
-| Strategy | Coverage (95% nominal) | Mean Width | Bias |
-|----------|------------------------|------------|------|
-| Sample-size | 95.2% | 0.482 | 0.001 |
-| Inverse-width | 95.4% | 0.479 | 0.002 |
-| Conservative | 98.1% | 0.490 | 0.000 |
-| Uniform | 94.8% | 0.480 | 0.003 |
+| Strategy      | Coverage (95% nominal) | Mean Width | Bias  |
+| ------------- | ---------------------- | ---------- | ----- |
+| Sample-size   | 95.2%                  | 0.482      | 0.001 |
+| Inverse-width | 95.4%                  | 0.479      | 0.002 |
+| Conservative  | 98.1%                  | 0.490      | 0.000 |
+| Uniform       | 94.8%                  | 0.480      | 0.003 |
 
 **Key finding**: All strategies maintain nominal coverage ≥95%, confirming validity. Inverse-width achieves tightest mean width (0.479) while preserving coverage.
 
@@ -156,8 +160,9 @@ To verify validity guarantees, we conducted 1,000 Monte Carlo simulations with k
 **Sample-size weighting**: Optimal when sites are **homogeneous** (same populations, effects, variances) [5].
 
 **Inverse-width weighting**: Optimal under **heteroscedasticity**—when sites have different precision due to varying:
+
 - Sample sizes
-- Population characteristics  
+- Population characteristics
 - Data quality
 - Treatment compliance
 
@@ -193,6 +198,7 @@ To verify validity guarantees, we conducted 1,000 Monte Carlo simulations with k
 | Community (6 sites) | 120 avg | 0.45 | 0.08 | 0.42 | 0.34 |
 
 **Comparison**:
+
 - **Sample-size weighted**: [0.10, 0.36], width = **0.26**
   - Dominated by large academic sites (better data quality)
 - **Inverse-width weighted**: [0.11, 0.34], width = **0.23** ✅
@@ -217,18 +223,19 @@ To verify validity guarantees, we conducted 1,000 Monte Carlo simulations with k
 
 ### 4.5 Comparison with Existing Work
 
-| Work | Method | Limitations |
-|------|--------|-------------|
-| Manski (2007) [3] | Worst-case bounds | Single-site, no weighting |
-| Rambachan & Roth (2023) [7] | Sensitivity analysis | Point-identified methods only |
-| Federated TMLE [8] | Doubly-robust | Assumes no unmeasured confounding |
-| **Our work** | Federated partial ID | First weighting strategy evaluation |
+| Work                        | Method               | Limitations                         |
+| --------------------------- | -------------------- | ----------------------------------- |
+| Manski (2007) [3]           | Worst-case bounds    | Single-site, no weighting           |
+| Rambachan & Roth (2023) [7] | Sensitivity analysis | Point-identified methods only       |
+| Federated TMLE [8]          | Doubly-robust        | Assumes no unmeasured confounding   |
+| **Our work**                | Federated partial ID | First weighting strategy evaluation |
 
 ---
 
 ## 5. CONCLUSIONS
 
 **Key findings**:
+
 1. ✅ **Inverse-width weighting** provides 0.44% tighter bounds than sample-size weighting in imbalanced settings (0.4793 vs 0.4814) and 2.2% tighter than conservative aggregation (0.479 vs 0.490)
 2. ✅ **All strategies converge** in balanced settings, confirming theory
 3. ✅ **Conservative aggregation** sacrifices width for maximal safety
@@ -236,6 +243,7 @@ To verify validity guarantees, we conducted 1,000 Monte Carlo simulations with k
 **Practical impact**: For federated healthcare networks with heterogeneous sites (academic + community hospitals), inverse-width weighting reduces inferential uncertainty while maintaining validity.
 
 **Future work**:
+
 - Extend to confidence intervals for bounds (finite-sample inference)
 - Real-world validation with MIMIC-IV/OMOP data
 - Theoretical efficiency bounds under heterogeneity

@@ -266,7 +266,7 @@ export function formatBounds(bounds: ATEBounds, decimals = 3): string {
 
 /**
  * Compute the overlap between two bounds
- * 
+ *
  * @param bounds1 - First bounds
  * @param bounds2 - Second bounds
  * @returns Width of the overlapping region (0 if no overlap)
@@ -274,17 +274,17 @@ export function formatBounds(bounds: ATEBounds, decimals = 3): string {
 export function computeBoundsOverlap(bounds1: ATEBounds, bounds2: ATEBounds): number {
   const overlapLower = Math.max(bounds1.lower, bounds2.lower);
   const overlapUpper = Math.min(bounds1.upper, bounds2.upper);
-  
+
   if (overlapUpper < overlapLower) {
     return 0; // No overlap
   }
-  
+
   return overlapUpper - overlapLower;
 }
 
 /**
  * Compute all bounds for comparison across different assumptions
- * 
+ *
  * @param data - Array of observations
  * @param config - Optional configuration (yMin, yMax)
  * @returns Object with bounds under different assumptions

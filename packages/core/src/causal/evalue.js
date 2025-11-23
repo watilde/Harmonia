@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * E-value Calculator
  *
@@ -9,7 +9,7 @@
  * confounder would need with both treatment and outcome to explain away
  * the observed effect.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.computeEvalueFromRR = computeEvalueFromRR;
 exports.computeEvalueFromATE = computeEvalueFromATE;
 exports.computeEvaluesForBounds = computeEvaluesForBounds;
@@ -27,13 +27,13 @@ exports.attenuateEffect = attenuateEffect;
  * @returns E-value
  */
 function computeEvalueFromRR(RR) {
-    if (RR < 1) {
-        throw new Error('RR must be >= 1. For RR < 1, use 1/RR and interpret for protective effect.');
-    }
-    if (RR === 1) {
-        return 1; // No effect, no robustness
-    }
-    return RR + Math.sqrt(RR * (RR - 1));
+  if (RR < 1) {
+    throw new Error('RR must be >= 1. For RR < 1, use 1/RR and interpret for protective effect.');
+  }
+  if (RR === 1) {
+    return 1; // No effect, no robustness
+  }
+  return RR + Math.sqrt(RR * (RR - 1));
 }
 /**
  * Compute E-value from ATE (average treatment effect)
@@ -46,41 +46,39 @@ function computeEvalueFromRR(RR) {
  * @returns E-value
  */
 function computeEvalueFromATE(ate, baseline_risk) {
-    if (ate === 0) {
-        return {
-            evalue: 1,
-            interpretation: 'No treatment effect (ATE = 0)',
-            robustness_level: 'none'
-        };
-    }
-    // Take absolute value for effect magnitude
-    const abs_ate = Math.abs(ate);
-    // Convert ATE to risk ratio
-    let RR;
-    if (baseline_risk !== undefined) {
-        // Exact conversion: RR = (baseline + ATE) / baseline
-        if (baseline_risk <= 0 || baseline_risk >= 1) {
-            throw new Error('baseline_risk must be in (0, 1)');
-        }
-        const treated_risk = baseline_risk + abs_ate;
-        if (treated_risk <= 0 || treated_risk > 1) {
-            // ATE too extreme, use approximation
-            RR = Math.exp(abs_ate);
-        }
-        else {
-            RR = treated_risk / baseline_risk;
-        }
-    }
-    else {
-        // Approximate: RR ≈ exp(ATE) for small effects
-        RR = Math.exp(abs_ate);
-    }
-    const evalue = computeEvalueFromRR(RR);
+  if (ate === 0) {
     return {
-        evalue,
-        interpretation: interpretEvalue(evalue),
-        robustness_level: getRobustnessLevel(evalue)
+      evalue: 1,
+      interpretation: 'No treatment effect (ATE = 0)',
+      robustness_level: 'none',
     };
+  }
+  // Take absolute value for effect magnitude
+  const abs_ate = Math.abs(ate);
+  // Convert ATE to risk ratio
+  let RR;
+  if (baseline_risk !== undefined) {
+    // Exact conversion: RR = (baseline + ATE) / baseline
+    if (baseline_risk <= 0 || baseline_risk >= 1) {
+      throw new Error('baseline_risk must be in (0, 1)');
+    }
+    const treated_risk = baseline_risk + abs_ate;
+    if (treated_risk <= 0 || treated_risk > 1) {
+      // ATE too extreme, use approximation
+      RR = Math.exp(abs_ate);
+    } else {
+      RR = treated_risk / baseline_risk;
+    }
+  } else {
+    // Approximate: RR ≈ exp(ATE) for small effects
+    RR = Math.exp(abs_ate);
+  }
+  const evalue = computeEvalueFromRR(RR);
+  return {
+    evalue,
+    interpretation: interpretEvalue(evalue),
+    robustness_level: getRobustnessLevel(evalue),
+  };
 }
 /**
  * Compute E-values for partially identified bounds
@@ -96,87 +94,78 @@ function computeEvalueFromATE(ate, baseline_risk) {
  * @returns Conservative and optimistic E-values
  */
 function computeEvaluesForBounds(lower, upper, baseline_risk) {
-    // Check if bounds include null (0)
-    const includes_null = (lower <= 0 && upper >= 0);
-    if (includes_null) {
-        return {
-            conservative: {
-                evalue: 1,
-                interpretation: 'Bounds include null effect (no robustness)',
-                robustness_level: 'none'
-            },
-            optimistic: {
-                evalue: 1,
-                interpretation: 'Bounds include null effect (no robustness)',
-                robustness_level: 'none'
-            },
-            bounds_include_null: true
-        };
-    }
-    // Bounds exclude null
-    let conservative;
-    let optimistic;
-    if (lower > 0) {
-        // Positive effect bounds
-        conservative = computeEvalueFromATE(lower, baseline_risk);
-        optimistic = computeEvalueFromATE(upper, baseline_risk);
-    }
-    else {
-        // Negative effect bounds (both < 0)
-        conservative = computeEvalueFromATE(upper, baseline_risk); // Closer to 0
-        optimistic = computeEvalueFromATE(lower, baseline_risk); // Farther from 0
-    }
+  // Check if bounds include null (0)
+  const includes_null = lower <= 0 && upper >= 0;
+  if (includes_null) {
     return {
-        conservative,
-        optimistic,
-        bounds_include_null: false
+      conservative: {
+        evalue: 1,
+        interpretation: 'Bounds include null effect (no robustness)',
+        robustness_level: 'none',
+      },
+      optimistic: {
+        evalue: 1,
+        interpretation: 'Bounds include null effect (no robustness)',
+        robustness_level: 'none',
+      },
+      bounds_include_null: true,
     };
+  }
+  // Bounds exclude null
+  let conservative;
+  let optimistic;
+  if (lower > 0) {
+    // Positive effect bounds
+    conservative = computeEvalueFromATE(lower, baseline_risk);
+    optimistic = computeEvalueFromATE(upper, baseline_risk);
+  } else {
+    // Negative effect bounds (both < 0)
+    conservative = computeEvalueFromATE(upper, baseline_risk); // Closer to 0
+    optimistic = computeEvalueFromATE(lower, baseline_risk); // Farther from 0
+  }
+  return {
+    conservative,
+    optimistic,
+    bounds_include_null: false,
+  };
 }
 /**
  * Interpret E-value magnitude
  */
 function interpretEvalue(evalue) {
-    if (evalue === 1) {
-        return 'No robustness to unmeasured confounding';
-    }
-    else if (evalue < 1.5) {
-        return 'Weak robustness: Easily explained by weak confounding';
-    }
-    else if (evalue < 2.0) {
-        return 'Moderate robustness: Requires moderate confounding to explain';
-    }
-    else if (evalue < 3.0) {
-        return 'Good robustness: Requires strong confounding to explain';
-    }
-    else {
-        return 'Strong robustness: Requires very strong confounding to explain';
-    }
+  if (evalue === 1) {
+    return 'No robustness to unmeasured confounding';
+  } else if (evalue < 1.5) {
+    return 'Weak robustness: Easily explained by weak confounding';
+  } else if (evalue < 2.0) {
+    return 'Moderate robustness: Requires moderate confounding to explain';
+  } else if (evalue < 3.0) {
+    return 'Good robustness: Requires strong confounding to explain';
+  } else {
+    return 'Strong robustness: Requires very strong confounding to explain';
+  }
 }
 /**
  * Classify robustness level
  */
 function getRobustnessLevel(evalue) {
-    if (evalue === 1) {
-        return 'none';
-    }
-    else if (evalue < 1.5) {
-        return 'weak';
-    }
-    else if (evalue < 2.0) {
-        return 'moderate';
-    }
-    else if (evalue < 3.0) {
-        return 'good';
-    }
-    else {
-        return 'strong';
-    }
+  if (evalue === 1) {
+    return 'none';
+  } else if (evalue < 1.5) {
+    return 'weak';
+  } else if (evalue < 2.0) {
+    return 'moderate';
+  } else if (evalue < 3.0) {
+    return 'good';
+  } else {
+    return 'strong';
+  }
 }
 /**
  * Format E-value result for display
  */
 function formatEvalue(result) {
-    return `E-value: ${result.evalue.toFixed(2)} (${result.robustness_level} - ${result.interpretation})`;
+  return `E-value: ${result.evalue.toFixed(2)} (${result.robustness_level} - ${result.interpretation})`;
 }
 /**
  * Compute E-value for confidence interval limits
@@ -187,23 +176,21 @@ function formatEvalue(result) {
  * @returns E-value for CI limit closer to null
  */
 function computeEvalueForCI(ci_lower, ci_upper, baseline_risk) {
-    // CI-based E-value uses limit closer to null
-    if (ci_lower > 0) {
-        // Positive effect: use lower limit
-        return computeEvalueFromATE(ci_lower, baseline_risk);
-    }
-    else if (ci_upper < 0) {
-        // Negative effect: use upper limit (closer to 0)
-        return computeEvalueFromATE(ci_upper, baseline_risk);
-    }
-    else {
-        // CI includes null
-        return {
-            evalue: 1,
-            interpretation: 'CI includes null effect (not statistically significant)',
-            robustness_level: 'none'
-        };
-    }
+  // CI-based E-value uses limit closer to null
+  if (ci_lower > 0) {
+    // Positive effect: use lower limit
+    return computeEvalueFromATE(ci_lower, baseline_risk);
+  } else if (ci_upper < 0) {
+    // Negative effect: use upper limit (closer to 0)
+    return computeEvalueFromATE(ci_upper, baseline_risk);
+  } else {
+    // CI includes null
+    return {
+      evalue: 1,
+      interpretation: 'CI includes null effect (not statistically significant)',
+      robustness_level: 'none',
+    };
+  }
 }
 /**
  * Compute bias factor for given confounding strength
@@ -222,8 +209,8 @@ function computeEvalueForCI(ci_lower, ci_upper, baseline_risk) {
  * @returns Bias factor
  */
 function computeBiasFactor(RR_TU, RR_YU) {
-    // Simplified bias factor (exact formula is more complex)
-    return Math.sqrt(RR_TU * RR_YU);
+  // Simplified bias factor (exact formula is more complex)
+  return Math.sqrt(RR_TU * RR_YU);
 }
 /**
  * Find tipping point: confounding strength that nullifies effect
@@ -233,11 +220,11 @@ function computeBiasFactor(RR_TU, RR_YU) {
  * @returns RR_TU and RR_YU needed (assuming equal) to nullify effect
  */
 function findTippingPoint(ate, baseline_risk) {
-    if (ate === 0) {
-        return 1; // Already null
-    }
-    const result = computeEvalueFromATE(ate, baseline_risk);
-    return result.evalue;
+  if (ate === 0) {
+    return 1; // Already null
+  }
+  const result = computeEvalueFromATE(ate, baseline_risk);
+  return result.evalue;
 }
 /**
  * Sensitivity analysis: attenuate effect by bias factor
@@ -247,14 +234,14 @@ function findTippingPoint(ate, baseline_risk) {
  * @returns Attenuated ATE
  */
 function attenuateEffect(ate, bias_factor) {
-    if (bias_factor <= 0) {
-        throw new Error('Bias factor must be positive');
-    }
-    // Convert to RR scale
-    const RR = Math.exp(ate);
-    // Attenuate
-    const RR_attenuated = RR / bias_factor;
-    // Convert back to ATE
-    return Math.log(RR_attenuated);
+  if (bias_factor <= 0) {
+    throw new Error('Bias factor must be positive');
+  }
+  // Convert to RR scale
+  const RR = Math.exp(ate);
+  // Attenuate
+  const RR_attenuated = RR / bias_factor;
+  // Convert back to ATE
+  return Math.log(RR_attenuated);
 }
 //# sourceMappingURL=evalue.js.map

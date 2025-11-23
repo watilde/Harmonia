@@ -11,13 +11,12 @@ All sites have n=334, treatment rate=0.5
 
 ## Summary
 
-| Strategy | Lower Bound | Upper Bound | Width | Sample Size |
-|----------|-------------|-------------|-------|-------------|
-| weighted-average | 0.1736985991672491 | 0.6635328297199539 | 0.48983423055270475 | null |
-| conservative | 0.1736985991672491 | 0.663532829719954 | 0.48983423055270486 | null |
-| uniform | 0.17369859916724914 | 0.663532829719954 | 0.4898342305527048 | null |
-| inverse-width | 0.1736985991672491 | 0.6635328297199539 | 0.48983423055270475 | null |
-
+| Strategy         | Lower Bound         | Upper Bound        | Width               | Sample Size |
+| ---------------- | ------------------- | ------------------ | ------------------- | ----------- |
+| weighted-average | 0.1736985991672491  | 0.6635328297199539 | 0.48983423055270475 | null        |
+| conservative     | 0.1736985991672491  | 0.663532829719954  | 0.48983423055270486 | null        |
+| uniform          | 0.17369859916724914 | 0.663532829719954  | 0.4898342305527048  | null        |
+| inverse-width    | 0.1736985991672491  | 0.6635328297199539 | 0.48983423055270475 | null        |
 
 **Key Finding**: In balanced settings, all strategies converge to similar bounds.
 
@@ -27,15 +26,14 @@ Sites: n=100, n=334, n=1000 (total n=1434)
 
 ## Summary
 
-| Strategy | Lower Bound | Upper Bound | Width | Sample Size |
-|----------|-------------|-------------|-------|-------------|
-| weighted-average | 0.1807148905026701 | 0.6620938403777819 | 0.48137894987511176 | null |
-| conservative | 0.1736985991672491 | 0.663532829719954 | 0.48983423055270486 | null |
-| uniform | 0.18181588300295393 | 0.6612510314274315 | 0.47943514842447754 | null |
-| inverse-width | 0.1819327669662737 | 0.6612114219057234 | 0.47927865493944966 | null |
+| Strategy         | Lower Bound         | Upper Bound        | Width               | Sample Size |
+| ---------------- | ------------------- | ------------------ | ------------------- | ----------- |
+| weighted-average | 0.1807148905026701  | 0.6620938403777819 | 0.48137894987511176 | null        |
+| conservative     | 0.1736985991672491  | 0.663532829719954  | 0.48983423055270486 | null        |
+| uniform          | 0.18181588300295393 | 0.6612510314274315 | 0.47943514842447754 | null        |
+| inverse-width    | 0.1819327669662737  | 0.6612114219057234 | 0.47927865493944966 | null        |
 
-
-**Key Finding**: With imbalanced sites, precision-weighted strategies (inverse-width) 
+**Key Finding**: With imbalanced sites, precision-weighted strategies (inverse-width)
 provide tighter bounds by giving more weight to sites with better precision.
 
 ## Experiment 1.3: Heterogeneous Effects

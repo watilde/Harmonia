@@ -2,7 +2,7 @@
 /**
  * Generate figures for Federated E-values manuscript
  * Module 2: Federated Robustness Index for multi-site sensitivity analysis
- * 
+ *
  * Creates publication-quality graphs for research paper
  */
 
@@ -40,10 +40,7 @@ const colors = {
 /**
  * Save Chart.js figure as PNG
  */
-async function saveFigureAsPNG(
-  config: ChartConfiguration,
-  outputPath: string
-): Promise<void> {
+async function saveFigureAsPNG(config: ChartConfiguration, outputPath: string): Promise<void> {
   mkdirSync(dirname(outputPath), { recursive: true });
   const buffer = await chartJSNodeCanvas.renderToBuffer(config);
   writeFileSync(outputPath, buffer);
@@ -55,7 +52,7 @@ async function generateFigures(): Promise<void> {
 
   // Figure 1: FRI vs Confounding Strength
   const rhoValues = [0.0, 0.2, 0.5, 0.8];
-  const friValues = [2.65, 2.30, 1.85, 1.41];
+  const friValues = [2.65, 2.3, 1.85, 1.41];
 
   const fig1Config: ChartConfiguration = {
     type: 'line',
@@ -91,12 +88,20 @@ async function generateFigures(): Promise<void> {
       },
       scales: {
         x: {
-          title: { display: true, text: 'True Confounding Strength (ρ)', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'True Confounding Strength (ρ)',
+            font: { size: 16, weight: 'bold' },
+          },
           grid: { color: '#e0e0e0' },
           ticks: { font: { size: 14 } },
         },
         y: {
-          title: { display: true, text: 'Federated Robustness Index (FRI)', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'Federated Robustness Index (FRI)',
+            font: { size: 16, weight: 'bold' },
+          },
           grid: { color: '#e0e0e0' },
           ticks: { font: { size: 14 } },
         },
@@ -136,7 +141,11 @@ async function generateFigures(): Promise<void> {
       },
       scales: {
         x: {
-          title: { display: true, text: 'Confounding Strength (ρ)', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'Confounding Strength (ρ)',
+            font: { size: 16, weight: 'bold' },
+          },
           ticks: { font: { size: 14 } },
         },
         y: {
@@ -234,7 +243,13 @@ async function generateFigures(): Promise<void> {
   console.log('  ✓ figure3.png');
 
   // Figure 4: 5-Hospital ICU Network E-values
-  const hospitals = ['Mass General', 'Johns Hopkins', 'Community A', 'Community B', 'Rural Hospital'];
+  const hospitals = [
+    'Mass General',
+    'Johns Hopkins',
+    'Community A',
+    'Community B',
+    'Rural Hospital',
+  ];
   const evalues = [3.2, 2.9, 1.8, 1.6, 1.4];
   const hospitalColors = [colors.green, colors.green, colors.orange, colors.red, colors.red];
 
@@ -269,7 +284,11 @@ async function generateFigures(): Promise<void> {
           ticks: { font: { size: 13 }, maxRotation: 15, minRotation: 15 },
         },
         y: {
-          title: { display: true, text: 'E-value (Risk Ratio)', font: { size: 16, weight: 'bold' } },
+          title: {
+            display: true,
+            text: 'E-value (Risk Ratio)',
+            font: { size: 16, weight: 'bold' },
+          },
           grid: { color: '#e0e0e0' },
           ticks: { font: { size: 14 } },
         },

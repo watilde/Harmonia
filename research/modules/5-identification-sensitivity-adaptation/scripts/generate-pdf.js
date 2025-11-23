@@ -13,10 +13,10 @@ async function generatePDF(markdownFile, outputPDF) {
   try {
     // Read Markdown file
     const markdown = fs.readFileSync(markdownFile, 'utf-8');
-    
+
     // Convert to HTML
     const html = marked.parse(markdown);
-    
+
     // Create full HTML document with styling
     const fullHTML = `
 <!DOCTYPE html>
@@ -110,20 +110,20 @@ ${html}
 </body>
 </html>
     `;
-    
+
     // Launch Puppeteer
     console.log('  Launching browser...');
     const browser = await puppeteer.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
-    
+
     const page = await browser.newPage();
-    
+
     // Set content
     console.log('  Rendering HTML...');
     await page.setContent(fullHTML, { waitUntil: 'networkidle0' });
-    
+
     // Generate PDF
     console.log('  Generating PDF...');
     await page.pdf({
@@ -133,18 +133,18 @@ ${html}
         top: '20mm',
         bottom: '20mm',
         left: '20mm',
-        right: '20mm'
+        right: '20mm',
       },
       printBackground: true,
       displayHeaderFooter: true,
       headerTemplate: '<div></div>',
-      footerTemplate: '<div style="font-size:10px;text-align:center;width:100%;margin:0 auto;padding-top:10px;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>'
+      footerTemplate:
+        '<div style="font-size:10px;text-align:center;width:100%;margin:0 auto;padding-top:10px;"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
     });
-    
+
     await browser.close();
-    
+
     console.log(`  ✓ PDF saved to: ${path.basename(outputPDF)}`);
-    
   } catch (error) {
     console.error('❌ Error generating PDF:', error.message);
     process.exit(1);

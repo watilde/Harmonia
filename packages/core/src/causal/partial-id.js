@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * Partial Identification for Causal Inference
  *
@@ -10,7 +10,7 @@
  * - Manski, C. F. (1990). Nonparametric Bounds on Treatment Effects
  * - Manski, C. F. (2003). Partial Identification of Probability Distributions
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.computeATEBounds = computeATEBounds;
 exports.checkCoverage = checkCoverage;
 exports.formatBounds = formatBounds;
@@ -20,34 +20,33 @@ exports.computeAllBounds = computeAllBounds;
  * Compute mean outcome for treated and control groups
  */
 function computeGroupMeans(data) {
-    let treatedSum = 0;
-    let treatedWeight = 0;
-    let controlSum = 0;
-    let controlWeight = 0;
-    for (const point of data) {
-        const weight = point.weight ?? 1;
-        if (point.treatment === 1) {
-            treatedSum += point.outcome * weight;
-            treatedWeight += weight;
-        }
-        else {
-            controlSum += point.outcome * weight;
-            controlWeight += weight;
-        }
+  let treatedSum = 0;
+  let treatedWeight = 0;
+  let controlSum = 0;
+  let controlWeight = 0;
+  for (const point of data) {
+    const weight = point.weight ?? 1;
+    if (point.treatment === 1) {
+      treatedSum += point.outcome * weight;
+      treatedWeight += weight;
+    } else {
+      controlSum += point.outcome * weight;
+      controlWeight += weight;
     }
-    if (treatedWeight === 0 || controlWeight === 0) {
-        throw new Error('Data must contain both treated and control observations');
-    }
-    return {
-        treated: {
-            mean: treatedSum / treatedWeight,
-            n: treatedWeight,
-        },
-        control: {
-            mean: controlSum / controlWeight,
-            n: controlWeight,
-        },
-    };
+  }
+  if (treatedWeight === 0 || controlWeight === 0) {
+    throw new Error('Data must contain both treated and control observations');
+  }
+  return {
+    treated: {
+      mean: treatedSum / treatedWeight,
+      n: treatedWeight,
+    },
+    control: {
+      mean: controlSum / controlWeight,
+      n: controlWeight,
+    },
+  };
 }
 /**
  * Compute worst-case bounds (no assumptions)
@@ -58,10 +57,10 @@ function computeGroupMeans(data) {
  * They are the widest possible bounds but always valid.
  */
 function computeWorstCaseBounds(means, yMin, yMax) {
-    return {
-        lower: means.treated.mean - yMax,
-        upper: means.treated.mean - yMin,
-    };
+  return {
+    lower: means.treated.mean - yMax,
+    upper: means.treated.mean - yMin,
+  };
 }
 /**
  * Compute MTR bounds (Monotone Treatment Response)
@@ -72,10 +71,10 @@ function computeWorstCaseBounds(means, yMin, yMax) {
  * MTR is reasonable when treatment is expected to help or have no effect.
  */
 function computeMTRBounds(means, yMin, yMax) {
-    return {
-        lower: means.treated.mean - means.control.mean,
-        upper: Math.min(yMax, means.treated.mean) - yMin,
-    };
+  return {
+    lower: means.treated.mean - means.control.mean,
+    upper: Math.min(yMax, means.treated.mean) - yMin,
+  };
 }
 /**
  * Compute MTS bounds (Monotone Treatment Selection)
@@ -87,10 +86,10 @@ function computeMTRBounds(means, yMin, yMax) {
  * MTS is reasonable when treatment is given to healthier/higher-risk patients.
  */
 function computeMTSBounds(means, yMin, yMax) {
-    return {
-        lower: means.treated.mean - yMax,
-        upper: means.control.mean - yMin,
-    };
+  return {
+    lower: means.treated.mean - yMax,
+    upper: means.control.mean - yMin,
+  };
 }
 /**
  * Compute MTR+MTS bounds (both assumptions)
@@ -99,10 +98,10 @@ function computeMTSBounds(means, yMin, yMax) {
  * Bounds: [E[Y|T=1] - E[Y|T=0], E[Y|T=0] - y_min]
  */
 function computeMTRMTSBounds(means, yMin) {
-    return {
-        lower: means.treated.mean - means.control.mean,
-        upper: means.control.mean - yMin,
-    };
+  return {
+    lower: means.treated.mean - means.control.mean,
+    upper: means.control.mean - yMin,
+  };
 }
 /**
  * Compute sharp bounds on Average Treatment Effect (ATE)
@@ -137,57 +136,57 @@ function computeMTRMTSBounds(means, yMin) {
  * ```
  */
 function computeATEBounds(data, config = {}) {
-    if (!data || data.length === 0) {
-        throw new Error('Data cannot be empty');
-    }
-    const assumption = config.assumption ?? 'worst-case';
-    const yMin = config.yMin ?? 0;
-    const yMax = config.yMax ?? 1;
-    if (yMin >= yMax) {
-        throw new Error('yMin must be less than yMax');
-    }
-    // Compute group means
-    const means = computeGroupMeans(data);
-    // Compute bounds based on assumption
-    let bounds;
-    switch (assumption) {
-        case 'worst-case':
-            bounds = computeWorstCaseBounds(means, yMin, yMax);
-            break;
-        case 'mtr':
-            bounds = computeMTRBounds(means, yMin, yMax);
-            break;
-        case 'mts':
-            bounds = computeMTSBounds(means, yMin, yMax);
-            break;
-        case 'mtr-mts':
-            bounds = computeMTRMTSBounds(means, yMin);
-            break;
-        default:
-            throw new Error(`Unknown assumption: ${assumption}`);
-    }
-    return {
-        lower: bounds.lower,
-        upper: bounds.upper,
-        width: bounds.upper - bounds.lower,
-        assumption,
-        sampleSize: data.length,
-    };
+  if (!data || data.length === 0) {
+    throw new Error('Data cannot be empty');
+  }
+  const assumption = config.assumption ?? 'worst-case';
+  const yMin = config.yMin ?? 0;
+  const yMax = config.yMax ?? 1;
+  if (yMin >= yMax) {
+    throw new Error('yMin must be less than yMax');
+  }
+  // Compute group means
+  const means = computeGroupMeans(data);
+  // Compute bounds based on assumption
+  let bounds;
+  switch (assumption) {
+    case 'worst-case':
+      bounds = computeWorstCaseBounds(means, yMin, yMax);
+      break;
+    case 'mtr':
+      bounds = computeMTRBounds(means, yMin, yMax);
+      break;
+    case 'mts':
+      bounds = computeMTSBounds(means, yMin, yMax);
+      break;
+    case 'mtr-mts':
+      bounds = computeMTRMTSBounds(means, yMin);
+      break;
+    default:
+      throw new Error(`Unknown assumption: ${assumption}`);
+  }
+  return {
+    lower: bounds.lower,
+    upper: bounds.upper,
+    width: bounds.upper - bounds.lower,
+    assumption,
+    sampleSize: data.length,
+  };
 }
 /**
  * Check if true ATE is contained in bounds (for validation)
  */
 function checkCoverage(bounds, trueATE) {
-    return trueATE >= bounds.lower && trueATE <= bounds.upper;
+  return trueATE >= bounds.lower && trueATE <= bounds.upper;
 }
 /**
  * Format bounds for display
  */
 function formatBounds(bounds, decimals = 3) {
-    const lower = bounds.lower.toFixed(decimals);
-    const upper = bounds.upper.toFixed(decimals);
-    const width = bounds.width.toFixed(decimals);
-    return `ATE ∈ [${lower}, ${upper}] (width=${width}, n=${bounds.sampleSize}, assumption=${bounds.assumption})`;
+  const lower = bounds.lower.toFixed(decimals);
+  const upper = bounds.upper.toFixed(decimals);
+  const width = bounds.width.toFixed(decimals);
+  return `ATE ∈ [${lower}, ${upper}] (width=${width}, n=${bounds.sampleSize}, assumption=${bounds.assumption})`;
 }
 /**
  * Compute the overlap between two bounds
@@ -197,12 +196,12 @@ function formatBounds(bounds, decimals = 3) {
  * @returns Width of the overlapping region (0 if no overlap)
  */
 function computeBoundsOverlap(bounds1, bounds2) {
-    const overlapLower = Math.max(bounds1.lower, bounds2.lower);
-    const overlapUpper = Math.min(bounds1.upper, bounds2.upper);
-    if (overlapUpper < overlapLower) {
-        return 0; // No overlap
-    }
-    return overlapUpper - overlapLower;
+  const overlapLower = Math.max(bounds1.lower, bounds2.lower);
+  const overlapUpper = Math.min(bounds1.upper, bounds2.upper);
+  if (overlapUpper < overlapLower) {
+    return 0; // No overlap
+  }
+  return overlapUpper - overlapLower;
 }
 /**
  * Compute all bounds for comparison across different assumptions
@@ -212,11 +211,11 @@ function computeBoundsOverlap(bounds1, bounds2) {
  * @returns Object with bounds under different assumptions
  */
 function computeAllBounds(data, config = {}) {
-    return {
-        worstCase: computeATEBounds(data, { ...config, assumption: 'worst-case' }),
-        mtr: computeATEBounds(data, { ...config, assumption: 'mtr' }),
-        mts: computeATEBounds(data, { ...config, assumption: 'mts' }),
-        mtrMts: computeATEBounds(data, { ...config, assumption: 'mtr-mts' }),
-    };
+  return {
+    worstCase: computeATEBounds(data, { ...config, assumption: 'worst-case' }),
+    mtr: computeATEBounds(data, { ...config, assumption: 'mtr' }),
+    mts: computeATEBounds(data, { ...config, assumption: 'mts' }),
+    mtrMts: computeATEBounds(data, { ...config, assumption: 'mtr-mts' }),
+  };
 }
 //# sourceMappingURL=partial-id.js.map

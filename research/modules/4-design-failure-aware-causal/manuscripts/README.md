@@ -21,12 +21,12 @@ Manuscript on automatic adaptation to assumption violations.
 
 ## 📈 Main Results
 
-| Scenario | Score | Mode | Coverage (Adaptive) | Coverage (Standard) |
-|----------|-------|------|---------------------|---------------------|
-| Clean | 0.92 | Point | 95% | 95% |
-| Mild | 0.79 | Point/Bounds | 93% | 91% |
-| Moderate | 0.62 | Bounds | 94% | 78% |
-| Severe | 0.38 | Sensitivity | 94% | 67% |
+| Scenario | Score | Mode         | Coverage (Adaptive) | Coverage (Standard) |
+| -------- | ----- | ------------ | ------------------- | ------------------- |
+| Clean    | 0.92  | Point        | 95%                 | 95%                 |
+| Mild     | 0.79  | Point/Bounds | 93%                 | 91%                 |
+| Moderate | 0.62  | Bounds       | 94%                 | 78%                 |
+| Severe   | 0.38  | Sensitivity  | 94%                 | 67%                 |
 
 **Average**: 94.0% vs 82.8%
 

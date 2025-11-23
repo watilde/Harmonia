@@ -5,6 +5,7 @@ This module implements **Federated Partial Identification** techniques for causa
 ## Overview
 
 Partial identification provides **valid inference under weaker assumptions** than point identification. When treatment effects cannot be precisely estimated due to:
+
 - Unmeasured confounding
 - Selection bias
 - Positivity violations
@@ -17,18 +18,22 @@ Partial identification provides **valid inference under weaker assumptions** tha
 This module implements and evaluates:
 
 ### 1. **Balke-Pearl Bounds**
+
 - Instrumental variable (IV) based bounds
 - Assumes monotonicity but allows unmeasured confounding
 - Computes sharp bounds on Average Treatment Effect (ATE) via linear programming
 
 ### 2. **Manski Bounds**
+
 - Worst-case bounds under minimal assumptions
 - No-Assumptions bounds: widest possible
 - Monotone Treatment Response (MTR): tighter bounds
 - Monotone Instrumental Variable (MIV): additional constraints
 
 ### 3. **Federated Aggregation Strategies**
+
 Compare weighting schemes for combining site-specific bounds:
+
 - **Sample-size weighting (n):** Weight by site sample size
 - **Square-root weighting (√n):** Compromise between equal and sample-size
 - **Logarithmic weighting (log n):** Down-weight large heterogeneous sites
@@ -37,12 +42,14 @@ Compare weighting schemes for combining site-specific bounds:
 ## Data
 
 ### Synthea 1k Dataset (Primary Development)
+
 - **Patients:** 1,130
 - **Sites:** 3 (Hospital-1, Hospital-2, Hospital-3)
 - **Scenario:** Diabetes treatment and outcomes
 - **Location:** `research/data/raw/splits/1k/`
 
 ### Future Scaling
+
 - Synthea 100k: Method validation
 - Synthea 2.8M: Scalability testing
 - MIMIC-IV demo: Real-world validation
@@ -73,29 +80,33 @@ npm run paper:plots           # Generate manuscript figures
 npm run paper:pdf             # Render manuscript PDF
 ```
 
-*(Scripts will be implemented incrementally)*
+_(Scripts will be implemented incrementally)_
 
 ## Implementation Roadmap
 
 ### Phase 1: Core Bounds Computation (Current)
+
 - [x] Set up module structure
 - [ ] Implement Balke-Pearl LP solver
 - [ ] Implement Manski bounds (worst-case, MTR, MIV)
 - [ ] Unit tests for bound computation
 
 ### Phase 2: Federated Aggregation
+
 - [ ] Implement weighting strategies
 - [ ] Site-level bound computation
 - [ ] Federated aggregation algorithms
 - [ ] Privacy-preserving protocols
 
 ### Phase 3: OMOP Demonstrations
+
 - [ ] Load Synthea 1k split data
 - [ ] Extract treatment/outcome variables
 - [ ] Run federated partial identification
 - [ ] Generate comparison reports
 
 ### Phase 4: Manuscript and Validation
+
 - [ ] Benchmark against centralized bounds
 - [ ] Heterogeneity analysis across sites
 - [ ] Manuscript draft and figures
@@ -140,6 +151,7 @@ Global Upper = Σ_s (n_s / N) * Upper_s
 ## Dependencies
 
 Shared libraries from `src/`:
+
 - Federated computation primitives
 - OMOP CDM data loaders
 - Bound computation utilities
@@ -148,9 +160,9 @@ Shared libraries from `src/`:
 
 ## References
 
-- Balke, A., & Pearl, J. (1997). *Bounds on treatment effects from studies with imperfect compliance*. JASA.
-- Manski, C. F. (1990). *Nonparametric bounds on treatment effects*. AER.
-- Imbens, G. W., & Manski, C. F. (2004). *Confidence intervals for partially identified parameters*. Econometrica.
+- Balke, A., & Pearl, J. (1997). _Bounds on treatment effects from studies with imperfect compliance_. JASA.
+- Manski, C. F. (1990). _Nonparametric bounds on treatment effects_. AER.
+- Imbens, G. W., & Manski, C. F. (2004). _Confidence intervals for partially identified parameters_. Econometrica.
 
 ---
 
