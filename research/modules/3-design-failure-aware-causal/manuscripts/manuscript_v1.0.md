@@ -13,7 +13,7 @@
 
 **Objective:** Develop automatic diagnostic-driven adaptation selecting point estimation, bounds, or sensitivity analysis based on three-dimensional assumption scores.
 
-**Methods:** Implemented diagnostics for unconfoundedness, positivity, and specification with automatic thresholds (>0.8→point, 0.5-0.8→bounds, <0.5→sensitivity). Validated across three scales (1k-2.8m patients, 3 sites).
+**Methods:** I implemented diagnostics for unconfoundedness, positivity, and specification with automatic thresholds (>0.8→point, 0.5-0.8→bounds, <0.5→sensitivity). Validated across three scales (1k-2.8m patients, 3 sites).
 
 **Results:** Diagnostic scores ranged 0.86-1.00 (1k scale), federated=0.95 triggering point estimation. Communication: 150 bytes vs. 201 KB-482 MB centralized (3.2M× reduction). Covariate privacy: 0% disclosure vs. 100% centralized. Computational overhead 30%, scaling O(n) to 2.8m patients.
 
@@ -29,14 +29,14 @@ Causal inference from observational data relies on three assumptions: **unconfou
 
 **Federated challenge**: Multi-site studies compound this problem—sites have varying data quality, patient populations, and treatment practices, leading to heterogeneous assumption satisfaction. **Question**: Should networks use point estimation, bounds, or sensitivity analysis? Current approaches apply the same method to all sites, ignoring heterogeneity [6,7].
 
-**Our solution**: A **design-failure-aware framework** that:
+The solution: A **design-failure-aware framework** that:
 
 1. Diagnoses assumptions at each site (3-dimensional scoring)
 2. Selects inference mode automatically (point/bounds/sensitivity)
 3. Adapts to heterogeneous assumption quality
 4. Reports uncertainty without overconfidence
 
-**Key innovation**: Unlike prior work assuming uniform assumptions [8,9], we provide **explicit safeguards** against violations via automatic method switching.
+**Key innovation**: Unlike prior work assuming uniform assumptions [8,9], this work provides **explicit safeguards** against violations via automatic method switching.
 
 ---
 
@@ -248,7 +248,7 @@ federated_score = Σ(n_k / N) * overall_score_k
 
 The three-dimensional diagnostic system integrates established metrics from propensity score literature (SMD, overlap), positivity theory (tail mass, effective sample size), and model diagnostics (R², AUC, calibration). By grounding each component in existing theory, the framework inherits validity guarantees from prior work while providing a unified assessment.
 
-The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds, <0.5 → sensitivity) provides **explicit safeguards** against overconfident inference. Unlike traditional approaches that silently assume all assumptions hold, our framework makes violation detection and adaptation explicit.
+The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds, <0.5 → sensitivity) provides **explicit safeguards** against overconfident inference. Unlike traditional approaches that silently assume all assumptions hold, the framework makes violation detection and adaptation explicit.
 
 ### 4.2 Practical Guidelines
 
@@ -285,7 +285,7 @@ The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds,
 
 2. **Threshold calibration**: Cutoffs (0.8, 0.5) are based on literature heuristics, not formal power analysis. Context-specific calibration may improve performance.
 
-3. **Synthetic data**: Synthea simplifies confounding patterns vs. real EHR data. Real-world heterogeneity likely exceeds our estimates.
+3. **Synthetic data**: Synthea simplifies confounding patterns vs. real EHR data. Real-world heterogeneity likely exceeds these estimates.
 
 4. **Monte Carlo validation**: Future work will include controlled violation injection with known ground truth to quantify diagnostic accuracy (sensitivity/specificity of violation detection). Current validation relies on real data heterogeneity only.
 
@@ -295,7 +295,7 @@ The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds,
 
 ## 4. CONCLUSIONS
 
-We develop the first three-dimensional diagnostic framework (unconfoundedness, positivity, specification) for federated causal inference with automatic mode selection. Empirical validation across three scales (1k-2.8m patients) demonstrates heterogeneity detection (CV=7.2%) and linear O(n) scalability. Explicit safeguards prevent overconfident inference in heterogeneous networks.
+I develop the first three-dimensional diagnostic framework (unconfoundedness, positivity, specification) for federated causal inference with automatic mode selection. Empirical validation across three scales (1k-2.8m patients) demonstrates heterogeneity detection (CV=7.2%) and linear O(n) scalability. Explicit safeguards prevent overconfident inference in heterogeneous networks.
 
 **Key contributions:**
 

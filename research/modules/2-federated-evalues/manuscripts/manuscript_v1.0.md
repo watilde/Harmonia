@@ -13,7 +13,7 @@
 
 **Objective:** Prove and validate the Federated Robustness Index (FRI) with formal aggregation guarantees and decision-theoretic thresholds.
 
-**Methods:** Proved FRI preserves site-level robustness (Theorem 1). Validated across three scales (1k-2.8m patients, 3 sites) with communication efficiency and confounder privacy analysis.
+**Methods:** I proved FRI preserves site-level robustness (Theorem 1). Validated across three scales (1k-2.8m patients, 3 sites) with communication efficiency and confounder privacy analysis.
 
 **Results:** FRI converged strongly (1.961→2.149) with inter-site variance collapsing (9.7%→0.16%). Communication: 174 bytes vs. 201 KB-482 MB centralized (2.8M× reduction). Unique privacy advantage: confounder structure hidden (0% disclosure). Decision thresholds: FRI>3.0 (high-stakes), >2.0 (moderate), >1.5 (exploratory).
 
@@ -39,7 +39,7 @@ Causal inference from observational data requires addressing unmeasured confound
 
 **Questions**: What is the federated E-value? Should large sites dominate? Does aggregation preserve validity?
 
-**Our contribution**: We define the **Federated Robustness Index (FRI)** with formal validity (Theorem 1), decision-theoretic thresholds, and validation across three scales (1k-2.8m patients).
+This work's contribution: Defining the **Federated Robustness Index (FRI)** with formal validity (Theorem 1), decision-theoretic thresholds, and validation across three scales (1k-2.8m patients).
 
 ---
 
@@ -107,7 +107,7 @@ Primary focus: Sample-size weighting (theoretically justified, see Section 2.4).
 
 **Interpretation**: FRI provides a theoretically valid aggregation that balances site-specific robustness with sample size. A confounder with $RR \geq \text{FRI}$ is sufficient (but may not be necessary) to nullify the federated effect.
 
-**Empirical Validation** (from our experiments):
+**Empirical Validation** (from the experiments):
 
 - **1k**: FRI=1.961, $E_k \in [1.766, 2.188]$ → $1.766 < 1.961 < 2.188$ ✓
 - **2.8m**: FRI=2.149, $E_k \in [2.146, 2.153]$ → nearly $\min = \text{FRI} \approx \max$ (homogeneity) ✓
@@ -147,7 +147,7 @@ $$t^* \approx 1 + \frac{C_1}{C_2} \cdot p$$
    - $t^* \approx 1 + 1 \times 0.1 = 1.1$
    - **Recommendation**: FRI > 1.5
 
-**Example** (diabetes treatment, our study):
+**Example** (diabetes treatment, this study):
 
 - FRI = 2.15 (2.8m scale)
 - Decision: FRI > 2.0 (moderate threshold) → **suitable for clinical guidelines**
@@ -221,7 +221,7 @@ E-value formula: $E = RR + \sqrt{RR \times (RR - 1)}$
 
 **Diabetes Treatment Example** (2.8m scale, FRI=2.149):
 
-| Threshold Level                | Required FRI | Our FRI | Decision                 |
+| Threshold Level                | Required FRI | Observed FRI | Decision                 |
 | ------------------------------ | ------------ | ------- | ------------------------ |
 | High-stakes (FDA approval)     | >3.0         | 2.15    | ❌ Insufficient evidence |
 | Moderate (clinical guidelines) | >2.0         | 2.15    | ✅ Acceptable            |
@@ -287,7 +287,7 @@ The **decision-theoretic calibration** (Section 2.5) transforms FRI from a descr
 3. Compare against decision-theoretic thresholds (Table, Section 2.5)
 4. Report: "FRI = X.XX, exceeding [exploratory/moderate/high-stakes] threshold"
 
-**Example** (our diabetes study):
+**Example** (the diabetes study):
 
 - FRI = 2.15
 - Report: "Federated analysis shows moderate robustness (FRI=2.15 > 2.0 threshold), suitable for clinical guideline consideration. An unmeasured confounder would require risk ratio ≥2.15 (in both directions) to explain away the observed treatment effect."
@@ -296,7 +296,7 @@ The **decision-theoretic calibration** (Section 2.5) transforms FRI from a descr
 
 **Diabetes treatment robustness** (condensed from 1.5 pages):
 
-Our 2.8m-patient federated analysis yielded FRI=2.15, indicating an unmeasured confounder must have RR≥2.15 to nullify the treatment effect.
+The 2.8m-patient federated analysis yielded FRI=2.15, indicating an unmeasured confounder must have RR≥2.15 to nullify the treatment effect.
 
 **Comparison to known confounders**:
 
@@ -320,7 +320,7 @@ Our 2.8m-patient federated analysis yielded FRI=2.15, indicating an unmeasured c
 
 ## 4. CONCLUSIONS
 
-We prove FRI preserves robustness guarantees under convex aggregation (Theorem 1) and validate convergence across three scales (1.961→2.149, CV: 9.7%→0.16%). Decision-theoretic thresholds (FRI>3.0 high-stakes, >2.0 moderate, >1.5 exploratory) transform E-values into prescriptive decision tools.
+I prove FRI preserves robustness guarantees under convex aggregation (Theorem 1) and validated convergence across three scales (1.961→2.149, CV: 9.7%→0.16%). Decision-theoretic thresholds (FRI>3.0 high-stakes, >2.0 moderate, >1.5 exploratory) transform E-values into prescriptive decision tools.
 
 **Key contributions:**
 

@@ -13,7 +13,7 @@
 
 **Objective:** Prove and validate optimal weighting for combining bounds across heterogeneous federated sites.
 
-**Methods:** We derived minimax-optimal inverse-width weighting via KKT conditions and compared six strategies (inverse-width, sample-size, √n, log-n, power, conservative) using three OMOP datasets (1,130-2,709,803 patients, 3 sites). Measured bound width, heterogeneity (CV), and communication efficiency.
+**Methods:** I derived minimax-optimal inverse-width weighting via KKT conditions and compared six strategies (inverse-width, sample-size, √n, log-n, power, conservative) using three OMOP datasets (1,130-2,709,803 patients, 3 sites). Measured bound width, heterogeneity (CV), and communication efficiency.
 
 **Results:** Inverse-width achieved 15.5% tighter bounds than conservative at 1k scale (CV=6.3% heterogeneity), converging to equivalent performance at 2.8m scale (CV=0.14%). Communication: constant 150 bytes vs. 201 KB-482 MB centralized (3.2M× reduction). Theorem 1 proves minimax optimality under heterogeneity; Corollary 1 establishes convergence to sample-size weighting under homogeneity.
 
@@ -52,7 +52,7 @@ _Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB 
 
 ### 2.1 Weighting Strategies
 
-We evaluated six strategies:
+I evaluated six strategies:
 
 | Strategy                | Weight Formula                                 | Properties                |
 | ----------------------- | ---------------------------------------------- | ------------------------- |
@@ -93,7 +93,7 @@ where $W_k = 2\epsilon_k$ is the bound width. **This is inverse-width weighting*
 
 Under homogeneity, $\epsilon_k \approx \epsilon$ for all sites. Then any weighting yields similar error. However, sampling theory implies $\epsilon \propto 1/\sqrt{n_k}$, so minimum-variance estimation requires $w_k = n_k / N$ (sample-size weighting). Thus, inverse-width converges to sample-size under homogeneity.
 
-**Empirical Validation** (from our experiments):
+**Empirical Validation** (from the experiments):
 
 - **1k scale** (heterogeneous): $\epsilon_k \in [0.184, 0.208]$, CV=6.3% → inverse-width achieves 15.5% improvement
 - **100k scale** (homogeneous): $\epsilon_k \approx 0.200$, CV=0.39% → inverse-width ≈ sample-size (difference 0.1%)
@@ -179,7 +179,7 @@ As heterogeneity decreases, all strategies converge. Under homogeneity, εₖ �
 
 ### 3.3 Empirical Consistency Checks
 
-Using Synthea's data generation model as reference, we verified that all strategies produce consistent bounds:
+Using Synthea's data generation model as reference, I verified that all strategies produce consistent bounds:
 
 | Strategy      | Mean Width (1k-2.8m) | Consistency Check          |
 | ------------- | -------------------- | -------------------------- |
@@ -311,7 +311,7 @@ The **heterogeneity-dependence** of optimal weighting has practical implications
 
 ## 4. Conclusions
 
-We prove inverse-width weighting is minimax-optimal for aggregating federated Manski bounds under heterogeneity (Theorem 1). Empirical validation across three scales (1k-2.8m patients) confirms 15.5% improvement at small scale (CV=6.3%), converging to equivalence at large scale (CV=0.14%).
+I prove inverse-width weighting is minimax-optimal for aggregating federated Manski bounds under heterogeneity (Theorem 1). Empirical validation across three scales (1k-2.8m patients) confirms 15.5% improvement at small scale (CV=6.3%), converging to equivalence at large scale (CV=0.14%).
 
 **Key contributions:**
 

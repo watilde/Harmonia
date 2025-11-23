@@ -39,7 +39,7 @@ Multi-site observational studies using electronic health records (EHRs) promise 
 
 Real-world federated networks exhibit heterogeneous assumption quality. **Question**: Should we trust point estimates when one site has severe violations? **Current practice**: Apply same method to all sites, ignore heterogeneity [10,11].
 
-### 1.3 Our Solution: Federated Robust Causal Inference (FRCI)
+### 1.3 The Solution: Federated Robust Causal Inference (FRCI)
 
 **FRCI is a self-adaptive ecosystem** with inter-module feedback loops creating emergent properties:
 
@@ -237,7 +237,7 @@ These emergent properties create a **self-correcting ecosystem** impossible with
 
 1. **Binary outcomes**: Current implementation focuses on binary outcomes. Extension to continuous/time-to-event requires additional development.
 
-2. **Synthetic data**: Synthea simplifies confounding patterns vs. real EHR data. Real-world heterogeneity may exceed our estimates, though framework adapts automatically.
+2. **Synthetic data**: Synthea simplifies confounding patterns vs. real EHR data. Real-world heterogeneity may exceed these estimates, though framework adapts automatically.
 
 3. **Three-site validation**: Real networks may have 10-100 sites. However, theoretical guarantees hold for arbitrary K, and linear scalability suggests no fundamental barriers.
 
@@ -249,7 +249,7 @@ These emergent properties create a **self-correcting ecosystem** impossible with
 
 ## 4. CONCLUSIONS
 
-We develop the first complete federated causal inference framework integrating minimax-optimal aggregation, robustness quantification, and automatic diagnostic adaptation with formal guarantees. Empirical validation across three scales (1k-2.8m patients) demonstrates linear O(n) scalability and 54k patients/sec throughput, validating production readiness.
+I develop the first complete federated causal inference framework integrating minimax-optimal aggregation, robustness quantification, and automatic diagnostic adaptation with formal guarantees. Empirical validation across three scales (1k-2.8m patients) demonstrates linear O(n) scalability and 54k patients/sec throughput, validating production readiness.
 
 **Key contributions:**
 
