@@ -23,6 +23,12 @@ export interface CausalDataPoint {
 }
 
 /**
+ * Type alias for backward compatibility with manski-bounds.ts
+ * @deprecated Use ATEBounds instead
+ */
+export type ManskiBounds = ATEBounds;
+
+/**
  * Bounds on Average Treatment Effect
  */
 export interface ATEBounds {
@@ -256,4 +262,46 @@ export function formatBounds(bounds: ATEBounds, decimals = 3): string {
   const upper = bounds.upper.toFixed(decimals);
   const width = bounds.width.toFixed(decimals);
   return `ATE ∈ [${lower}, ${upper}] (width=${width}, n=${bounds.sampleSize}, assumption=${bounds.assumption})`;
+}
+
+/**
+ * Compute the overlap between two bounds
+ * 
+ * @param bounds1 - First bounds
+ * @param bounds2 - Second bounds
+ * @returns Width of the overlapping region (0 if no overlap)
+ */
+export function computeBoundsOverlap(bounds1: ATEBounds, bounds2: ATEBounds): number {
+  const overlapLower = Math.max(bounds1.lower, bounds2.lower);
+  const overlapUpper = Math.min(bounds1.upper, bounds2.upper);
+  
+  if (overlapUpper < overlapLower) {
+    return 0; // No overlap
+  }
+  
+  return overlapUpper - overlapLower;
+}
+
+/**
+ * Compute all bounds for comparison across different assumptions
+ * 
+ * @param data - Array of observations
+ * @param config - Optional configuration (yMin, yMax)
+ * @returns Object with bounds under different assumptions
+ */
+export function computeAllBounds(
+  data: CausalDataPoint[],
+  config: Omit<BoundsConfig, 'assumption'> = {}
+): {
+  worstCase: ATEBounds;
+  mtr: ATEBounds;
+  mts: ATEBounds;
+  mtrMts: ATEBounds;
+} {
+  return {
+    worstCase: computeATEBounds(data, { ...config, assumption: 'worst-case' }),
+    mtr: computeATEBounds(data, { ...config, assumption: 'mtr' }),
+    mts: computeATEBounds(data, { ...config, assumption: 'mts' }),
+    mtrMts: computeATEBounds(data, { ...config, assumption: 'mtr-mts' }),
+  };
 }

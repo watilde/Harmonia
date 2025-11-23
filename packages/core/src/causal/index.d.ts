@@ -35,7 +35,6 @@
  *
  * @module causal
  */
-
 export * from './partial-id';
 export * from './federated-agg';
 export * from './omop-synthetic';
@@ -44,3 +43,4 @@ export * from './evalue';
 export * from './assumption-diagnostics';
 export * from './inference-mode';
 export * from './robustness-index';
+//# sourceMappingURL=index.d.ts.map
