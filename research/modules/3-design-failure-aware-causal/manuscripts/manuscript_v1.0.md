@@ -3,7 +3,7 @@
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
 **Version**: 1.0 (Revised for Submission)  
-**Code**: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/3-design-failure-aware-causal
+**Code**: https://github.com/watilde/Harmonia/tree/main/research/modules/3-design-failure-aware-causal
 
 ---
 
@@ -349,11 +349,11 @@ I develop the first three-dimensional diagnostic framework (unconfoundedness, po
 **Data Availability:** All data sources are publicly accessible:
 - Synthea OMOP: AWS S3 (no authentication required)
 - MIMIC-IV Demo: PhysioNet (open access)
-- Code and analysis scripts: https://github.com/watilde/Harmonia-Shadow
+- Code and analysis scripts: https://github.com/watilde/Harmonia
 
 ## DATA AVAILABILITY
 
-Code and experimental data: https://github.com/watilde/Harmonia-Shadow/tree/main/research/modules/3-design-failure-aware-causal
+Code and experimental data: https://github.com/watilde/Harmonia/tree/main/research/modules/3-design-failure-aware-causal
 
 Synthea generator: https://synthetichealth.github.io/synthea/
 
