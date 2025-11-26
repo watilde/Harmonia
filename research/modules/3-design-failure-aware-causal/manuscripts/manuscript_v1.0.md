@@ -1,4 +1,4 @@
-# Design-Failure-Aware Federated Causal Inference: Automatic Adaptation to Assumption Violations
+# Design-Failure-Aware Federated Causal Inference: A Diagnostic Framework for Heterogeneous Assumption Quality
 
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
@@ -11,13 +11,13 @@
 
 **Background:** Federated causal inference methods typically assume uniform assumption satisfaction across sites without explicit diagnostic verification, risking overconfident inference when assumptions fail heterogeneously.
 
-**Objective:** Propose and validate a three-dimensional diagnostic framework for federated causal inference that automatically selects inference methods (point estimation, bounds, or sensitivity analysis) based on site-level assumption scores.
+**Objective:** Propose and validate a three-dimensional diagnostic framework for federated causal inference that characterizes site-level assumption quality to guide inference method selection (point estimation, bounds, or sensitivity analysis).
 
-**Methods:** I integrated diagnostics for unconfoundedness (SMD, overlap, residual correlation), positivity (tail mass, effective sample size), and specification (R², AUC, calibration) into scalar scores (range [0,1]). Proposed heuristic thresholds for automatic mode selection: overall score ≥0.8 triggers point estimation, 0.5-0.8 triggers partial identification bounds, <0.5 triggers sensitivity analysis. Validated on Synthea synthetic data across three scales (1k-2.8m patients, 3 sites).
+**Methods:** I integrated diagnostics for unconfoundedness (SMD, overlap, residual correlation), positivity (tail mass, effective sample size), and specification (R², AUC, calibration) into scalar scores (range [0,1]). Proposed exploratory threshold guidelines: overall score ≥0.8 suggests point estimation, 0.5-0.8 suggests partial identification bounds, <0.5 suggests sensitivity analysis. Validated computational feasibility on Synthea synthetic data across three scales (1k-2.8m patients, 3 sites).
 
-**Results:** Diagnostic scores ranged 0.86-1.00 at 1k scale (CV=7.2% heterogeneity), with federated score 0.95 triggering point estimation. Computation scaled linearly O(n) with 30% overhead. Communication remained constant at 150 bytes regardless of scale (up to 3.2M× reduction versus centralized). Diagnostic scores provide partial covariate privacy (variable identities hidden, though scores indirectly reveal data quality).
+**Results:** Diagnostic scores ranged 0.86-1.00 at 1k scale (CV=7.2% heterogeneity), with federated score 0.95 exceeding the exploratory 0.8 threshold. Computation scaled linearly O(n) with 30% overhead. Communication remained constant at 150 bytes regardless of scale (up to 3.2M× reduction versus centralized). Diagnostic scores provide partial covariate privacy (variable identities hidden, though scores indirectly reveal data quality).
 
-**Conclusions:** The framework provides heuristic safeguards against assumption violations in federated settings, demonstrating feasibility on synthetic data. Critical limitations require future validation: (1) thresholds (0.8, 0.5) lack formal calibration via controlled violation studies, (2) synthetic data validation cannot establish diagnostic accuracy for real assumption violations, (3) information leakage from scores remains unquantified. The framework represents operational tooling for practitioners requiring substantial validation before high-stakes deployment.
+**Conclusions:** We propose a diagnostic framework for federated causal inference that integrates established metrics (SMD, overlap, tail mass, R², AUC) into scalar scores, demonstrating computational feasibility on synthetic data (O(n) scaling, 3.2M× communication reduction). Critical limitations preclude deployment: (1) exploratory thresholds (0.8, 0.5) lack calibration via controlled studies, (2) Synthea validation cannot establish diagnostic accuracy for real violations, (3) information leakage unquantified. The framework represents a proof-of-concept requiring empirical validation before clinical use.
 
 **Keywords**: Causal Inference, Assumption Diagnostics, Federated Learning, Partial Identification, Robustness
 
@@ -32,11 +32,11 @@ Causal inference from observational data relies on three assumptions: **unconfou
 The solution: A **design-failure-aware framework** that:
 
 1. Diagnoses assumptions at each site (3-dimensional scoring)
-2. Selects inference mode automatically (point/bounds/sensitivity)
+2. Guides inference mode selection (point/bounds/sensitivity) via exploratory thresholds
 3. Adapts to heterogeneous assumption quality
 4. Reports uncertainty without overconfidence
 
-**Key innovation**: Unlike prior work assuming uniform assumptions [8,9], this work provides **explicit safeguards** against violations via automatic method switching.
+**Key contribution**: Unlike prior work assuming uniform assumptions [8,9], this framework provides diagnostic tooling to characterize site-level assumption quality before method selection.
 
 ---
 
@@ -62,8 +62,7 @@ unconf_score = (1 - max(|smd|)) * overlap * (1 - |residual_cor|)
 
 **Interpretation**: Score > 0.8: strong exchangeability; 0.5-0.8: moderate concerns; <0.5: severe confounding.
 
-![Three-Dimensional Diagnostic System](figures/fig1_diagnostic_system.png)
-_Figure 1: Automatic diagnostic-driven method selection framework. Three-dimensional cube shows score thresholds: green zone (>0.8) triggers point estimation, yellow zone (0.5-0.8) triggers partial identification bounds, red zone (<0.5) triggers sensitivity analysis. Three sites plotted show heterogeneous assumption quality, with Site 1 in optimal zone, Sites 2-3 near boundaries._
+
 
 #### 2.1.2 Positivity Score
 
@@ -104,13 +103,16 @@ specification_score = (r_squared + auc + calibration) / 3
 overall_score = (unconf_score + positivity_score + specification_score) / 3
 ```
 
-**Proposed Mode Selection Rules (Heuristic, Requiring Validation)**:
+**Exploratory Mode Selection Guidelines (Unvalidated)**:
 
-- **Overall ≥ 0.8**: Point estimation (doubly-robust, TMLE)
-- **0.5 ≤ Overall < 0.8**: Partial identification (Manski bounds)
-- **Overall < 0.5**: Sensitivity analysis (E-values)
+As an illustrative starting point for practitioners, we suggest:
+- **Overall ≥ 0.8**: Consider point estimation (doubly-robust, TMLE)
+- **0.5 ≤ Overall < 0.8**: Consider partial identification (Manski bounds)
+- **Overall < 0.5**: Consider sensitivity analysis (E-values)
 
-**Threshold justification**: The 0.8 cutoff builds on established heuristics (SMD < 0.1 for balance, tail mass < 5% for positivity) but their combination into overall scores lacks formal validation. Stuart (2010) notes SMD < 0.1 is a "rule of thumb" without power analysis backing. The 0.5 lower threshold represents severe violation (e.g., 50% SMD imbalance or 50% tail mass) but is similarly heuristic. **These thresholds require calibration via controlled simulation studies with known ground truth violations**, which we defer to future work. Users should adjust thresholds based on domain risk tolerance: conservative researchers may use 0.9/0.6, exploratory studies 0.7/0.4.
+**Critical limitations**: These thresholds represent exploratory heuristics extrapolated from single-metric guidelines (Stuart 2010: SMD < 0.1; Petersen et al. 2012: tail mass < 5%). Their aggregation into composite scores and threshold selection lack formal validation via controlled violation studies. We do not know diagnostic power (sensitivity/specificity) for detecting violations. Users must calibrate thresholds based on domain risk tolerance and conduct sensitivity analysis across threshold choices (see Section 3.2).
+
+**Recommended practice**: Report diagnostic scores without rigid cutoffs. Let domain experts interpret scores in context rather than mechanically applying thresholds. The 0.8/0.5 cutoffs provide initial guidance but require validation through: (1) simulated data with known violation severity, (2) classification accuracy assessment, (3) threshold optimization for desired performance.
 
 ### 2.2 Federated Aggregation
 
@@ -153,7 +155,9 @@ federated_score = Σ(n_k / N) * overall_score_k
 | Site 3        | 0.90   | 1.00       | 0.70          | **0.86** | Point         |
 | **Federated** | 0.86   | 1.00       | 0.89          | **0.95** | Point         |
 
-The results reveal four notable patterns. First, diagnostic scores exhibit meaningful site heterogeneity, ranging from 0.86 (Site 3) to 1.00 (Site 1) with coefficient of variation 7.2%. Second, Site 2 shows unconfoundedness concern (score 0.70), indicating residual confounding likely due to Synthea's randomization algorithm creating mild imbalance patterns. Third, Site 3 demonstrates specification issues (score 0.70), suggesting model misfit potentially from non-linear age-treatment relationships in synthetic data. Fourth, despite site-level concerns, federated score 0.95 justifies point estimation at network level, demonstrating how sample-size weighting can overcome individual site weaknesses.
+Diagnostic scores exhibit site heterogeneity (CV=7.2%), ranging from 0.86 (Site 3) to 1.00 (Site 1). Site 2's low unconfoundedness score (0.70) suggests residual imbalance—likely an artifact of Synthea's randomization algorithm. Site 3's specification score (0.70) indicates model misfit, possibly from nonlinear age-treatment relationships in synthetic data.
+
+Despite individual site concerns, the federated score (0.95, sample-size weighted) exceeds the exploratory 0.8 threshold, suggesting point estimation may be appropriate at the network level. This shows how aggregation can compensate for individual site weaknesses, though practitioners should review site-level scores to identify concerning patterns.
 
 ### 3.2 Mode Selection Validation
 
@@ -183,7 +187,7 @@ The results reveal four notable patterns. First, diagnostic scores exhibit meani
 | 100k  | 235,222        | 2.5s            | 5.5s           | 31%        |
 | 2.8m  | 2,709,803      | 15s             | 35s            | 30%        |
 
-Diagnostic computation demonstrates linear O(n) scaling, with time growing proportionally with patient count (0.5s → 2.5s → 15s for 1k → 100k → 2.8m patients). Overhead remains consistent at 30-33% across all scales, indicating efficient implementation without scaling penalties. The 15-second diagnostic time for 2.7 million patients suggests production feasibility for real-world deployment in large federated networks.
+Diagnostic computation scales linearly O(n), with time growing proportionally with patient count (0.5s → 2.5s → 15s for 1k → 100k → 2.8m patients). Overhead remains consistent at 30-33% across all scales, indicating efficient implementation without scaling penalties. The 15-second diagnostic time for 2.7 million patients suggests production feasibility for real-world deployment in large federated networks.
 
 ### 3.4 Cross-Site Heterogeneity Analysis
 
@@ -191,13 +195,13 @@ Diagnostic computation demonstrates linear O(n) scaling, with time growing propo
 
 | Metric                        | Value        | Interpretation                           |
 | ----------------------------- | ------------ | ---------------------------------------- |
-| Unconf score range            | [0.70, 1.00] | Δ=0.30, substantial variation            |
+| Unconf score range            | [0.70, 1.00] | Δ=0.30, meaningful variation            |
 | Overall score range           | [0.86, 1.00] | Δ=0.14, moderate variation               |
 | Coefficient of variation (CV) | 7.2%         | Significant but manageable heterogeneity |
 
 **Interpretation**: Even in relatively small-sample data (1k), the diagnostic system successfully detects meaningful site heterogeneity (CV=7.2%). This validates the necessity of site-specific adaptation rather than uniform method application.
 
-**Note**: For 100k and 2.8m scales, diagnostics were computed (confirming O(n) scalability), but detailed score analysis focused on 1k scale as it best demonstrates heterogeneity handling in typical pilot study settings.
+**Note**: For 100k and 2.8m scales, diagnostics were computed (confirming O(n) scalability), but detailed score analysis focused on 1k scale as it best shows heterogeneity handling in typical pilot study settings.
 
 ### 3.5 Communication Efficiency and Privacy
 
@@ -211,7 +215,7 @@ Diagnostic computation demonstrates linear O(n) scaling, with time growing propo
 
 **Per-site transmission (50 bytes):** Unconfoundedness (10), positivity (10), specification (10), overall (10), site ID (10).
 
-Federated transmission exhibits constant O(1) communication, remaining at 150 bytes regardless of patient count (1k→2.8m represents 2,398-fold patient increase with zero communication increase). The reduction factor scales from 1,341× at small scale to 3.2M× at large scale. Diagnostic scores (10 bytes each) represent minimal overhead compared to centralized propensity scores (8n bytes) plus covariate distributions (approximately 20 KB). For the 1k patient dataset, centralized requires 28 KB per site while federated uses 50 bytes per site, achieving 560× reduction for diagnostics alone.
+Federated transmission maintains constant O(1) communication, remaining at 150 bytes regardless of patient count (1k→2.8m represents 2,398-fold patient increase with zero communication increase). The reduction factor scales from 1,341× at small scale to 3.2M× at large scale. Diagnostic scores (10 bytes each) represent minimal overhead compared to centralized propensity scores (8n bytes) plus covariate distributions (approximately 20 KB). For the 1k patient dataset, centralized requires 28 KB per site while federated uses 50 bytes per site, achieving 560× reduction for diagnostics alone.
 
 3. **Reduced Covariate Disclosure:** Sites compute diagnostics using local covariates without transmitting individual variable values or distributions. Centralized analysis requires exposing full covariate matrices; federated transmits only scalar diagnostic scores (4 values per site: unconfoundedness, positivity, specification, overall).
 
@@ -255,25 +259,13 @@ The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds,
 
 **Customization**: Thresholds (0.8, 0.5) can be adjusted based on stakeholder risk tolerance. Conservative researchers may use 0.9/0.6; exploratory studies may use 0.7/0.4.
 
-### 4.3 Application Example
-
-**3-site diabetes data (N=1,130)** demonstrates adaptive inference:
-
-- **Site 1 (score=1.00)**: Perfect assumptions → Point estimation → High-confidence guideline
-- **Site 2 (score=0.89, unconf=0.70)**: Mild confounding → Point estimation (>0.8) BUT conservative interpretation + E-value check → Preliminary evidence
-- **Site 3 (score=0.86, spec=0.70)**: Specification concern → Point estimation (borderline) BUT model sensitivity → Exploratory evidence
-
-**Federated (score=0.95)**: Point estimation → ATE=0.27±0.03, FRI=1.96 → **Recommendation**: "Treatment shows 27% improvement with moderate robustness. Adopt with monitoring."
-
-**Contrast**: Without diagnostics, all sites would use point estimation unconditionally, missing Site 2's confounding and Site 3's misspecification.
-
-### 4.4 Limitations and Future Validation Needs
+### 4.3 Limitations and Future Validation
 
 **Threshold calibration lacks formal justification**: The cutoffs (overall score ≥ 0.8 for point estimation, 0.5-0.8 for bounds, < 0.5 for sensitivity analysis) build on literature heuristics (Stuart 2010: SMD < 0.1; Petersen et al. 2012: tail mass < 5%) but their aggregation into overall scores and threshold selection lack formal validation. We do not know the diagnostic power (sensitivity/specificity) of these thresholds for detecting assumption violations. Formal calibration requires controlled simulation studies with known ground truth violations at varying severities, comparing diagnostic scores to true violation magnitudes. Context-specific calibration may improve performance—conservative medical applications might use 0.9/0.6, exploratory social science 0.7/0.4.
 
-**Synthetic data limitations**: Synthea simplifies confounding patterns compared to real electronic health record data. The observed Site 2 unconfoundedness score (0.70) and Site 3 specification score (0.70) represent mild violations by design. Real-world multi-site studies often exhibit more severe violations—missingness patterns, unmeasured confounding from socioeconomic factors, positivity violations in rare subgroups. Our validation demonstrates the framework functions on synthetic data but cannot establish diagnostic accuracy for detecting real violations.
+**Synthetic data limitations**: Synthea simplifies confounding patterns compared to real EHR data. The observed mild violations (Site 2 unconfoundedness 0.70, Site 3 specification 0.70) represent Synthea's design artifacts, not realistic assumption failures. Real-world studies may exhibit more severe patterns—unmeasured confounding from socioeconomic factors, positivity violations in rare subgroups, complex missingness. Our validation shows framework functionality but cannot establish diagnostic accuracy for detecting real violations.
 
-**Lack of ground truth validation**: The critical missing validation is controlled violation injection with known ground truth. Future work must: (1) simulate data with known confounding strength (e.g., bias factor = 1.5, 2.0, 3.0), (2) compute diagnostic scores, (3) assess whether scores correctly classify violation severity, (4) calibrate thresholds to achieve desired sensitivity/specificity tradeoffs. Without this validation, we cannot quantify false positive rates (flagging valid assumptions as violations) or false negative rates (missing genuine violations).
+**Critical missing validation**: Controlled violation injection with known ground truth. Future work must: (1) simulate data with known violation severity (e.g., confounding bias factors 1.5, 2.0, 3.0), (2) compute diagnostic scores, (3) assess classification accuracy (sensitivity/specificity), (4) calibrate thresholds to achieve desired performance. Without this, we cannot quantify false positive/negative rates.
 
 **Information leakage not quantified**: While we claim "partial covariate privacy," we have not formally quantified information leakage from diagnostic scores. Future work should apply information-theoretic measures (mutual information between scores and covariate identities) or conduct adversarial inference studies where coordinators attempt to reconstruct covariate sets from observed scores. Differential privacy analysis (optimal noise injection Lap(Δ/ε) balancing privacy and diagnostic utility) remains unexplored.
 
@@ -285,23 +277,15 @@ The automatic threshold-based mode selection (0.8 → point, 0.5-0.8 → bounds,
 
 ## 6. CONCLUSIONS
 
-This work proposes a three-dimensional diagnostic framework (unconfoundedness, positivity, specification) for federated causal inference with automatic mode selection. Validation on synthetic data across three scales (1k-2.8m patients, 3 sites) demonstrates heterogeneity detection (CV=7.2%), linear O(n) computational scaling, and communication efficiency (up to 3.2M× reduction).
+This work proposes a three-dimensional diagnostic framework (unconfoundedness, positivity, specification) for federated causal inference with exploratory threshold guidelines for mode selection. Validation on synthetic data across three scales (1k-2.8m patients, 3 sites) shows heterogeneity detection (CV=7.2%), linear O(n) computational scaling, and communication efficiency (up to 3.2M× reduction).
 
-**Methodological contribution**: Extending single-site assumption diagnostics (Stuart 2010; Petersen et al. 2012) to federated settings, I integrate established metrics (SMD, overlap, tail mass, effective sample size, R², AUC) into scalar scores enabling privacy-preserving assessment. The automatic threshold-based mode selection (≥0.8→point, 0.5-0.8→bounds, <0.5→sensitivity) provides explicit safeguards against overconfident inference, addressing a gap in prior federated causal work (FACE, FLAME, FedCI) that assumes uniform assumption satisfaction without verification.
+**Methodological contribution**: Extending single-site assumption diagnostics (Stuart 2010; Petersen et al. 2012) to federated settings, I integrate established metrics (SMD, overlap, tail mass, effective sample size, R², AUC) into scalar scores enabling privacy-preserving assessment. The exploratory threshold-based guidelines (≥0.8→consider point, 0.5-0.8→consider bounds, <0.5→consider sensitivity) provide heuristic guidance for method selection, addressing a gap in prior federated causal work (FACE, FLAME, FedCI) that assumes uniform assumption satisfaction without verification.
 
 **Practical recommendations with caveats**: Practitioners can deploy this framework as a heuristic tool for site heterogeneity assessment, using proposed thresholds (0.8/0.5) as starting points requiring domain-specific adjustment. Report both site-level scores and federated aggregates transparently, enabling reviewers to assess assumption quality directly. When diagnostic scores suggest violations (e.g., unconfoundedness < 0.7), consider alternative methods (bounds, sensitivity analysis) or additional covariate adjustment. However, recognize that threshold selection lacks formal validation—these are exploratory guidelines, not validated cutoffs.
 
-**Critical limitations requiring future validation**: 
+**Critical limitations**: Threshold calibration (0.8, 0.5) lacks formal justification—we do not know diagnostic power (sensitivity/specificity) for detecting violations. Synthetic data provides proof-of-concept but cannot establish diagnostic accuracy for real violations (see Section 4.3). Information leakage from scores remains unquantified. Three-site validation provides limited evidence for large network scalability (FDA Sentinel: 18 sites).
 
-First, threshold calibration (0.8, 0.5) lacks formal justification. We do not know the diagnostic power (sensitivity/specificity) for detecting assumption violations. Validation requires controlled simulation with known ground truth violations, comparing diagnostic scores to true violation severity and calibrating thresholds to achieve desired performance.
-
-Second, synthetic data validation provides proof-of-concept but cannot establish diagnostic accuracy for real violations. Synthea's simplified confounding (Site 2 score 0.70) represents mild violations by design. Real-world studies may exhibit more severe patterns (unmeasured confounding from socioeconomic factors, positivity violations in rare subgroups) that this framework has not been tested against.
-
-Third, information leakage from diagnostic scores remains unquantified. While specific covariate identities remain hidden, scores reveal data quality characteristics (e.g., unconfoundedness 0.70 suggests imbalance). Formal privacy analysis (information-theoretic bounds, differential privacy calibration) is needed to quantify the privacy-utility tradeoff rigorously.
-
-Fourth, three-site validation provides limited evidence for large network scalability (FDA Sentinel: 18 sites). Sample-size weighted aggregation may inadequately handle networks where small sites have severe violations masked by large high-quality sites. Hierarchical aggregation or site clustering may prove necessary.
-
-**Honest assessment of contribution**: This work proposes an operational framework for federated assumption diagnostics, demonstrating feasibility and scalability on synthetic data. The contribution lies in systematizing existing diagnostic metrics into a privacy-preserving federated workflow with automatic mode selection, not in developing novel diagnostic theory or proving formal guarantees. The framework provides heuristic guidance for practitioners but requires substantial validation before deployment in high-stakes clinical or regulatory contexts. Future work must establish diagnostic accuracy via controlled validation, calibrate thresholds via power analysis, and quantify information leakage rigorously.
+**Honest assessment of contribution**: This work proposes a proof-of-concept framework for federated assumption diagnostics, demonstrating computational feasibility on synthetic data. The contribution lies in systematizing existing diagnostic metrics into a privacy-preserving federated workflow with exploratory threshold guidelines, not in developing novel diagnostic theory or proving formal guarantees. The framework provides heuristic guidance for practitioners but requires empirical validation before deployment in high-stakes clinical or regulatory contexts. Future work must establish diagnostic accuracy via controlled validation, calibrate thresholds via power analysis, and quantify information leakage rigorously.
 
 ---
 
@@ -393,26 +377,7 @@ Sensitivity analysis quantifies inference robustness to assumption violations. R
 
 ## ETHICS STATEMENT
 
-**Data Source:** This study uses exclusively synthetic healthcare data from two public sources:
-
-1. **Synthea OMOP CDM v5.4** (primary dataset): Generated by the open-source Synthea patient generator [Walonoski et al., 2018] and distributed via AWS Open Data Registry (`s3://synthea-omop`, public bucket). Three scales utilized: 1k (1,130 patients), 100k (235,222 patients), and 2.3m (2,709,803 patients).
-
-2. **MIMIC-IV Demo OMOP CDM v5.3** (validation dataset): Publicly available via PhysioNet (https://doi.org/10.13026/p1f5-7x35) containing ~100 de-identified ICU patients. No credentials required for demo subset.
-
-**No Human Subjects:** All data consists of computationally generated synthetic patients (Synthea) or fully de-identified demonstration data (MIMIC-IV Demo). No actual patient data was used.
-
-**IRB Status:** Not applicable. Institutional Review Board approval was not required as no human subjects research was conducted per 45 C.F.R. § 46.102(l)(2)(i) - research involving only de-identified publicly available information.
-
-**Data Availability:** All data sources are publicly accessible:
-- Synthea OMOP: AWS S3 (no authentication required)
-- MIMIC-IV Demo: PhysioNet (open access)
-- Code and analysis scripts: https://github.com/watilde/Harmonia
-
-## DATA AVAILABILITY
-
-Code and experimental data: https://github.com/watilde/Harmonia/tree/main/research/modules/3-design-failure-aware-causal
-
-Synthea generator: https://synthetichealth.github.io/synthea/
+IRB approval not required as all data are synthetic (Synthea OMOP CDM v5.4, 1k-2.8m patients) or publicly available (MIMIC-IV Demo). No human subjects involved. Data sources: AWS Open Data Registry (s3://synthea-omop) and PhysioNet (https://doi.org/10.13026/p1f5-7x35). Code: https://github.com/watilde/Harmonia
 
 ---
 
