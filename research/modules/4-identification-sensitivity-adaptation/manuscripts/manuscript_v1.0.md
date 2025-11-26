@@ -1,4 +1,4 @@
-# Federated Robust Causal Inference: A Unified Framework
+# Federated Robust Causal Inference: Integrating Aggregation, Sensitivity Analysis, and Diagnostics
 
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
@@ -11,13 +11,13 @@
 
 **Background:** Multi-site observational studies face competing requirements: privacy-preserving federation, valid inference under potential unmeasured confounding, and narrow uncertainty. Existing federated causal methods address subsets of these challenges but lack integrated frameworks adapting to heterogeneous assumption satisfaction across sites.
 
-**Objective:** Propose and validate a unified federated causal inference framework integrating three components: (1) sample-size weighted aggregation with mathematical characterization, (2) federated robustness quantification via E-values, (3) heuristic diagnostic-driven mode selection.
+**Objective:** Propose and validate an integrated federated causal inference toolkit combining three components: (1) sample-size weighted aggregation with mathematical characterization, (2) federated robustness quantification via E-values, (3) heuristic diagnostic-driven mode selection.
 
 **Methods:** Three integrated modules validated on Synthea synthetic data across 1k-2.8m patients (3 sites): Module 1 characterizes inverse-width aggregation properties (Proposition 1 from companion paper), Module 2 aggregates site-level E-values into Federated Robustness Index with exploratory thresholds, Module 3 proposes three-dimensional diagnostics with heuristic mode selection rules.
 
 **Results:** Inverse-width achieved 15.5% narrower bounds than conservative aggregation (1k scale, CV=6.3% heterogeneity). FRI converged to 2.15 (2.8m scale, exceeding proposed 2.0 moderate threshold). Diagnostic scores ranged 0.86-1.00 (1k), triggering point estimation. Communication: 264 bytes constant across scales (up to 1.8M× reduction vs centralized). Computational throughput: 54k patients/sec with linear O(n) scaling.
 
-**Conclusions:** The framework integrates three independently characterized components (aggregation, robustness, diagnostics) into operational tooling for federated causal inference on synthetic data. Achieves substantial communication efficiency (1.8M× reduction) with minimal utility loss (<1.3%). Critical limitations require future validation: (1) component integration lacks formal mathematical theory, (2) synthetic data cannot validate performance under real assumption violations, (3) "emergent properties" claims require rigorous empirical testing beyond observational validation.
+**Conclusions:** The toolkit integrates three independently characterized components (aggregation, robustness, diagnostics) into proof-of-concept tooling for federated causal inference on synthetic data. Achieves substantial communication efficiency (1.8M× reduction) with minimal utility loss (<1.3%). Critical limitations require future validation: (1) component integration lacks formal mathematical theory, (2) synthetic data cannot validate performance under real assumption violations, (3) integration benefits require rigorous empirical testing beyond observational validation.
 
 **Keywords**: Federated Learning, Causal Inference, Partial Identification, E-values, Assumption Diagnostics, Robustness
 
@@ -45,20 +45,20 @@ Real-world federated networks exhibit heterogeneous assumption quality. **Questi
 
 **Three proposed interaction mechanisms:**
 
-1. **Diagnostics → Method Selection**: Module 3 diagnostic scores (exploratory thresholds 0.8/0.5) trigger Module 1 bounds or point estimation
-2. **Bound Width → Threshold Re-evaluation**: Wide bounds (>0.5, heuristic cutoff) trigger stricter diagnostic thresholds (0.9 instead of 0.8)
-3. **FRI → Weight Adjustment**: Low FRI sites (<1.5, exploratory cutoff) receive reduced aggregation weights
+(1) **Diagnostics → Method Selection**: Module 3 diagnostic scores (exploratory thresholds) trigger Module 1 bounds or point estimation
+(2) **Bound Width → Threshold Re-evaluation**: Wide bounds trigger stricter diagnostic thresholds
+(3) **FRI → Weight Adjustment**: Low FRI sites receive reduced aggregation weights
 
 **Proposed integrated weighting (heuristic, unvalidated):** 
 
 $$w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k) \times \phi(\text{FRI}_k)$$
 
-where $\psi$ adjusts for diagnostic quality (1.0/0.7/0.4 for score >0.9 / 0.8-0.9 / <0.8) and $\phi$ adjusts for robustness (1.0/0.8/0.5 for FRI >2.5 / 1.5-2.5 / <1.5). These multipliers lack formal justification and require calibration via controlled studies.
+where $\psi$ adjusts for diagnostic quality and $\phi$ adjusts for robustness. These multipliers lack formal justification and require calibration via controlled studies.
 
-**Claimed benefits (requiring rigorous validation)**: Integration may provide adaptive behavior—down-weighting vulnerable sites, defaulting to conservative methods under uncertainty, enabling efficient computation with high-quality data. However, these "emergent properties" represent hypothesized operational advantages, not formally proven system characteristics. Empirical validation comparing integrated versus non-integrated performance across diverse violation scenarios is critical future work.
+**Claimed benefits (requiring rigorous validation)**: Integration may provide adaptive behavior—down-weighting vulnerable sites, defaulting to conservative methods under uncertainty, enabling efficient computation with high-quality data. However, these benefits represent hypothesized operational advantages, not formally proven system characteristics. Empirical validation comparing integrated versus non-integrated performance across diverse violation scenarios is critical future work.
 
-![Emergent Properties from Multi-Module Integration](figures/fig1_integration_loops.png)
-_Figure 1: Multi-module feedback loops creating emergent properties. The three modules (Diagnostics, Bounds+Aggregation, E-values) interact through automatic adjustments: diagnostic scores trigger method selection, bound widths re-evaluate thresholds, and FRI values adjust site weights. Central formula shows integrated weighting._
+![Multi-Module Integration Architecture](figures/fig1_integration_loops.png)
+_Figure 1: Multi-module feedback loops. The three modules (Diagnostics, Bounds+Aggregation, E-values) interact through automatic adjustments: diagnostic scores trigger method selection, bound widths re-evaluate thresholds, and FRI values adjust site weights. Central formula shows integrated weighting._
 
 ---
 
@@ -84,20 +84,21 @@ Output: Adaptive federated inference
 
 **Module 1: Minimax-Optimal Aggregation** [Companion Paper 1]
 
-- **Theory**: Inverse-width weighting characterized as minimax-optimal under heterogeneity (Proposition 1, KKT necessary conditions)
-- **Result**: 15.5% tighter bounds than conservative at 1k scale
+This module addresses federated aggregation of site-level Manski bounds under heterogeneity. Proposition 1 characterizes inverse-width weighting as satisfying Karush-Kuhn-Tucker (KKT) necessary conditions for minimizing federated bound width—these provide mathematical characterization rather than complete proof of optimality (which requires additional Hessian analysis). The key insight: when sites produce bounds of varying widths, aggregation strategies weighting narrower bounds more heavily can reduce overall uncertainty compared to equal weighting or conservative min/max approaches.
+
+Empirical validation on Synthea data demonstrates 15.5% narrower federated bounds using inverse-width weighting compared to conservative aggregation at 1k scale, with convergence to <1% differences at 2.8m scale. The module addresses the question: *How should federated systems combine partial identification bounds from heterogeneous sites?*
 
 **Module 2: Federated Robustness Index** [Companion Paper 2]
 
-- **Theory**: FRI characterized with boundedness properties (Proposition 1: min{E_k} ≤ FRI ≤ max{E_k})
-- **Exploratory thresholds**: FRI>3.0 (high-stakes), >2.0 (moderate), >1.5 (exploratory) - requiring validation
-- **Result**: FRI=2.15 at 2.8m scale, exceeding proposed 2.0 moderate threshold
+This module quantifies sensitivity to unmeasured confounding in federated settings via E-values (VanderWeele & Ding 2017). Definition 1 introduces the Federated Robustness Index (FRI) as sample-size weighted average of site-level E-values: FRI = Σ (n_k/N) E_k. Properties follow immediately from the definition as weighted average: boundedness (min{E_k} ≤ FRI ≤ max{E_k}), monotonicity, and relationship to conservative aggregation.
+
+Exploratory decision thresholds are proposed (FRI>3.0 for high-stakes, >2.0 for moderate-stakes, >1.5 for exploratory) but lack empirical calibration—these represent starting points for practitioners rather than validated cutoffs. On Synthea data, FRI converges from 1.96 (1k) to 2.15 (2.8m), exceeding the proposed 2.0 moderate threshold. The module addresses: *How robust are federated causal estimates to potential unmeasured confounding?*
 
 **Module 3: Diagnostic-Driven Adaptation** [Companion Paper 3]
 
-- **Three-dimensional scoring**: Unconfoundedness (SMD, overlap), Positivity (tail mass, ESS), Specification (R², AUC)
-- **Mode selection**: >0.8 → point, 0.5-0.8 → bounds, <0.5 → sensitivity
-- **Result**: Diagnostic scores 0.86-1.00 at 1k scale, triggering point estimation
+This module proposes three-dimensional diagnostic scoring to characterize site-level assumption quality: (1) unconfoundedness via standardized mean differences and propensity score overlap, (2) positivity via tail mass and effective sample size, (3) specification via outcome model fit (R²) and treatment model discrimination (AUC). Scores range 0-1 with higher values indicating better assumption satisfaction.
+
+Heuristic mode selection guidelines (unvalidated) suggest: scores >0.8 consider point estimation, 0.5-0.8 consider partial identification, <0.5 emphasize sensitivity analysis. These thresholds lack formal calibration and represent exploratory starting points. On Synthea data, diagnostic scores range 0.86-1.00 at 1k scale (reflecting sampling variation in covariate balance) and converge to 1.00 at larger scales (reflecting law of large numbers with single-source synthetic data). The module addresses: *Which causal inference methods are appropriate given site-level data characteristics?*
 
 ### 2.3 Experimental Design
 
@@ -121,7 +122,7 @@ Output: Adaptive federated inference
 | **100k** | 0.400          | 2.147        | 1.00           | Point (confident)   | 54k pts/s  | 8s   |
 | **2.8m** | 0.400          | 2.149        | 1.00           | Point (confident)   | 54k pts/s  | 50s  |
 
-The integrated results demonstrate five patterns across scales. First, Module 1 bound width converges from 0.390 (1k) to 0.400 (100k/2.8m), indicating asymptotic stability consistent with sampling theory. Second, Module 2 FRI increases from 1.961 to 2.149, exceeding the proposed moderate threshold (>2.0) at 2.8m scale. Third, Module 3 diagnostic scores reflect law of large numbers in covariate balance—1k scale shows sampling variation (SMD≈0.05, score=0.91) while 100k/2.8m achieve near-perfect balance (SMD<0.002, score=1.00). This improvement stems from Synthea's single-source generation; real-world multi-site data would exhibit persistent institutional heterogeneity and unmeasured confounding not present in synthetic settings. Fourth, integrated mode selection consistently triggers point estimation across all scales, with 1k showing more caution due to sampling variation in diagnostic scores. Fifth, computational performance demonstrates linear O(n) scaling with 54-60k patients/sec throughput, suggesting feasibility for large-scale deployment pending real-world validation.
+The integrated results demonstrate several patterns across scales. Module 1 bound width converges from 0.390 (1k) to 0.400 (100k/2.8m), indicating asymptotic stability consistent with sampling theory. Module 2 FRI increases from 1.961 to 2.149, exceeding the proposed moderate threshold (>2.0) at 2.8m scale. Module 3 diagnostic scores reflect law of large numbers in covariate balance—1k scale shows sampling variation (SMD≈0.05, score=0.91) while 100k/2.8m achieve near-perfect balance (SMD<0.002, score=1.00). This improvement stems from Synthea's single-source generation; real-world multi-site data would exhibit persistent institutional heterogeneity and unmeasured confounding not present in synthetic settings. Integrated mode selection consistently triggers point estimation across all scales, with 1k showing more caution due to sampling variation in diagnostic scores. Computational performance demonstrates linear O(n) scaling with 54-60k patients/sec throughput, suggesting feasibility for large-scale deployment pending real-world validation.
 
 ### 3.2 Module-Specific Highlights (Details in Companion Papers)
 
@@ -131,9 +132,9 @@ The integrated results demonstrate five patterns across scales. First, Module 1 
 
 **Module 3 Key Result**: Diagnostic scores reflect statistical power scaling—1k: 0.86-1.00 (mean=0.91, SMD≈0.05) with natural sampling variation; 100k/2.8m: 1.00 (SMD<0.002) demonstrating law of large numbers in covariate balance. Threshold sensitivity: 0.80 (default) balances rigor and pragmatism.
 
-### 3.3 Emergent Integration Effects
+### 3.3 Integration Behavior Observations
 
-**Effect 1: Self-Correction via Multi-Module Feedback**
+**Observation 1: Weight Adjustment Example**
 
 **Site 2 example (1k scale):** unconf score=0.70, FRI=1.929
 
@@ -143,18 +144,18 @@ Individual modules (no integration):
 - Module 2: FRI=1.929 < 2.0 → caution flag
 - Module 3: Score=0.89 > 0.8 → point estimation
 
-Integrated FRCI: FRI-adjustment reduces $w_2$ from 0.334 → 0.286 (14% reduction). Federated width: 0.3903 → 0.3864 (1% tighter, more robust). **Effect**: Vulnerable site automatically down-weighted.
+Integrated FRCI: FRI-adjustment reduces $w_2$ from 0.334 → 0.286 (14% reduction). Federated width: 0.3903 → 0.3864 (1% tighter). **Behavior**: Sites with lower robustness receive reduced weight.
 
-**Effect 2: Adaptive Threshold via Bound Width Feedback**
+**Observation 2: Threshold Interaction**
 
-If Module 1 produces width > 0.5 (very wide), Module 3 re-evaluates with stricter threshold (0.90 instead of 0.80), preventing overconfident inference. **Actual scenario (1k):** width=0.390 (moderate) → no trigger, default threshold maintained.
+If Module 1 produces width > 0.5 (very wide), Module 3 re-evaluates with stricter threshold (0.90 instead of 0.80), as a heuristic safeguard. **Actual scenario (1k):** width=0.390 (moderate) → no trigger, default threshold maintained.
 
-**Effect 3: Convergence of Integrated Metrics**
+**Observation 3: Scale-Dependent Behavior**
 
-- **1k**: High heterogeneity → all 3 modules critical
+- **1k**: High heterogeneity → all 3 modules used
 - **100k/2.8m**: Low heterogeneity → Modules 1-2 primary, Module 3 periodic
 
-Adaptive strategy: Small networks (<10k) use full pipeline (0.5s); large networks (>100k) use selective integration (50s), maintaining linear scalability.
+Compute time: Small networks (<10k) use full pipeline (0.5s); large networks (>100k) use selective integration (50s), maintaining linear scalability.
 
 ### 3.4 Communication Efficiency and Privacy
 
@@ -188,25 +189,25 @@ FRCI maintains constant O(1) communication at 264 bytes across all scales (1k→
 
 Integration of the three modules proposes three potential benefits absent when modules operate independently:
 
-1. **Minimax optimality with heterogeneity-aware weighting** (Modules 1+3): Module 1's inverse-width weighting follows from Proposition 1's mathematical characterization, while Module 3's diagnostic scores provide heuristic down-weighting of low-quality sites. The multiplicative integration ($w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k)$) represents a proposed operational strategy, not a formally proven optimal aggregation under joint constraints.
+(1) **Minimax optimality with heterogeneity-aware weighting** (Modules 1+3): Module 1's inverse-width weighting follows from Proposition 1's mathematical characterization, while Module 3's diagnostic scores provide heuristic down-weighting of low-quality sites. The multiplicative integration ($w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k)$) represents a proposed operational strategy, not a formally proven optimal aggregation under joint constraints.
 
-2. **Robustness quantification with precision-optimized bounds** (Modules 1+2): Module 2's FRI provides sensitivity metrics via sample-size weighted E-values, while Module 1 characterizes width minimization under heterogeneity. These modules address distinct aspects (robustness quantification vs aggregation efficiency) but lack formal theory connecting FRI preservation with aggregation strategies.
+(2) **Robustness quantification with precision-optimized bounds** (Modules 1+2): Module 2's FRI provides sensitivity metrics via sample-size weighted E-values, while Module 1 characterizes width minimization under heterogeneity. These modules address distinct aspects (robustness quantification vs aggregation efficiency) but lack formal theory connecting FRI preservation with aggregation strategies.
 
-3. **Heuristic safeguards under detected uncertainty** (All 3 modules): When diagnostic scores fall below exploratory thresholds (0.8) or FRI values indicate lower robustness (<1.5), the system proposes defaulting to conservative modes (partial identification, sensitivity analysis). These threshold-based rules represent operational heuristics without formal decision-theoretic justification.
+(3) **Heuristic safeguards under detected uncertainty** (All 3 modules): When diagnostic scores fall below exploratory thresholds or FRI values indicate lower robustness, the system proposes defaulting to conservative modes (partial identification, sensitivity analysis). These threshold-based rules represent operational heuristics without formal decision-theoretic justification.
 
 **Critical validation gaps:**
 
-The claim that integration creates "emergent properties" or a "self-correcting ecosystem" requires rigorous empirical validation currently absent:
+Rigorous empirical validation is currently absent:
 
 - **Controlled violation experiments**: Inject known confounding/positivity/specification violations across heterogeneous sites, compare integrated versus non-integrated performance. Current validation relies on Synthea's observational heterogeneity without systematic violation injection.
 
-- **Comparative studies**: Evaluate whether integrated weighting ($w_k^{\text{Module1}} \times \psi \times \phi$) outperforms simpler alternatives (Module 1 only, equal weighting) across diverse violation patterns.
+- **Comparative studies**: Evaluate whether integrated weighting outperforms simpler alternatives (Module 1 only, equal weighting) across diverse violation patterns.
 
-- **Threshold calibration**: The multiplier functions ($\psi$, $\phi$) and cutoffs (0.8/0.5 for diagnostics, 2.5/1.5/0.5 for FRI) lack empirical calibration via power analysis or decision-theoretic optimization.
+- **Threshold calibration**: The multiplier functions and cutoffs lack empirical calibration via power analysis or decision-theoretic optimization.
 
 - **Information-theoretic analysis**: Quantify privacy-utility tradeoffs under the integrated approach versus single-module or centralized strategies.
 
-Without these validation studies, the "emergent properties" represent hypothesized operational advantages rather than formally characterized system behaviors.
+Without these validation studies, the integration benefits represent hypothesized operational advantages rather than formally characterized system behaviors.
 
 ### 4.2 Practical Guidelines for Deployment
 
@@ -232,20 +233,19 @@ Without these validation studies, the "emergent properties" represent hypothesiz
 
 ### 4.3 Comparison with Existing Frameworks
 
-| Framework                | Privacy | Robustness        | Adaptation        | Aggregation Char. | Validated Scale |
-| ------------------------ | ------- | ----------------- | ----------------- | ----------------- | --------------- |
-| Standard federated [7-9] | ✓       | ✗                 | ✗                 | ✗                 | <10k            |
-| Partial ID only [4,5]    | ✗       | Partial           | ✗                 | ✗                 | Single-site     |
-| E-values only [17]       | ✗       | ✓                 | ✗                 | ✗                 | Single-site     |
-| **FRCI (this work)**     | Partial | ✓ (quantification)| ✓ (heuristic)     | ✓ (Proposition 1) | **2.8m**        |
+**Standard federated causal inference** [7-9]: Provides privacy-preserving point estimation but lacks robustness quantification, assumption diagnostics, and principled aggregation strategies. Typically validated at small scales (<10k patients).
 
-**Proposed distinction**: FRCI proposes operational integration of privacy-preserving federation, robustness quantification (E-values), heuristic adaptation (diagnostic-driven mode selection), and mathematically characterized aggregation (inverse-width weighting from Proposition 1). Validation at 2.8m-patient scale demonstrates computational feasibility on synthetic data. Critical gap: Empirical validation under controlled assumption violations absent across all frameworks.
+**Partial identification methods** [4,5]: Provide robustness to unmeasured confounding via bounds but operate on centralized single-site data without federated aggregation theory. Do not address privacy constraints or multi-site heterogeneity.
+
+**E-value sensitivity analysis** [17]: Quantifies robustness to unmeasured confounding via point sensitivity thresholds but operates on single-site data without federated extension or adaptive method selection based on data quality diagnostics.
+
+**FRCI (this work)**: Proposes operational integration combining privacy-preserving federation (partial covariate privacy), robustness quantification (federated E-values), heuristic adaptation (diagnostic-driven mode selection), and mathematically characterized aggregation (inverse-width weighting from Proposition 1). Validation at 2.8m-patient scale demonstrates computational feasibility on synthetic data. Critical gap: Empirical validation under controlled assumption violations absent.
 
 ### 4.4 Limitations
 
 1. **Binary outcomes**: Current implementation focuses on binary outcomes. Extension to continuous/time-to-event requires additional development.
 
-2. **Synthetic data**: Synthea simplifies confounding patterns vs. real EHR data. Real-world heterogeneity may exceed these estimates, though framework adapts automatically.
+2. **Synthetic data**: Synthea simplifies confounding patterns compared to real EHR data. Real-world heterogeneity may exceed these estimates. The framework's heuristic adaptation mechanisms remain unvalidated under realistic assumption violations.
 
 3. **Three-site validation**: Real networks may have 10-100 sites. However, theoretical guarantees hold for arbitrary K, and linear scalability suggests no fundamental barriers.
 
@@ -257,21 +257,21 @@ Without these validation studies, the "emergent properties" represent hypothesiz
 
 ## 4. CONCLUSIONS
 
-This work proposes operational integration of three independently characterized components—partial identification with mathematically characterized aggregation (Module 1's Proposition 1), robustness quantification via federated E-values (Module 2), and diagnostic-driven mode selection (Module 3)—into unified tooling for federated causal inference. The integrated framework demonstrates computational feasibility across three orders of magnitude (1k→2.8m patients) with linear O(n) scaling and 54k patients/sec throughput on synthetic Synthea data.
+This work proposes operational integration of three independently characterized components—partial identification with mathematically characterized aggregation (Module 1's Proposition 1), robustness quantification via federated E-values (Module 2), and diagnostic-driven mode selection (Module 3)—into proof-of-concept tooling for federated causal inference. The integrated toolkit demonstrates computational feasibility across three orders of magnitude (1k→2.8m patients) with linear O(n) scaling and 54k patients/sec throughput on synthetic Synthea data.
 
 **Three primary contributions:**
 
-First, I propose heuristic integration rules combining the three modules via multiplicative weighting adjustments ($w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k) \times \phi(\text{FRI}_k)$) and threshold-based mode selection (diagnostics >0.8 → point estimation, 0.5-0.8 → partial identification, <0.5 → sensitivity analysis). These operational strategies demonstrate feasibility on synthetic data but lack formal mathematical theory for integration and require validation via controlled violation experiments.
+I propose heuristic integration rules combining the three modules via multiplicative weighting adjustments and threshold-based mode selection. These operational strategies demonstrate feasibility on synthetic data but lack formal mathematical theory for integration and require validation via controlled violation experiments.
 
-Second, I validate computational scalability and communication efficiency. Linear O(n) performance maintains 54-60k patients/sec throughput across 1k-2.8m scales. Constant 264-byte communication (O(1)) achieves up to 1.8M× reduction versus centralized approaches (482 MB at 2.8m scale) with utility loss below 1.3%. These computational characteristics enable federated deployment at scale pending real-world validation.
+I validate computational scalability and communication efficiency. Linear O(n) performance maintains 54-60k patients/sec throughput across 1k-2.8m scales. Constant 264-byte communication (O(1)) achieves up to 1.8M× reduction versus centralized approaches (482 MB at 2.8m scale) with utility loss below 1.3%. These computational characteristics suggest potential for federated deployment at scale pending real-world validation.
 
-Third, I demonstrate partial covariate privacy through scalar aggregate transmission (bounds, E-values, diagnostic scores) versus full covariate matrices required by centralized analysis. However, information leakage remains unquantified—these scalars indirectly reveal data quality and effect magnitudes. Formal information-theoretic analysis and differential privacy integration remain future work.
+I demonstrate partial covariate privacy through scalar aggregate transmission (bounds, E-values, diagnostic scores) versus full covariate matrices required by centralized analysis. However, information leakage remains unquantified—these scalars indirectly reveal data quality and effect magnitudes. Formal information-theoretic analysis and differential privacy integration remain future work.
 
-**Relationship to companion manuscripts:** Modules 1-3 provide standalone methodological contributions with independent validation. This integration paper (Module 4) proposes operational combination strategies and validates computational feasibility, but does not establish formal mathematical theory for integration. The claim that "the whole is greater than the sum of its parts" through "emergent properties" requires rigorous empirical validation comparing integrated versus non-integrated performance across diverse assumption violation patterns—a critical gap in current work.
+**Relationship to companion manuscripts:** Modules 1-3 provide standalone methodological contributions with independent validation. This integration paper (Module 4) proposes operational combination strategies and validates computational feasibility, but does not establish formal mathematical theory for integration. Rigorous empirical validation comparing integrated versus non-integrated performance across diverse assumption violation patterns remains a critical gap.
 
-**Honest assessment of contribution:** This work's primary contribution is proposing and implementing operational integration of three causal inference components within privacy-preserving federated architecture, demonstrating computational feasibility on large-scale synthetic data. It does NOT prove formal optimality of integration, establish decision-theoretic foundations for threshold selection, or validate performance under real-world assumption violations. The framework provides tooling for federated observational studies requiring transparent uncertainty quantification, but substantial validation work remains before high-stakes clinical deployment.
+**Honest assessment of contribution:** This work's primary contribution is proposing and implementing operational integration of three causal inference components within privacy-preserving federated architecture, demonstrating computational feasibility on large-scale synthetic data. It does NOT prove formal optimality of integration, establish decision-theoretic foundations for threshold selection, or validate performance under real-world assumption violations. The toolkit provides proof-of-concept for federated observational studies requiring transparent uncertainty quantification, but substantial validation work remains before high-stakes clinical deployment.
 
-**Practical insight:** The integration strategy proposes that not all sites should receive equal weight in federated aggregation. By combining data-driven diagnostics (Module 3) with aggregation optimization (Module 1) and robustness quantification (Module 2), the framework enables heterogeneity-aware federation rather than assuming uniform data quality. Whether this integrated approach meaningfully outperforms simpler alternatives (Module 1 only, equal weighting) across diverse real-world violation patterns requires future empirical research.
+**Practical insight:** The integration strategy proposes that not all sites should receive equal weight in federated aggregation. By combining data-driven diagnostics (Module 3) with aggregation optimization (Module 1) and robustness quantification (Module 2), the toolkit enables heterogeneity-aware federation rather than assuming uniform data quality. Whether this integrated approach meaningfully outperforms simpler alternatives (Module 1 only, equal weighting) across diverse real-world violation patterns requires future empirical research.
 
 ---
 
