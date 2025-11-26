@@ -19,7 +19,7 @@
 
 **Conclusions:** Inverse-width weighting emerges as minimax-optimal under heterogeneity (characterized via KKT necessary conditions in Proposition 1). Validated across three orders of magnitude with 3.2M× communication reduction and <1.3% utility loss. HIPAA Safe Harbor compliant, no patient-level data sharing.
 
-**Keywords:** Federated learning, partial identification, causal inference, minimax optimality, Manski bounds, multi-site analysis
+**Keywords:** Federated learning, partial identification, causal inference, minimax optimality
 
 ---
 
@@ -40,7 +40,7 @@ _Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB 
 
 ### 1.2 Research Questions
 
-This study addresses three fundamental questions. First, which weighting strategy minimizes federated bound width under site heterogeneity from a minimax perspective? Second, how do different strategies perform empirically across varying scales and site characteristics? Third, when should practitioners prefer inverse-width weighting over the simpler sample-size approach?
+We address three questions: (1) Which weighting strategy minimizes federated bound width under site heterogeneity? (2) How do strategies perform across varying scales? (3) When should practitioners prefer inverse-width over sample-size weighting?
 
 ---
 
@@ -85,11 +85,9 @@ $$w_k^* = \frac{1/\epsilon_k}{\sum_{j=1}^K 1/\epsilon_j} = \frac{1/W_k}{\sum_{j=
 
 where $W_k = 2\epsilon_k$ is the bound width. **This is inverse-width weighting**. ∎
 
-**Remark 1 (KKT as Necessary Conditions):** This derivation establishes inverse-width weighting as a **necessary condition** for minimax optimality via KKT stationarity. For convex optimization problems (which this is, with linear aggregation and convex max objective), KKT conditions are also sufficient, though we do not formally prove convexity here. The characterization shows that any minimax-optimal solution must satisfy the inverse-width formula, making it the natural candidate for practical use.
+This derivation establishes inverse-width weighting as a necessary condition for minimax optimality via KKT stationarity. For convex optimization problems (which this is, with linear aggregation and convex max objective), KKT conditions are also sufficient, though we do not formally prove convexity here. Any minimax-optimal solution must satisfy the inverse-width formula, making it the natural candidate for practical use.
 
-**Remark 2 (Relationship to Meta-Analysis):** Proposition 1 extends classical inverse-variance weighting (Fisher, 1925) from point estimates to interval bounds. While meta-analysis assumes unconfoundedness and aggregates θ̂ₖ ± σₖ, our setting handles unmeasured confounding via partial identification, aggregating [Lₖ, Uₖ] with widths Wₖ = Uₖ - Lₖ. The key distinction: meta-analysis fails under unmeasured confounding (biased point estimates), while our bounds remain valid. Under unconfoundedness, width W ∝ √Variance, so inverse-width² approximates inverse-variance, but our result holds even when this relationship breaks down.
-
-**Remark 3 (Computational Advantage):** Unlike random-effects meta-analysis (DerSimonian-Laird), which requires iterative τ² estimation via method of moments or REML, inverse-width weighting is computed in closed form as wₖ = Wₖ⁻¹ / Σⱼ Wⱼ⁻¹, requiring O(K) operations with no iterative convergence. This makes federated aggregation computationally trivial even for large site counts.
+Proposition 1 extends classical inverse-variance weighting (Fisher, 1925) from point estimates to interval bounds. While meta-analysis assumes unconfoundedness and aggregates θ̂ₖ ± σₖ, our setting handles unmeasured confounding via partial identification, aggregating [Lₖ, Uₖ] with widths Wₖ = Uₖ - Lₖ. The key distinction: meta-analysis fails under unmeasured confounding (biased point estimates), while our bounds remain valid. Under unconfoundedness, width W ∝ √Variance, so inverse-width² approximates inverse-variance, but our result holds even when this relationship breaks down.
 
 **Corollary 1 (Convergence to Sample-Size Weighting):**
 
@@ -140,14 +138,14 @@ Under homogeneity, $\epsilon_k \approx \epsilon$ for all sites. Then any weighti
 | Conservative         | 0.4616     | 0.4014     | 0.4009     | 0.4213     | Baseline (widest)                |
 
 ![Strategy Comparison Across Scales](figures/fig1_strategy_comparison.png)
-_Figure 1: Weighting strategy performance across three dataset scales (1k, 100k, 2.8m patients). Inverse-width weighting (blue) achieves the narrowest bounds at 1k scale (15.5% improvement) and converges to sample-size weighting (orange) at larger scales. Conservative aggregation (red) produces the widest bounds. The convergence pattern validates Theorem 1's prediction: inverse-width dominates under heterogeneity (CV=6.3% at 1k) but becomes equivalent to sample-size under homogeneity (CV=0.14% at 2.8m)._
+_Figure 1: Strategy performance across three scales (1k, 100k, 2.8m patients). Inverse-width achieves 15.5% improvement at 1k (CV=6.3%) but converges to sample-size at 2.8m (CV=0.14%), validating Proposition 1._
 
-The empirical results demonstrate three notable patterns. First, inverse-width weighting achieves 15.5% improvement over conservative aggregation at the 1k scale, validating Theorem 1's prediction under heterogeneity (CV=6.3%). Second, at 100k and 2.8m scales, all weighted strategies converge to width ≈ 0.400, consistent with Corollary 1's homogeneity convergence property. Conservative aggregation remains 0.22% wider even at 2.8m, though this difference is negligible in practice. Third, the transition from 15.5% to 0.22% improvement mirrors the CV reduction from 6.3% to 0.14%, confirming that site heterogeneity drives the performance differences between strategies.
+Inverse-width weighting achieves 15.5% improvement over conservative aggregation at 1k scale under heterogeneity (CV=6.3%), validating Proposition 1. At 100k and 2.8m scales, all weighted strategies converge to width ≈ 0.400, consistent with Corollary 1. Conservative aggregation remains 0.22% wider even at 2.8m, though this difference is negligible. The improvement reduction from 15.5% to 0.22% parallels CV decline from 6.3% to 0.14%, confirming that heterogeneity drives performance differences.
 
-The coefficient of variation (CV) of site-level widths exhibits strong convergence across scales: CV = 6.3% at 1k (heterogeneous), 0.39% at 100k (converging), and 0.14% at 2.8m (homogeneous). This pattern reflects the diminishing influence of sampling variation as site-level sample sizes increase.
+The coefficient of variation (CV) of site-level widths shows strong convergence across scales: CV = 6.3% at 1k (heterogeneous), 0.39% at 100k (converging), and 0.14% at 2.8m (homogeneous). This pattern reflects diminishing sampling variation as site-level sample sizes increase.
 
 ![Heterogeneity Convergence Pattern](figures/fig2_heterogeneity_convergence.png)
-_Figure 2: Heterogeneity convergence from 1k to 2.8m patients. Top panel shows coefficient of variation (CV) decreasing exponentially from 6.3% to 0.14%, marking the transition from heterogeneous to homogeneous regime. Bottom panel shows bound width differences between strategies collapsing from 15.5% (1k) to 0.22% (2.8m), confirming theoretical prediction that inverse-width advantage diminishes under homogeneity._
+_Figure 2: Heterogeneity convergence across scales. CV decreases from 6.3% to 0.14%, with bound width differences collapsing from 15.5% to 0.22%._
 
 As heterogeneity decreases, all strategies converge. Under homogeneity, εₖ ≈ ε for all sites, so any weighting yields similar error. However, sampling theory implies ε ∝ 1/√nₖ, so minimum-variance estimation requires wₖ = nₖ / N (sample-size weighting). Thus, inverse-width converges to sample-size under homogeneity.
 
@@ -225,7 +223,7 @@ The results confirm that inverse-width weighting correctly down-weights Site 2 (
 | 2.8m  | 2,709,803 | 482 MB      | 150 bytes                  | 3.2M×     |
 
 ![Communication Efficiency Comparison](figures/fig3_communication_efficiency.png)
-_Figure 3: Communication efficiency across scales. Logarithmic scale bar chart shows centralized approach (red bars) requiring 201 KB to 482 MB data transfer, growing linearly with patient count. Federated approach (green bars) maintains constant 150 bytes regardless of scale, achieving 1,341× to 3.2 million× reduction. The federated bar is barely visible at this scale, illustrating the efficiency difference while preserving statistical utility._
+_Figure 3: Federated maintains constant 150 bytes vs centralized 201 KB–4882 MB (1,341× to 3.2M× reduction)._
 
 **Per-Site Transmission (40 bytes):**
 
@@ -241,14 +239,14 @@ Additional coordinator overhead for strategy comparison:
 - Strategy metadata: ~30 bytes (6 strategies × 5 bytes)
 - **Total: 150 bytes (constant across all scales)**
 
-The federated approach exhibits several notable communication properties. All six strategies require identical 150 bytes of transmission, as strategy selection occurs coordinator-side with zero communication overhead. Federated transmission remains constant at 150 bytes regardless of patient count (1k→2.8m), number of strategies evaluated (1→6), or degree of site heterogeneity (CV: 6.3%→0.14%). This O(1) communication complexity contrasts sharply with centralized approaches that scale linearly with patient count.
+All six strategies require identical 150 bytes of transmission, as strategy selection occurs coordinator-side with zero overhead. Federated transmission remains constant at 150 bytes regardless of patient count (1k→2.8m), strategies evaluated (1→6), or heterogeneity (CV: 6.3%→0.14%). This O(1) complexity contrasts with centralized O(n) linear scaling.
 
 The method provides strong privacy guarantees through aggregate-only transmission. No patient-level data is transmitted, ensuring HIPAA Safe Harbor compliance (45 C.F.R. § 164.514(b)) through the absence of individual identifiers and exclusive use of aggregated statistics over groups exceeding minimum size thresholds.
 
 ![HIPAA Safe Harbor Compliance](figures/fig4_hipaa_safe_harbor.png)
 _Figure 4: HIPAA Safe Harbor compliance comparison. Left column (centralized, red X marks) shows identifiers present in transmitted data requiring manual de-identification. Right column (federated FRCI, green checkmarks) shows all identifiers remain local, achieving automatic Safe Harbor compliance per 45 C.F.R. § 164.514(b)._
 
-The federated architecture confers several regulatory advantages. HIPAA Safe Harbor compliance is automatic as transmitted data contains no individual identifiers (45 C.F.R. § 164.514(b)). Data Use Agreements are not required for de-identified aggregates (45 C.F.R. § 164.514(e)). Multi-site IRB coordination may be simplified as raw patient data never leaves institutional boundaries, though empirical validation of IRB timeline improvements remains future work. Table 3 summarizes these regulatory distinctions.
+HIPAA Safe Harbor compliance is automatic as transmitted data contains no individual identifiers (45 C.F.R. § 164.514(b)). Data Use Agreements are not required for de-identified aggregates (45 C.F.R. § 164.514(e)). Multi-site IRB coordination may be simplified as raw patient data never leaves institutional boundaries, though empirical validation of IRB timeline improvements remains future work.
 
 **Table 3: Regulatory Comparison**
 
@@ -276,24 +274,13 @@ The privacy-utility tradeoff is favorable: federated aggregation incurs minimal 
 
 The empirical results (Table 1, Figure 2) reveal a clear decision rule for practitioners based on site heterogeneity measured by coefficient of variation (CV) of bound widths.
 
-**Use inverse-width weighting when:**
-- Site heterogeneity is substantial (CV > 0.05)
-- Small-to-moderate sample sizes (n < 100k per site) where heterogeneity persists
-- Minimax optimality characterization is valued (Proposition 1)
-- Data quality varies across sites (measurement error, missingness)
-
-**Use sample-size weighting when:**
-- Sites are homogeneous (CV < 0.01) or large samples drive convergence
-- Computational simplicity is prioritized over optimality
-- Interpretability matters (sample-size has intuitive "democratic" weighting)
-
-**Never use conservative (max) aggregation** unless extreme caution is required, as it discards 85% of information gain (Figure 1, comparing 2.8m conservative width 0.401 vs inverse-width 0.400, relative to site-level widths).
+Inverse-width weighting is preferred under site heterogeneity (CV > 0.05) and moderate sample sizes (n < 100k per site), where minimax optimality characterization matters and data quality varies across sites. Sample-size weighting suffices for homogeneous sites (CV < 0.01) where computational simplicity and interpretability are priorities. Conservative (max) aggregation should be avoided unless extreme caution is required, as it discards 85% of information gain.
 
 At the observed CV=0.063 in our 1k-scale experiment, inverse-width achieves 15.5% improvement (p < 0.001, Section 3.1), demonstrating measurable benefit in the moderate heterogeneity regime characteristic of small-scale multi-site studies.
 
-### 4.2 Theoretical vs Empirical Trade-offs
+### 4.2 Theory and Empirical Performance
 
-While Proposition 1 characterizes minimax optimality via KKT necessary conditions regardless of scale, the practical gain depends critically on heterogeneity. Our results demonstrate this trade-off across three regimes:
+While Proposition 1 characterizes minimax optimality via KKT necessary conditions regardless of scale, practical gains depend on heterogeneity. Our results show three regimes:
 
 **Small-scale heterogeneous (1k, CV=6.3%):** Inverse-width provides 15.5% width reduction, translating to clinically meaningful uncertainty reduction. For the diabetes treatment example, bounds narrow from [11.6%, 57.8%] (conservative) to [16.0%, 55.0%] (inverse-width), potentially enabling clearer treatment recommendations.
 
@@ -321,7 +308,7 @@ This pattern reveals the value proposition of minimax-optimal aggregation: **mat
 
 ### 5.1 Federated Meta-Analysis
 
-Classical meta-analysis combines effect estimates from multiple studies via inverse-variance weighting (Fisher, 1925; DerSimonian & Laird, 1986). Recent work extends this to privacy-preserving federated settings. Duan et al. (2020) propose secure multi-party computation for federated random-effects meta-analysis, while Chen et al. (2016) develop one-shot distributed meta-analysis with communication constraints. Lu et al. (2015) analyze heterogeneity-robust aggregation strategies when study-level effect sizes vary substantially.
+Classical meta-analysis combines effect estimates from multiple studies via inverse-variance weighting (Fisher, 1925; DerSimonian & Laird, 1986). Recent work extends this to privacy-preserving federated settings. Duan et al. (2020) propose secure multi-party computation for federated random-effects meta-analysis, while Chen et al. (2016) develop one-shot distributed meta-analysis with communication constraints. Lu et al. (2015) analyze heterogeneity-robust aggregation strategies when study-level effect sizes vary considerably.
 
 **Our distinction**: These methods assume unconfoundedness (ignorability of treatment assignment) and aggregate point estimates θ̂ₖ ± σₖ. We extend to partial identification, aggregating interval bounds [Lₖ, Uₖ] that remain valid under arbitrary unmeasured confounding. While meta-analysis produces potentially biased point estimates when unconfoundedness fails, our bounds maintain validity at the cost of increased width.
 
@@ -421,26 +408,7 @@ By providing formal theory, reproducible experiments, and open-source tools, thi
 
 ## ETHICS STATEMENT
 
-**Data Source:** This study uses exclusively synthetic healthcare data from two public sources:
-
-1. **Synthea OMOP CDM v5.4** (primary dataset): Generated by the open-source Synthea patient generator [Walonoski et al., 2018] and distributed via AWS Open Data Registry (`s3://synthea-omop`, public bucket). Three scales utilized: 1k (1,130 patients), 100k (235,222 patients), and 2.3m (2,709,803 patients).
-
-2. **MIMIC-IV Demo OMOP CDM v5.3** (validation dataset): Publicly available via PhysioNet (https://doi.org/10.13026/p1f5-7x35) containing ~100 de-identified ICU patients. No credentials required for demo subset.
-
-**No Human Subjects:** All data consists of computationally generated synthetic patients (Synthea) or fully de-identified demonstration data (MIMIC-IV Demo). No actual patient data was used.
-
-**IRB Status:** Not applicable. Institutional Review Board approval was not required as no human subjects research was conducted per 45 C.F.R. § 46.102(l)(2)(i) - research involving only de-identified publicly available information.
-
-**Data Availability:** All data sources are publicly accessible:
-- Synthea OMOP: AWS S3 (no authentication required)
-- MIMIC-IV Demo: PhysioNet (open access)
-- Code and analysis scripts: https://github.com/watilde/Harmonia
-
-## DATA AVAILABILITY
-
-Code and data generation scripts: https://github.com/watilde/Harmonia/tree/main/research/modules/1-federated-partial-identification
-
-Synthea synthetic data generator: https://synthetichealth.github.io/synthea/
+IRB approval was not required as all data are synthetic (Synthea) or publicly available (MIMIC-IV Demo). No human subjects were involved. Code and data: https://github.com/watilde/Harmonia
 
 ---
 
