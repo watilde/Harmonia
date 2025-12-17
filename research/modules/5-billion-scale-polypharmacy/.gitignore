@@ -1,0 +1,6 @@
+node_modules/
+data/*.csv
+data/*.parquet
+data/*.json
+*.log
+.DS_Store

@@ -35,9 +35,6 @@ $$\mathcal{L}_{fed} = \sum_{k=1}^K w_k \mathcal{L}_k, \quad \mathcal{U}_{fed} = 
 
 The choice of weights $w_k$ affects bound width and precision. While sample-size weighting ($w_k = n_k / N$) is theoretically justified under homogeneity [5], real-world multi-site studies exhibit heterogeneity in populations, treatment practices, and data quality.
 
-![Federated vs Centralized Architecture](figures/fig0_architecture_comparison.png)
-_Figure 0: Architecture comparison. Left: Centralized approach transmits 482 MB patient data from each hospital to central server, requiring 9 IRB applications and 6-12 months (estimated), with HIPAA risk and DUA requirements. Right: Federated approach transmits only 264 bytes of aggregates, enabling local computation with HIPAA Safe Harbor compliance, no DUA requirements, and preserved privacy._
-
 ### 1.2 Research Questions
 
 We address three questions: (1) Which weighting strategy minimizes federated bound width under site heterogeneity? (2) How do strategies perform across varying scales? (3) When should practitioners prefer inverse-width over sample-size weighting?
@@ -137,15 +134,9 @@ Under homogeneity, $\epsilon_k \approx \epsilon$ for all sites. Then any weighti
 | n^0.7                | 0.3912     | 0.3997     | 0.4000     | 0.3970     | 15.3% tighter                    |
 | Conservative         | 0.4616     | 0.4014     | 0.4009     | 0.4213     | Baseline (widest)                |
 
-![Strategy Comparison Across Scales](figures/fig1_strategy_comparison.png)
-_Figure 1: Strategy performance across three scales (1k, 100k, 2.8m patients). Inverse-width achieves 15.5% improvement at 1k (CV=6.3%) but converges to sample-size at 2.8m (CV=0.14%), validating Proposition 1._
-
 Inverse-width weighting achieves 15.5% improvement over conservative aggregation at 1k scale under heterogeneity (CV=6.3%), validating Proposition 1. At 100k and 2.8m scales, all weighted strategies converge to width ≈ 0.400, consistent with Corollary 1. Conservative aggregation remains 0.22% wider even at 2.8m, though this difference is negligible. The improvement reduction from 15.5% to 0.22% parallels CV decline from 6.3% to 0.14%, confirming that heterogeneity drives performance differences.
 
 The coefficient of variation (CV) of site-level widths shows strong convergence across scales: CV = 6.3% at 1k (heterogeneous), 0.39% at 100k (converging), and 0.14% at 2.8m (homogeneous). This pattern reflects diminishing sampling variation as site-level sample sizes increase.
-
-![Heterogeneity Convergence Pattern](figures/fig2_heterogeneity_convergence.png)
-_Figure 2: Heterogeneity convergence across scales. CV decreases from 6.3% to 0.14%, with bound width differences collapsing from 15.5% to 0.22%._
 
 As heterogeneity decreases, all strategies converge. Under homogeneity, εₖ ≈ ε for all sites, so any weighting yields similar error. However, sampling theory implies ε ∝ 1/√nₖ, so minimum-variance estimation requires wₖ = nₖ / N (sample-size weighting). Thus, inverse-width converges to sample-size under homogeneity.
 
@@ -171,10 +162,10 @@ To assess whether the observed width differences are statistically significant r
 
 **Table 2: Bootstrap Confidence Intervals for Width Differences (1k Scale)**
 
-| Comparison | Observed Δ Width | 95% CI | p-value | Interpretation |
-|------------|------------------|---------|---------|----------------|
-| Inverse-Width vs Sample-Size | -0.0099 | [-0.012, -0.008] | < 0.001 | Significant improvement |
-| Inverse-Width vs Conservative | -0.0713 | [-0.078, -0.065] | < 0.001 | Highly significant |
+| Comparison                    | Observed Δ Width | 95% CI           | p-value | Interpretation          |
+| ----------------------------- | ---------------- | ---------------- | ------- | ----------------------- |
+| Inverse-Width vs Sample-Size  | -0.0099          | [-0.012, -0.008] | < 0.001 | Significant improvement |
+| Inverse-Width vs Conservative | -0.0713          | [-0.078, -0.065] | < 0.001 | Highly significant      |
 
 At the 1k scale, inverse-width's 15.5% improvement over conservative aggregation is highly statistically significant (p < 0.001, bootstrap test). The 2.5% improvement over sample-size weighting (0.3903 vs 0.3912) is also significant (p < 0.001), though the absolute magnitude is small. These results confirm that the observed differences reflect genuine optimization benefits rather than random variation.
 
@@ -186,14 +177,14 @@ Synthea's data generation process enables oracle computation of the true average
 
 **Table 3: Coverage and Efficiency of Federated Bounds**
 
-| Method | Coverage | Width | Efficiency vs Conservative |
-|--------|----------|-------|----------------------------|
-| Site 1 (n=1,400) | ✓ | 0.390 | - |
-| Site 2 (n=200) | ✓ | 0.462 | - |
-| Site 3 (n=1,200) | ✓ | 0.386 | - |
-| **Federated (Inverse-Width)** | **✓** | **0.390** | **15.5% narrower** |
-| Federated (Sample-Size) | ✓ | 0.391 | 15.3% narrower |
-| Federated (Conservative) | ✓ | 0.462 | Baseline |
+| Method                        | Coverage | Width     | Efficiency vs Conservative |
+| ----------------------------- | -------- | --------- | -------------------------- |
+| Site 1 (n=1,400)              | ✓        | 0.390     | -                          |
+| Site 2 (n=200)                | ✓        | 0.462     | -                          |
+| Site 3 (n=1,200)              | ✓        | 0.386     | -                          |
+| **Federated (Inverse-Width)** | **✓**    | **0.390** | **15.5% narrower**         |
+| Federated (Sample-Size)       | ✓        | 0.391     | 15.3% narrower             |
+| Federated (Conservative)      | ✓        | 0.462     | Baseline                   |
 
 All methods achieve 100% coverage of the true ATE (τ = 0.334), validating Manski's theoretical result that partial identification bounds contain the causal effect under arbitrary unmeasured confounding. Inverse-width weighting reduces uncertainty by 15.5% (width 0.390 vs 0.462) while maintaining perfect coverage, demonstrating efficiency without sacrificing validity.
 
@@ -222,9 +213,6 @@ The results confirm that inverse-width weighting correctly down-weights Site 2 (
 | 100k  | 235,222   | 41.9 MB     | 150 bytes                  | 279,130×  |
 | 2.8m  | 2,709,803 | 482 MB      | 150 bytes                  | 3.2M×     |
 
-![Communication Efficiency Comparison](figures/fig3_communication_efficiency.png)
-_Figure 3: Federated maintains constant 150 bytes vs centralized 201 KB–4882 MB (1,341× to 3.2M× reduction)._
-
 **Per-Site Transmission (40 bytes):**
 
 - Lower bound: 8 bytes (double)
@@ -243,9 +231,6 @@ All six strategies require identical 150 bytes of transmission, as strategy sele
 
 The method provides strong privacy guarantees through aggregate-only transmission. No patient-level data is transmitted, ensuring HIPAA Safe Harbor compliance (45 C.F.R. § 164.514(b)) through the absence of individual identifiers and exclusive use of aggregated statistics over groups exceeding minimum size thresholds.
 
-![HIPAA Safe Harbor Compliance](figures/fig4_hipaa_safe_harbor.png)
-_Figure 4: HIPAA Safe Harbor compliance comparison. Left column (centralized, red X marks) shows identifiers present in transmitted data requiring manual de-identification. Right column (federated FRCI, green checkmarks) shows all identifiers remain local, achieving automatic Safe Harbor compliance per 45 C.F.R. § 164.514(b)._
-
 HIPAA Safe Harbor compliance is automatic as transmitted data contains no individual identifiers (45 C.F.R. § 164.514(b)). Data Use Agreements are not required for de-identified aggregates (45 C.F.R. § 164.514(e)). Multi-site IRB coordination may be simplified as raw patient data never leaves institutional boundaries, though empirical validation of IRB timeline improvements remains future work.
 
 **Table 3: Regulatory Comparison**
@@ -260,11 +245,11 @@ The privacy-utility tradeoff is favorable: federated aggregation incurs minimal 
 
 **Table 4: Privacy-Utility Tradeoff**
 
-| Metric               | Centralized | Federated     | Difference    |
-| -------------------- | ----------- | ------------- | ------------- |
-| Bound width (1k)     | 0.385       | 0.390         | +1.3%         |
-| Bound width (2.8m)   | 0.399       | 0.400         | +0.25%        |
-| Data transferred     | 482 MB      | 150 bytes     | -99.9999%     |
+| Metric             | Centralized | Federated | Difference |
+| ------------------ | ----------- | --------- | ---------- |
+| Bound width (1k)   | 0.385       | 0.390     | +1.3%      |
+| Bound width (2.8m) | 0.399       | 0.400     | +0.25%     |
+| Data transferred   | 482 MB      | 150 bytes | -99.9999%  |
 
 ---
 

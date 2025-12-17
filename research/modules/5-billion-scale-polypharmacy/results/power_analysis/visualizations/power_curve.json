@@ -1,0 +1,129 @@
+{
+  "title": "Statistical Power: CI Width vs Sample Size",
+  "subtitle": "Convergence follows 1/√N scaling",
+  "x_axis": "Sample Size (log scale)",
+  "y_axis": "Confidence Interval Width",
+  "data": {
+    "overall": {
+      "name": "Overall Population",
+      "points": [
+        {
+          "n": 100000,
+          "ci_width": 0.0743767705671603,
+          "se": 0.018973665961010275,
+          "detected": true
+        },
+        {
+          "n": 1000000,
+          "ci_width": 0.023519999999999985,
+          "se": 0.006,
+          "detected": true
+        },
+        {
+          "n": 10000000,
+          "ci_width": 0.007437677056715941,
+          "se": 0.0018973665961010276,
+          "detected": true
+        }
+      ]
+    },
+    "interaction1": {
+      "name": "HbA1c>8 + Diuretic",
+      "points": [
+        {
+          "n": 100000,
+          "ci_width": 0.4087276431326323,
+          "se": 0.10426725590118176,
+          "detected": true,
+          "prevalence": 0.17219
+        },
+        {
+          "n": 1000000,
+          "ci_width": 0.131609818838343,
+          "se": 0.03357393337712824,
+          "detected": true,
+          "prevalence": 0.168651
+        },
+        {
+          "n": 10000000,
+          "ci_width": 0.041652009482795016,
+          "se": 0.010625512623162003,
+          "detected": true,
+          "prevalence": 0.168948
+        }
+      ]
+    },
+    "interaction2": {
+      "name": "Asian + Age>75 + BMI<22",
+      "points": [
+        {
+          "n": 100000,
+          "ci_width": 0.6711501886591158,
+          "se": 0.17121178282120297,
+          "detected": true,
+          "prevalence": 0.0457
+        },
+        {
+          "n": 1000000,
+          "ci_width": 0.22500875665636144,
+          "se": 0.05740019302458196,
+          "detected": true,
+          "prevalence": 0.041646
+        },
+        {
+          "n": 10000000,
+          "ci_width": 0.07105105536096401,
+          "se": 0.018125269224735695,
+          "detected": true,
+          "prevalence": 0.0415822
+        }
+      ]
+    },
+    "interaction3": {
+      "name": "CKD 3b + Loop Diuretic + Age>80",
+      "points": [
+        {
+          "n": 100000,
+          "ci_width": 6.94941724175488,
+          "se": 1.7728105208558367,
+          "detected": false,
+          "prevalence": 0.00066
+        },
+        {
+          "n": 1000000,
+          "ci_width": 2.072178271312705,
+          "se": 0.5286169059471186,
+          "detected": true,
+          "prevalence": 0.000645
+        },
+        {
+          "n": 10000000,
+          "ci_width": 0.5870484804475407,
+          "se": 0.149757265420291,
+          "detected": true,
+          "prevalence": 0.0006442
+        }
+      ]
+    }
+  },
+  "theoretical": {
+    "name": "Theoretical (1/√N)",
+    "points": [
+      {
+        "n": 100000,
+        "se": 0.018973665961010275,
+        "ci_width": 0.07437677056716027
+      },
+      {
+        "n": 1000000,
+        "se": 0.006,
+        "ci_width": 0.02352
+      },
+      {
+        "n": 10000000,
+        "se": 0.0018973665961010276,
+        "ci_width": 0.007437677056716028
+      }
+    ]
+  }
+}

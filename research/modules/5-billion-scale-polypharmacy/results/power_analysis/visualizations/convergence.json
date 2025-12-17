@@ -1,0 +1,48 @@
+{
+  "title": "Convergence to Ground Truth",
+  "subtitle": "Bias reduction with increasing sample size",
+  "x_axis": "Sample Size (log scale)",
+  "y_axis": "Average Treatment Effect",
+  "data": {
+    "overall": [
+      {
+        "n": 100000,
+        "ate": 1.352697894542259,
+        "bias": 0.35269789454225897,
+        "groundTruth": 1
+      },
+      {
+        "n": 1000000,
+        "ate": 1.351092528572622,
+        "bias": 0.3510925285726221,
+        "groundTruth": 1
+      },
+      {
+        "n": 10000000,
+        "ate": 1.3469303084051611,
+        "bias": 0.34693030840516115,
+        "groundTruth": 1
+      }
+    ],
+    "interaction1": [
+      {
+        "n": 100000,
+        "ate": 2.9382674399247595,
+        "bias": -0.06173256007524053,
+        "groundTruth": 3
+      },
+      {
+        "n": 1000000,
+        "ate": 2.8477893012323756,
+        "bias": -0.15221069876762439,
+        "groundTruth": 3
+      },
+      {
+        "n": 10000000,
+        "ate": 2.876162119464371,
+        "bias": -0.12383788053562883,
+        "groundTruth": 3
+      }
+    ]
+  }
+}

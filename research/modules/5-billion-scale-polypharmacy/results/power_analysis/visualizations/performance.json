@@ -1,0 +1,53 @@
+{
+  "title": "Computational Performance",
+  "subtitle": "Linear O(n) scalability maintained",
+  "data": {
+    "throughput": {
+      "name": "Data Generation Throughput",
+      "points": [
+        {
+          "n": 100000,
+          "patientsPerSec": 38109.756097560974
+        },
+        {
+          "n": 1000000,
+          "patientsPerSec": 48304.511641387304
+        },
+        {
+          "n": 10000000,
+          "patientsPerSec": 44642.2592554564
+        }
+      ],
+      "average": 43685.508998134894
+    },
+    "totalTime": {
+      "name": "Total Execution Time",
+      "points": [
+        {
+          "n": 100000,
+          "seconds": 4.488,
+          "dataGenSec": 2.624,
+          "inferenceSec": 1.807
+        },
+        {
+          "n": 1000000,
+          "seconds": 38.237,
+          "dataGenSec": 20.702,
+          "inferenceSec": 17.481
+        },
+        {
+          "n": 10000000,
+          "seconds": 428.576,
+          "dataGenSec": 224.003,
+          "inferenceSec": 204.332
+        },
+        {
+          "n": 1000000000,
+          "seconds": 22890.885855140063,
+          "hours": 6.358579404205573,
+          "extrapolated": true
+        }
+      ]
+    }
+  }
+}

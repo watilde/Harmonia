@@ -49,16 +49,13 @@ Real-world federated networks exhibit heterogeneous assumption quality. **Questi
 (2) **Bound Width → Threshold Re-evaluation**: Wide bounds trigger stricter diagnostic thresholds
 (3) **FRI → Weight Adjustment**: Low FRI sites receive reduced aggregation weights
 
-**Proposed integrated weighting (heuristic, unvalidated):** 
+**Proposed integrated weighting (heuristic, unvalidated):**
 
 $$w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k) \times \phi(\text{FRI}_k)$$
 
 where $\psi$ adjusts for diagnostic quality and $\phi$ adjusts for robustness. These multipliers lack formal justification and require calibration via controlled studies.
 
 **Claimed benefits (requiring rigorous validation)**: Integration may provide adaptive behavior—down-weighting vulnerable sites, defaulting to conservative methods under uncertainty, enabling efficient computation with high-quality data. However, these benefits represent hypothesized operational advantages, not formally proven system characteristics. Empirical validation comparing integrated versus non-integrated performance across diverse violation scenarios is critical future work.
-
-![Multi-Module Integration Architecture](figures/fig1_integration_loops.png)
-_Figure 1: Multi-module feedback loops. The three modules (Diagnostics, Bounds+Aggregation, E-values) interact through automatic adjustments: diagnostic scores trigger method selection, bound widths re-evaluate thresholds, and FRI values adjust site weights. Central formula shows integrated weighting._
 
 ---
 
@@ -86,19 +83,19 @@ Output: Adaptive federated inference
 
 This module addresses federated aggregation of site-level Manski bounds under heterogeneity. Proposition 1 characterizes inverse-width weighting as satisfying Karush-Kuhn-Tucker (KKT) necessary conditions for minimizing federated bound width—these provide mathematical characterization rather than complete proof of optimality (which requires additional Hessian analysis). The key insight: when sites produce bounds of varying widths, aggregation strategies weighting narrower bounds more heavily can reduce overall uncertainty compared to equal weighting or conservative min/max approaches.
 
-Empirical validation on Synthea data demonstrates 15.5% narrower federated bounds using inverse-width weighting compared to conservative aggregation at 1k scale, with convergence to <1% differences at 2.8m scale. The module addresses the question: *How should federated systems combine partial identification bounds from heterogeneous sites?*
+Empirical validation on Synthea data demonstrates 15.5% narrower federated bounds using inverse-width weighting compared to conservative aggregation at 1k scale, with convergence to <1% differences at 2.8m scale. The module addresses the question: _How should federated systems combine partial identification bounds from heterogeneous sites?_
 
 **Module 2: Federated Robustness Index** [Companion Paper 2]
 
 This module quantifies sensitivity to unmeasured confounding in federated settings via E-values (VanderWeele & Ding 2017). Definition 1 introduces the Federated Robustness Index (FRI) as sample-size weighted average of site-level E-values: FRI = Σ (n_k/N) E_k. Properties follow immediately from the definition as weighted average: boundedness (min{E_k} ≤ FRI ≤ max{E_k}), monotonicity, and relationship to conservative aggregation.
 
-Exploratory decision thresholds are proposed (FRI>3.0 for high-stakes, >2.0 for moderate-stakes, >1.5 for exploratory) but lack empirical calibration—these represent starting points for practitioners rather than validated cutoffs. On Synthea data, FRI converges from 1.96 (1k) to 2.15 (2.8m), exceeding the proposed 2.0 moderate threshold. The module addresses: *How robust are federated causal estimates to potential unmeasured confounding?*
+Exploratory decision thresholds are proposed (FRI>3.0 for high-stakes, >2.0 for moderate-stakes, >1.5 for exploratory) but lack empirical calibration—these represent starting points for practitioners rather than validated cutoffs. On Synthea data, FRI converges from 1.96 (1k) to 2.15 (2.8m), exceeding the proposed 2.0 moderate threshold. The module addresses: _How robust are federated causal estimates to potential unmeasured confounding?_
 
 **Module 3: Diagnostic-Driven Adaptation** [Companion Paper 3]
 
 This module proposes three-dimensional diagnostic scoring to characterize site-level assumption quality: (1) unconfoundedness via standardized mean differences and propensity score overlap, (2) positivity via tail mass and effective sample size, (3) specification via outcome model fit (R²) and treatment model discrimination (AUC). Scores range 0-1 with higher values indicating better assumption satisfaction.
 
-Heuristic mode selection guidelines (unvalidated) suggest: scores >0.8 consider point estimation, 0.5-0.8 consider partial identification, <0.5 emphasize sensitivity analysis. These thresholds lack formal calibration and represent exploratory starting points. On Synthea data, diagnostic scores range 0.86-1.00 at 1k scale (reflecting sampling variation in covariate balance) and converge to 1.00 at larger scales (reflecting law of large numbers with single-source synthetic data). The module addresses: *Which causal inference methods are appropriate given site-level data characteristics?*
+Heuristic mode selection guidelines (unvalidated) suggest: scores >0.8 consider point estimation, 0.5-0.8 consider partial identification, <0.5 emphasize sensitivity analysis. These thresholds lack formal calibration and represent exploratory starting points. On Synthea data, diagnostic scores range 0.86-1.00 at 1k scale (reflecting sampling variation in covariate balance) and converge to 1.00 at larger scales (reflecting law of large numbers with single-source synthetic data). The module addresses: _Which causal inference methods are appropriate given site-level data characteristics?_
 
 ### 2.3 Experimental Design
 
@@ -378,6 +375,7 @@ Manski (1990, 2003) established partial identification providing bounds under we
 **IRB Status:** Not applicable. Institutional Review Board approval was not required as no human subjects research was conducted per 45 C.F.R. § 46.102(l)(2)(i) - research involving only de-identified publicly available information.
 
 **Data Availability:** All data sources are publicly accessible:
+
 - Synthea OMOP: AWS S3 (no authentication required)
 - MIMIC-IV Demo: PhysioNet (open access)
 - Code and analysis scripts: https://github.com/watilde/Harmonia

@@ -62,8 +62,6 @@ unconf_score = (1 - max(|smd|)) * overlap * (1 - |residual_cor|)
 
 **Interpretation**: Score > 0.8: strong exchangeability; 0.5-0.8: moderate concerns; <0.5: severe confounding.
 
-
-
 #### 2.1.2 Positivity Score
 
 **Foundation**: Tail mass (extreme propensity scores) indicates positivity violations [Petersen et al. 2012]. Empirical rule: <5% in tails (ps<0.1 or ps>0.9) is acceptable. Effective sample size quantifies information [Kish 1965].
@@ -106,6 +104,7 @@ overall_score = (unconf_score + positivity_score + specification_score) / 3
 **Exploratory Mode Selection Guidelines (Unvalidated)**:
 
 As an illustrative starting point for practitioners, we suggest:
+
 - **Overall ≥ 0.8**: Consider point estimation (doubly-robust, TMLE)
 - **0.5 ≤ Overall < 0.8**: Consider partial identification (Manski bounds)
 - **Overall < 0.5**: Consider sensitivity analysis (E-values)
@@ -195,7 +194,7 @@ Diagnostic computation scales linearly O(n), with time growing proportionally wi
 
 | Metric                        | Value        | Interpretation                           |
 | ----------------------------- | ------------ | ---------------------------------------- |
-| Unconf score range            | [0.70, 1.00] | Δ=0.30, meaningful variation            |
+| Unconf score range            | [0.70, 1.00] | Δ=0.30, meaningful variation             |
 | Overall score range           | [0.86, 1.00] | Δ=0.14, moderate variation               |
 | Coefficient of variation (CV) | 7.2%         | Significant but manageable heterogeneity |
 

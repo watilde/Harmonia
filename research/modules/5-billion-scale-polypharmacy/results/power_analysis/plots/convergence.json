@@ -1,0 +1,41 @@
+{
+  "title": "Effect Estimation Convergence",
+  "x_label": "Sample Size (log scale)",
+  "y_label": "Estimated ATE ± 95% CI",
+  "data": {
+    "overall": [
+      {
+        "n": 10000000,
+        "ate": 1.3469303084051611,
+        "ci_lower": 1.3432114698768032,
+        "ci_upper": 1.3506491469335191,
+        "ground_truth": 1
+      }
+    ],
+    "interaction1": [
+      {
+        "n": 10000000,
+        "ate": 2.876162119464371,
+        "ci_lower": 2.8553361147229737,
+        "ci_upper": 2.8969881242057687,
+        "ground_truth": 3
+      }
+    ],
+    "interaction2": [
+      {
+        "n": 10000000,
+        "ate": 1.497468799022793,
+        "ci_lower": 1.461943271342311,
+        "ci_upper": 1.532994326703275
+      }
+    ],
+    "interaction3": [
+      {
+        "n": 10000000,
+        "ate": 0.7528395018683707,
+        "ci_lower": 0.45931526164460035,
+        "ci_upper": 1.046363742092141
+      }
+    ]
+  }
+}

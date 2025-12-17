@@ -1,0 +1,164 @@
+{
+  "title": "Forest Plot: Effect Estimates Across Sample Sizes",
+  "subtitle": "Confidence intervals narrowing as N increases",
+  "x_axis": "Average Treatment Effect (eGFR change, ml/min/year)",
+  "y_axis": "Sample Size",
+  "data": {
+    "overall": {
+      "name": "Overall Population",
+      "groundTruth": 1,
+      "estimates": [
+        {
+          "scale": "100K",
+          "n": 100000,
+          "ate": 1.352697894542259,
+          "ci_lower": 1.3155095092586788,
+          "ci_upper": 1.3898862798258391,
+          "ci_width": 0.0743767705671603,
+          "detected": true
+        },
+        {
+          "scale": "1000K",
+          "n": 1000000,
+          "ate": 1.351092528572622,
+          "ci_lower": 1.339332528572622,
+          "ci_upper": 1.362852528572622,
+          "ci_width": 0.023519999999999985,
+          "detected": true
+        },
+        {
+          "scale": "10000K",
+          "n": 10000000,
+          "ate": 1.3469303084051611,
+          "ci_lower": 1.3432114698768032,
+          "ci_upper": 1.3506491469335191,
+          "ci_width": 0.007437677056715941,
+          "detected": true
+        }
+      ]
+    },
+    "interaction1": {
+      "name": "HbA1c>8 + Diuretic",
+      "groundTruth": 3,
+      "estimates": [
+        {
+          "scale": "100K",
+          "n": 100000,
+          "ate": 2.9382674399247595,
+          "ci_lower": 2.7339036183584433,
+          "ci_upper": 3.1426312614910756,
+          "ci_width": 0.4087276431326323,
+          "detected": true,
+          "prevalence": 0.17219,
+          "nSamples": 17219
+        },
+        {
+          "scale": "1000K",
+          "n": 1000000,
+          "ate": 2.8477893012323756,
+          "ci_lower": 2.781984391813204,
+          "ci_upper": 2.913594210651547,
+          "ci_width": 0.131609818838343,
+          "detected": true,
+          "prevalence": 0.168651,
+          "nSamples": 168651
+        },
+        {
+          "scale": "10000K",
+          "n": 10000000,
+          "ate": 2.876162119464371,
+          "ci_lower": 2.8553361147229737,
+          "ci_upper": 2.8969881242057687,
+          "ci_width": 0.041652009482795016,
+          "detected": true,
+          "prevalence": 0.168948,
+          "nSamples": 1689480
+        }
+      ]
+    },
+    "interaction2": {
+      "name": "Asian + Age>75 + BMI<22",
+      "groundTruth": null,
+      "estimates": [
+        {
+          "scale": "100K",
+          "n": 100000,
+          "ate": 1.5732421285404317,
+          "ci_lower": 1.2376670342108738,
+          "ci_upper": 1.9088172228699896,
+          "ci_width": 0.6711501886591158,
+          "detected": true,
+          "prevalence": 0.0457,
+          "nSamples": 4570
+        },
+        {
+          "scale": "1000K",
+          "n": 1000000,
+          "ate": 1.540951257430444,
+          "ci_lower": 1.4284468791022633,
+          "ci_upper": 1.6534556357586248,
+          "ci_width": 0.22500875665636144,
+          "detected": true,
+          "prevalence": 0.041646,
+          "nSamples": 41646
+        },
+        {
+          "scale": "10000K",
+          "n": 10000000,
+          "ate": 1.497468799022793,
+          "ci_lower": 1.461943271342311,
+          "ci_upper": 1.532994326703275,
+          "ci_width": 0.07105105536096401,
+          "detected": true,
+          "prevalence": 0.0415822,
+          "nSamples": 415822
+        }
+      ]
+    },
+    "interaction3": {
+      "name": "CKD 3b + Loop Diuretic + Age>80",
+      "groundTruth": null,
+      "estimates": [
+        {
+          "scale": "100K",
+          "n": 100000,
+          "ate": -1.8416445027688306,
+          "ci_lower": -5.31635312364627,
+          "ci_upper": 1.6330641181086092,
+          "ci_width": 6.94941724175488,
+          "detected": false,
+          "prevalence": 0.00066,
+          "nSamples": 66
+        },
+        {
+          "scale": "1000K",
+          "n": 1000000,
+          "ate": -2.105102147934612,
+          "ci_lower": -3.1411912835909646,
+          "ci_upper": -1.0690130122782597,
+          "ci_width": 2.072178271312705,
+          "detected": true,
+          "prevalence": 0.000645,
+          "nSamples": 645
+        },
+        {
+          "scale": "10000K",
+          "n": 10000000,
+          "ate": 0.7528395018683707,
+          "ci_lower": 0.45931526164460035,
+          "ci_upper": 1.046363742092141,
+          "ci_width": 0.5870484804475407,
+          "detected": true,
+          "prevalence": 0.0006442,
+          "nSamples": 6442
+        }
+      ]
+    }
+  },
+  "annotations": {
+    "overall": "Overall population effect",
+    "interaction1": "HbA1c>8 + Diuretic (detectable at 100K)",
+    "interaction2": "Asian + Age>75 + BMI<22 (detectable at 1M)",
+    "interaction3": "CKD 3b + Loop Diuretic + Age>80 (detectable at 1M)"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "name": "5-billion-scale-polypharmacy",
+  "version": "1.0.0",
+  "description": "## Overview",
+  "main": "index.js",
+  "scripts": {
+    "test": "node src/testOptimized.js",
+    "test:1m": "node src/testOptimized.js",
+    "run:100m": "node src/run100MOptimized.js",
+    "run:1b": "node src/run1BOptimized.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^3.2.0",
+    "fast-csv": "^5.0.5",
+    "mathjs": "^15.1.0",
+    "ml-matrix": "^6.12.1",
+    "p-queue": "^9.0.1",
+    "piscina": "^5.1.4",
+    "stream-json": "^1.9.1"
+  }
+}

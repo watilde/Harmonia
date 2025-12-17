@@ -1,0 +1,76 @@
+{
+  "title": "Communication Cost: Federated vs Centralized",
+  "subtitle": "Federated achieves O(1) constant communication",
+  "x_axis": "Sample Size (log scale)",
+  "y_axis": "Communication (Bytes, log scale)",
+  "data": {
+    "federated": {
+      "name": "Federated (O(1))",
+      "points": [
+        {
+          "n": 100000,
+          "bytes": 2600,
+          "formatted": "2.5KB"
+        },
+        {
+          "n": 1000000,
+          "bytes": 26000,
+          "formatted": "25.4KB"
+        },
+        {
+          "n": 10000000,
+          "bytes": 26000,
+          "formatted": "25.4KB"
+        },
+        {
+          "n": 1000000000,
+          "bytes": 26000,
+          "formatted": "25.4KB",
+          "extrapolated": true
+        }
+      ],
+      "complexity": "O(1)"
+    },
+    "centralized": {
+      "name": "Centralized (O(n))",
+      "points": [
+        {
+          "n": 100000,
+          "bytes": 20000000,
+          "formatted": "19.1MB"
+        },
+        {
+          "n": 1000000,
+          "bytes": 200000000,
+          "formatted": "190.7MB"
+        },
+        {
+          "n": 10000000,
+          "bytes": 2000000000,
+          "formatted": "1.86GB"
+        },
+        {
+          "n": 1000000000,
+          "bytes": 200000000000,
+          "formatted": "186.26GB",
+          "extrapolated": true
+        }
+      ],
+      "complexity": "O(n)"
+    }
+  },
+  "reductionFactors": [
+    {
+      "n": 100000,
+      "factor": 7692.307692307692
+    },
+    {
+      "n": 1000000,
+      "factor": 7692.307692307692
+    },
+    {
+      "n": 10000000,
+      "factor": 76923.07692307692
+    }
+  ]
+}

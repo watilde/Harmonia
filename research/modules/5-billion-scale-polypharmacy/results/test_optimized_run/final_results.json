@@ -1,0 +1,43 @@
+{
+  "configuration": {
+    "totalPatients": 1000000,
+    "nSites": 10,
+    "patientsPerSite": 100000,
+    "batchSize": 4,
+    "outputDir": "/home/user/webapp/research/modules/5-billion-scale-polypharmacy/results/test_optimized_run",
+    "checkpointInterval": 2
+  },
+  "performance": {
+    "totalPatients": 1000000,
+    "processedSites": 10,
+    "elapsedSeconds": 1.403,
+    "throughput": 712758,
+    "cpuCores": 4
+  },
+  "causalEstimates": {
+    "propensityBeta": [
+      -1.6956781333555369, 1.8787671048207757, 4.362330812661606, 2.7349651933810692,
+      -0.9352149468242361
+    ],
+    "overallATE": 1.3323388675536383,
+    "subgroupEffects": {
+      "overall": {
+        "ate": 1.2516847645275158,
+        "n": 848461
+      },
+      "interaction1": {
+        "ate": 2.8006177554301708,
+        "n": 172952
+      },
+      "interaction2": {
+        "ate": 1.5456040440288585,
+        "n": 45404
+      },
+      "interaction3": {
+        "ate": 1.0693508011344817,
+        "n": 704
+      }
+    }
+  },
+  "timestamp": "2025-12-17T02:31:50.001Z"
+}

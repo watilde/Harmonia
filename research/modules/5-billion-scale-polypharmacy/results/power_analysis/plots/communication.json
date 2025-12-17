@@ -1,0 +1,19 @@
+{
+  "title": "Communication Cost: Federated vs Centralized",
+  "x_label": "Sample Size (log scale)",
+  "y_label": "Communication (Bytes, log scale)",
+  "data": {
+    "federated": [
+      {
+        "n": 10000000,
+        "bytes": 26000
+      }
+    ],
+    "centralized": [
+      {
+        "n": 10000000,
+        "bytes": 2000000000
+      }
+    ]
+  }
+}

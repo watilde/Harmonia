@@ -97,21 +97,24 @@ $$\text{FRI} = \sum_{k=1}^K \frac{n_k}{N} E_k \quad \text{where} \quad N = \sum_
 
 3. **Convexity**: FRI is a convex combination of site-level E-values.
 
-**Interpretation and limitations**: FRI represents the "precision-weighted average unmeasured confounding strength" across sites. This is a **descriptive summary statistic**, not a formal worst-case robustness guarantee. 
+**Interpretation and limitations**: FRI represents the "precision-weighted average unmeasured confounding strength" across sites. This is a **descriptive summary statistic**, not a formal worst-case robustness guarantee.
 
 **What FRI is NOT**: FRI does not provide a strict lower bound for unmeasured confounding required to nullify the federated effect. The true worst-case threshold is $\min_k\{E_k\}$ (if the weakest site's effect is nullified, the federated average is affected). FRI > min{E_k} because it incorporates information from more robust sites.
 
-**When FRI is appropriate**: 
+**When FRI is appropriate**:
+
 - Sites have heterogeneous robustness (varying E-values)
 - Sample sizes differ considerably across sites
 - Decision-makers want a precision-weighted summary beyond simple min/max
 
 **When to report min{E_k} instead**:
+
 - Risk-averse contexts requiring worst-case guarantees
 - Regulatory decisions with severe consequences of false positives
 - Sites are equally sized (weights ≈ 1/K)
 
 **Remark 1 (Comparison to Conservative Aggregation)**: The true conservative approach uses $E_{\text{conservative}} = \min_k\{E_k\}$, ensuring that even the most vulnerable site's robustness is respected. FRI > min{E_k} by construction, making it less conservative but potentially more informative by incorporating multi-site evidence. Decision-makers should report both:
+
 - FRI: Precision-weighted summary
 - min{E_k}: Worst-case guarantee
 
@@ -166,13 +169,14 @@ VanderWeele (2019) suggests E > 2 indicates "moderate robustness" for single-sit
 
 **Table 2: Aggregation Strategy Comparison**
 
-| Scale | Sample-Size FRI | Equal-Weight | Conservative (min) | Optimistic (max) | FRI vs min |
-|-------|-----------------|--------------|-------------------|------------------|------------|
-| **1k** | 2.015 | 1.961 | 1.766 | 2.188 | +14.1% |
-| **100k** | 2.147 | 2.147 | 2.143 | 2.156 | +0.19% |
-| **2.8m** | 2.149 | 2.149 | 2.146 | 2.153 | +0.14% |
+| Scale    | Sample-Size FRI | Equal-Weight | Conservative (min) | Optimistic (max) | FRI vs min |
+| -------- | --------------- | ------------ | ------------------ | ---------------- | ---------- |
+| **1k**   | 2.015           | 1.961        | 1.766              | 2.188            | +14.1%     |
+| **100k** | 2.147           | 2.147        | 2.143              | 2.156            | +0.19%     |
+| **2.8m** | 2.149           | 2.149        | 2.146              | 2.153            | +0.14%     |
 
 **Aggregation formulas**:
+
 - Sample-size FRI: $\sum_k (n_k / N) \cdot E_k$
 - Equal-weight: $(1/K) \sum_k E_k$
 - Conservative: $\min_k \{E_k\}$
@@ -222,19 +226,19 @@ The decomposition reveals that the risk ratio component (treatment effect magnit
 
 **Diabetes Treatment Example** (2.8m scale):
 
-| Metric | Value | Interpretation |
-|--------|-------|----------------|
+| Metric                     | Value | Interpretation                        |
+| -------------------------- | ----- | ------------------------------------- |
 | FRI (sample-size weighted) | 2.149 | Precision-weighted average robustness |
-| min{E_k} (conservative) | 2.146 | Worst-case site robustness |
-| max{E_k} (optimistic) | 2.153 | Best-case site robustness |
+| min{E_k} (conservative)    | 2.146 | Worst-case site robustness            |
+| max{E_k} (optimistic)      | 2.153 | Best-case site robustness             |
 
 **Proposed threshold comparison** (Section 2.5):
 
-| Threshold Level | Proposed Cutoff | FRI Status | Conservative Status |
-|-----------------|-----------------|------------|---------------------|
-| High-stakes (FDA approval) | >3.0 | 2.15 < 3.0 ❌ | 2.15 < 3.0 ❌ |
-| Moderate (clinical guidelines) | >2.0 | 2.15 > 2.0 ✅ | 2.15 > 2.0 ✅ |
-| Exploratory (research) | >1.5 | 2.15 > 1.5 ✅ | 2.15 > 1.5 ✅ |
+| Threshold Level                | Proposed Cutoff | FRI Status    | Conservative Status |
+| ------------------------------ | --------------- | ------------- | ------------------- |
+| High-stakes (FDA approval)     | >3.0            | 2.15 < 3.0 ❌ | 2.15 < 3.0 ❌       |
+| Moderate (clinical guidelines) | >2.0            | 2.15 > 2.0 ✅ | 2.15 > 2.0 ✅       |
+| Exploratory (research)         | >1.5            | 2.15 > 1.5 ✅ | 2.15 > 1.5 ✅       |
 
 **Interpretation with appropriate caution**: Under the **unvalidated** moderate threshold (FRI > 2.0), this diabetes treatment effect would be considered "acceptable" for clinical guideline consideration. However, decision-makers should recognize:
 
@@ -326,7 +330,7 @@ This work proposes the Federated Robustness Index as a sample-size weighted aggr
 
 **Threshold interpretation caveat**: The proposed thresholds (FRI > 3.0 high-stakes, > 2.0 moderate, > 1.5 exploratory) represent exploratory guidelines requiring empirical validation. These are not derived from retrospective analysis of regulatory decisions or RCT comparisons. Decision-makers should treat thresholds as heuristic guidance, not rigid cutoffs, incorporating domain expertise about biological plausibility and study quality beyond statistical metrics. VanderWeele (2019) suggests E > 2 indicates "moderate robustness" for single-site studies; our federated thresholds extend this heuristic but inherit its limitations.
 
-**Partial privacy advantage**: Federated E-value transmission reduces covariate disclosure compared to centralized analysis. Sites transmit scalar E-values (174 bytes) rather than full covariate matrices (up to 482 MB), achieving 2.8M× communication reduction while hiding specific variable identities. However, E-values indirectly reveal effect size magnitudes, allowing approximate inference of confounding adjustment strength. This provides "covariate identity privacy" (variable names hidden) but not information-theoretic privacy. Formal differential privacy guarantees require noise injection (E'_k = E_k + Lap(Δ/ε)), introducing utility loss that requires careful calibration. We defer rigorous privacy analysis to future work.
+**Partial privacy advantage**: Federated E-value transmission reduces covariate disclosure compared to centralized analysis. Sites transmit scalar E-values (174 bytes) rather than full covariate matrices (up to 482 MB), achieving 2.8M× communication reduction while hiding specific variable identities. However, E-values indirectly reveal effect size magnitudes, allowing approximate inference of confounding adjustment strength. This provides "covariate identity privacy" (variable names hidden) but not information-theoretic privacy. Formal differential privacy guarantees require noise injection (E'\_k = E_k + Lap(Δ/ε)), introducing utility loss that requires careful calibration. We defer rigorous privacy analysis to future work.
 
 **Critical limitations**: Synthetic data prevents validation against real unmeasured confounding (see Section 4.4). Our 3-site validation reflects small consortia, not large networks (FDA Sentinel: 18 sites). Threshold calibration lacks empirical grounding—validation priorities include RCT comparison, clinician surveys, and FDA decision analysis. Current implementation handles binary outcomes only.
 
