@@ -286,63 +286,63 @@ We demonstrate that billion-scale federated causal inference is computationally 
 
 ## References
 
-1. Gelman A, Carlin J. Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. *Perspectives on Psychological Science* 2014;9(6):641-651.
+1. Gelman A, Carlin J. Beyond Power Calculations: Assessing Type S (Sign) and Type M (Magnitude) Errors. _Perspectives on Psychological Science_ 2014;9(6):641-651.
 
-2. Lash TL, Fox MP, MacLehose RF, et al. Good practices for quantitative bias analysis. *International Journal of Epidemiology* 2014;43(6):1969-1985.
+2. Lash TL, Fox MP, MacLehose RF, et al. Good practices for quantitative bias analysis. _International Journal of Epidemiology_ 2014;43(6):1969-1985.
 
 3. FDA Sentinel Initiative. https://www.sentinelinitiative.org
 
-4. Coloma PM, Schuemie MJ, Trifirò G, et al. Combining electronic healthcare databases in Europe to allow for large-scale drug safety monitoring: the EU-ADR Project. *Pharmacoepidemiology and Drug Safety* 2011;20(1):1-11.
+4. Coloma PM, Schuemie MJ, Trifirò G, et al. Combining electronic healthcare databases in Europe to allow for large-scale drug safety monitoring: the EU-ADR Project. _Pharmacoepidemiology and Drug Safety_ 2011;20(1):1-11.
 
-5. McMahan HB, Moore E, Ramage D, et al. Communication-Efficient Learning of Deep Networks from Decentralized Data. *AISTATS* 2017.
+5. McMahan HB, Moore E, Ramage D, et al. Communication-Efficient Learning of Deep Networks from Decentralized Data. _AISTATS_ 2017.
 
-6. Kairouz P, McMahan HB, Avent B, et al. Advances and Open Problems in Federated Learning. *Foundations and Trends in Machine Learning* 2021;14(1-2):1-210.
+6. Kairouz P, McMahan HB, Avent B, et al. Advances and Open Problems in Federated Learning. _Foundations and Trends in Machine Learning_ 2021;14(1-2):1-210.
 
-7. Rosenbaum PR, Rubin DB. The central role of the propensity score in observational studies for causal effects. *Biometrika* 1983;70(1):41-55.
+7. Rosenbaum PR, Rubin DB. The central role of the propensity score in observational studies for causal effects. _Biometrika_ 1983;70(1):41-55.
 
 8. Hernán MA, Robins JM. Causal Inference: What If. Chapman & Hall/CRC, 2020.
 
 9. Pearl J. Causality: Models, Reasoning, and Inference. 2nd ed. Cambridge University Press, 2009.
 
-10. Petersen ML, van der Laan MJ. Causal models and learning from data: integrating causal modeling and statistical estimation. *Epidemiology* 2014;25(3):418-426.
+10. Petersen ML, van der Laan MJ. Causal models and learning from data: integrating causal modeling and statistical estimation. _Epidemiology_ 2014;25(3):418-426.
 
-11. D'Agostino RB. Propensity score methods for bias reduction in the comparison of a treatment to a non-randomized control group. *Statistics in Medicine* 1998;17(19):2265-2281.
+11. D'Agostino RB. Propensity score methods for bias reduction in the comparison of a treatment to a non-randomized control group. _Statistics in Medicine_ 1998;17(19):2265-2281.
 
-12. Austin PC. An Introduction to Propensity Score Methods for Reducing the Effects of Confounding in Observational Studies. *Multivariate Behavioral Research* 2011;46(3):399-424.
+12. Austin PC. An Introduction to Propensity Score Methods for Reducing the Effects of Confounding in Observational Studies. _Multivariate Behavioral Research_ 2011;46(3):399-424.
 
-13. Rubin DB. Estimating causal effects of treatments in randomized and nonrandomized studies. *Journal of Educational Psychology* 1974;66(5):688-701.
+13. Rubin DB. Estimating causal effects of treatments in randomized and nonrandomized studies. _Journal of Educational Psychology_ 1974;66(5):688-701.
 
 14. Imbens GW, Rubin DB. Causal Inference for Statistics, Social, and Biomedical Sciences. Cambridge University Press, 2015.
 
-15. VanderWeele TJ, Ding P. Sensitivity Analysis in Observational Research: Introducing the E-Value. *Annals of Internal Medicine* 2017;167(4):268-274.
+15. VanderWeele TJ, Ding P. Sensitivity Analysis in Observational Research: Introducing the E-Value. _Annals of Internal Medicine_ 2017;167(4):268-274.
 
-16. Meng XL. Statistical paradises and paradoxes in big data (I): Law of large populations, big data paradox, and the 2016 US presidential election. *Annals of Applied Statistics* 2018;12(2):685-726.
+16. Meng XL. Statistical paradises and paradoxes in big data (I): Law of large populations, big data paradox, and the 2016 US presidential election. _Annals of Applied Statistics_ 2018;12(2):685-726.
 
-17. Cole SR, Hernán MA. Constructing inverse probability weights for marginal structural models. *American Journal of Epidemiology* 2008;168(6):656-664.
+17. Cole SR, Hernán MA. Constructing inverse probability weights for marginal structural models. _American Journal of Epidemiology_ 2008;168(6):656-664.
 
-18. Lunceford JK, Davidian M. Stratification and weighting via the propensity score in estimation of causal treatment effects: a comparative study. *Statistics in Medicine* 2004;23(19):2937-2960.
+18. Lunceford JK, Davidian M. Stratification and weighting via the propensity score in estimation of causal treatment effects: a comparative study. _Statistics in Medicine_ 2004;23(19):2937-2960.
 
-19. Stürmer T, Rothman KJ, Avorn J, Glynn RJ. Treatment effects in the presence of unmeasured confounding: dealing with observations in the tails of the propensity score distribution. *American Journal of Epidemiology* 2010;172(7):843-854.
+19. Stürmer T, Rothman KJ, Avorn J, Glynn RJ. Treatment effects in the presence of unmeasured confounding: dealing with observations in the tails of the propensity score distribution. _American Journal of Epidemiology_ 2010;172(7):843-854.
 
-20. Petersen ML, Porter KE, Gruber S, et al. Diagnosing and responding to violations in the positivity assumption. *Statistical Methods in Medical Research* 2012;21(1):31-54.
+20. Petersen ML, Porter KE, Gruber S, et al. Diagnosing and responding to violations in the positivity assumption. _Statistical Methods in Medical Research_ 2012;21(1):31-54.
 
-21. Li F, Morgan KL, Zaslavsky AM. Balancing covariates via propensity score weighting. *Journal of the American Statistical Association* 2018;113(521):390-400.
+21. Li F, Morgan KL, Zaslavsky AM. Balancing covariates via propensity score weighting. _Journal of the American Statistical Association_ 2018;113(521):390-400.
 
-22. Zhao Q, Percival D. Entropy balancing is doubly robust. *Journal of Causal Inference* 2017;5(1):20160010.
+22. Zhao Q, Percival D. Entropy balancing is doubly robust. _Journal of Causal Inference_ 2017;5(1):20160010.
 
-23. Hainmueller J. Entropy Balancing for Causal Effects: A Multivariate Reweighting Method to Produce Balanced Samples in Observational Studies. *Political Analysis* 2012;20(1):25-46.
+23. Hainmueller J. Entropy Balancing for Causal Effects: A Multivariate Reweighting Method to Produce Balanced Samples in Observational Studies. _Political Analysis_ 2012;20(1):25-46.
 
-24. Athey S, Imbens GW. Machine Learning Methods for Estimating Heterogeneous Causal Effects. *Statistical Science* 2019;34(2):197-209.
+24. Athey S, Imbens GW. Machine Learning Methods for Estimating Heterogeneous Causal Effects. _Statistical Science_ 2019;34(2):197-209.
 
-25. Chernozhukov V, Chetverikov D, Demirer M, et al. Double/debiased machine learning for treatment and structural parameters. *Econometrics Journal* 2018;21(1):C1-C68.
+25. Chernozhukov V, Chetverikov D, Demirer M, et al. Double/debiased machine learning for treatment and structural parameters. _Econometrics Journal_ 2018;21(1):C1-C68.
 
-26. Dwork C, Roth A. The Algorithmic Foundations of Differential Privacy. *Foundations and Trends in Theoretical Computer Science* 2014;9(3-4):211-407.
+26. Dwork C, Roth A. The Algorithmic Foundations of Differential Privacy. _Foundations and Trends in Theoretical Computer Science_ 2014;9(3-4):211-407.
 
-27. Abadi M, Chu A, Goodfellow I, et al. Deep Learning with Differential Privacy. *ACM CCS* 2016:308-318.
+27. Abadi M, Chu A, Goodfellow I, et al. Deep Learning with Differential Privacy. _ACM CCS_ 2016:308-318.
 
-28. Li W, Milletarì F, Xu D, et al. Privacy-Preserving Federated Brain Tumour Segmentation. *MICCAI Workshop* 2019:133-141.
+28. Li W, Milletarì F, Xu D, et al. Privacy-Preserving Federated Brain Tumour Segmentation. _MICCAI Workshop_ 2019:133-141.
 
-29. Rieke N, Hancox J, Li W, et al. The future of digital health with federated learning. *NPJ Digital Medicine* 2020;3:119.
+29. Rieke N, Hancox J, Li W, et al. The future of digital health with federated learning. _NPJ Digital Medicine_ 2020;3:119.
 
 ---
 
@@ -366,7 +366,7 @@ We demonstrate that billion-scale federated causal inference is computationally 
 
 ### Figure 3: Sign Flip Phenomenon
 
-Treatment effect convergence across sample sizes for rare polypharmacy subgroup (CKD Stage 3b + Loop Diuretic + Age>80, prevalence 0.064%). 
+Treatment effect convergence across sample sizes for rare polypharmacy subgroup (CKD Stage 3b + Loop Diuretic + Age>80, prevalence 0.064%).
 
 **Key Finding**: At 1M patients (n=645), estimated ATE = -2.11 ml/min/year (95% CI: -3.14 to -1.07, p=0.003), suggesting harm. At 1B patients (n=632,776), estimated ATE = +1.46 ml/min/year (95% CI: +1.41 to +1.52, p<0.0001), indicating benefit—a complete sign reversal with high statistical confidence at both scales.
 
@@ -383,21 +383,25 @@ Treatment effect convergence across sample sizes for rare polypharmacy subgroup 
 **Synthetic Data Protocol**: Extended Synthea framework with embedded ground truth for validation.
 
 **Polypharmacy Modeling**:
+
 - Base rate: 35% (Age>65), 60% (CKD Stage 3+)
 - Three interaction tiers: Interaction 1 (16% prevalence), Interaction 2 (0.4%), Interaction 3 (0.064%)
 
 **Ground Truth Effects**:
+
 - SGLT2i baseline: +1.0 ml/min/year
 - Interaction 1: +2.0 ml/min/year additional
-- Interaction 2: +0.5 ml/min/year additional  
+- Interaction 2: +0.5 ml/min/year additional
 - Interaction 3: +0.5 ml/min/year additional
 
 **Confounding Structure**:
+
 - Logistic propensity model: logit(P(T=1)) = 0.5×(HbA1c-7) - 0.3×(eGFR-60)/10 + 0.2×Age/10
 - Confounding by indication: Sicker patients preferentially receive treatment
 - Missing data: 5% missing-at-random (MAR)
 
 **Data Generation at Scale**:
+
 - 1000 sites × 1M patients per site = 1B total
 - Streaming generation (no disk I/O)
 - Worker threads parallelization for site-level computation
@@ -408,17 +412,17 @@ Treatment effect convergence across sample sizes for rare polypharmacy subgroup 
 **Theorem 1 (Federated-Centralized Equivalence)**:
 Federated Newton-Raphson propensity score estimation produces identical estimates to centralized analysis.
 
-*Proof*: By associativity of sums, ∑_{k=1}^K g_k = ∑_{i=1}^N x_i(T_i - p_i) and ∑_{k=1}^K H_k = ∑_{i=1}^N x_ix_i^T p_i(1-p_i), where k indexes sites and i indexes patients. Therefore, β^{(t+1)} = β^{(t)} + (∑_k H_k)^{-1}(∑_k g_k) is mathematically equivalent to centralized Newton-Raphson. □
+_Proof_: By associativity of sums, ∑*{k=1}^K g_k = ∑*{i=1}^N x*i(T_i - p_i) and ∑*{k=1}^K H*k = ∑*{i=1}^N x_ix_i^T p_i(1-p_i), where k indexes sites and i indexes patients. Therefore, β^{(t+1)} = β^{(t)} + (∑_k H_k)^{-1}(∑_k g_k) is mathematically equivalent to centralized Newton-Raphson. □
 
 **Theorem 2 (Communication Complexity)**:
 Federated algorithm achieves O(1) communication per site independent of sample size.
 
-*Proof*: Each site transmits fixed-dimension statistics: gradient g_k ∈ ℝ^p, Hessian H_k ∈ ℝ^{p×p}, weighted matrices XWX_k ∈ ℝ^{p×p}, XWY_k ∈ ℝ^p. For p=5 covariates, communication = 5 (gradient) + 15 (Hessian upper triangle) + 15 (XWX) + 5 (XWY) = 40 floating-point numbers × 8 bytes = 320 bytes per site. Observed: 264 bytes (compression/encoding). □
+_Proof_: Each site transmits fixed-dimension statistics: gradient g_k ∈ ℝ^p, Hessian H_k ∈ ℝ^{p×p}, weighted matrices XWX_k ∈ ℝ^{p×p}, XWY_k ∈ ℝ^p. For p=5 covariates, communication = 5 (gradient) + 15 (Hessian upper triangle) + 15 (XWX) + 5 (XWY) = 40 floating-point numbers × 8 bytes = 320 bytes per site. Observed: 264 bytes (compression/encoding). □
 
 **Theorem 3 (Privacy Preservation)**:
 Aggregated statistics (gradient, Hessian, XWX, XWY) satisfy HIPAA Safe Harbor de-identification standard (§164.514(b)(2)).
 
-*Proof*: Transmitted statistics are aggregates over ≥1M patients per site, containing no individual identifiers, no cell counts <10, and no patient-level data. Satisfies statistical de-identification requirements. □
+_Proof_: Transmitted statistics are aggregates over ≥1M patients per site, containing no individual identifiers, no cell counts <10, and no patient-level data. Satisfies statistical de-identification requirements. □
 
 ### Supplement C: Sensitivity Analyses
 
@@ -480,6 +484,7 @@ ATE = (Σ XWY_treated) / (Σ w_treated) - (Σ XWY_control) / (Σ w_control)
 **Full results tables** for all sample sizes (100K, 1M, 10M, 100M, 1B) and all subgroups (Overall, Interaction 1, Interaction 2, Interaction 3) are available in the online repository: https://github.com/watilde/Harmonia
 
 **Key findings across all subgroups**:
+
 - Overall subgroup (84% prevalence, n=841M at 1B scale): Monotonic convergence to ATE=+1.28, no sign flip
 - Interaction 1 (17% prevalence, n=169M): Monotonic convergence to ATE=+2.86, no sign flip
 - Interaction 2 (0.4% prevalence, n=4.2M): Monotonic convergence to ATE=+1.50, no sign flip
