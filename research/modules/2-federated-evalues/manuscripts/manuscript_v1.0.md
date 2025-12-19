@@ -1,8 +1,10 @@
-# Federated Robustness Index: Quantifying Multi-Site Sensitivity to Unmeasured Confounding
+# A Federated Aggregation Framework for E-values: Comparing Weighting Strategies for Multi-Site Sensitivity Analysis
+
+**[Technical Report]** • **[Preprint Version]**
 
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
-**Version**: 1.0 (Revised for Submission)  
+**Version**: 2.0 (Technical Report)  
 **Code**: https://github.com/watilde/Harmonia/tree/main/research/modules/2-federated-evalues
 
 ---
@@ -11,13 +13,13 @@
 
 **Background:** E-values quantify sensitivity to unmeasured confounding in single-site studies, but principled multi-site aggregation methods have not been characterized.
 
-**Objective:** Propose and validate the Federated Robustness Index (FRI) as a sample-size weighted aggregation of site-level E-values, characterize its mathematical properties, and assess convergence behavior across scales.
+**Objective:** Compare three aggregation strategies (sample-size weighting, equal-weight, conservative) for E-values in multi-site studies, characterize their mathematical properties, and assess convergence behavior across scales.
 
-**Methods:** I defined FRI via Definition 1 as sample-size weighted E-value aggregation, characterized its properties (boundedness, monotonicity), and compared aggregation strategies (sample-size, equal-weight, conservative). Validated across three scales (1k-2.8m patients, 3 sites) using Synthea synthetic data with communication efficiency and partial privacy analysis.
+**Methods:** We compared three E-value aggregation strategies: sample-size weighting (Federated Robustness Index, FRI), equal-weight averaging, and conservative minimum. Characterized mathematical properties (boundedness, monotonicity) and validated across three scales (1k-2.8m patients, 3 sites) using Synthea synthetic data with communication efficiency and partial privacy analysis.
 
 **Results:** FRI converged from 2.015 (1k) to 2.149 (2.8m) with inter-site coefficient of variation collapsing from 9.7% to 0.16%. Sample-size and equal-weight strategies diverged only at small scale with unbalanced sites (2.8% difference). Communication: constant 174 bytes versus 201 KB-482 MB centralized (up to 2.8M× reduction). Partial privacy: covariate identities hidden, though E-values indirectly reveal effect magnitudes.
 
-**Conclusions:** FRI provides a principled federated aggregation of E-values following meta-analysis conventions. Practitioners should report both FRI (precision-weighted summary) and min{E_k} (conservative worst-case) to enable risk-appropriate decisions. Proposed thresholds (FRI>2.0 moderate-stakes) require validation against RCT ground truth. Future work must assess FRI utility in real multi-site studies beyond synthetic data.
+**Conclusions:** Our systematic comparison demonstrates that sample-size weighting (FRI) provides precision-weighted summaries following meta-analysis conventions, while performance differences between strategies diminish at scale. Practitioners should report both FRI (precision-weighted) and min{E_k} (conservative) to enable risk-appropriate decisions. This is a technical demonstration of computational feasibility, not clinical validation. Proposed thresholds require validation against RCT ground truth in real multi-site studies.
 
 **Keywords**: E-values, Sensitivity Analysis, Unmeasured Confounding, Federated Learning, Multi-Site Studies
 
@@ -39,7 +41,7 @@ Causal inference from observational data requires addressing unmeasured confound
 
 **Questions**: What is the federated E-value? Should large sites dominate? Does aggregation preserve validity?
 
-This work's contribution: Defining the **Federated Robustness Index (FRI)** with mathematical characterization (Definition 1), exploratory thresholds, and validation across three scales (1k-2.8m patients).
+This work's contribution: Systematically comparing three aggregation strategies for multi-site E-values, characterizing their mathematical properties (Definition 1), and validating across three scales (1k-2.8m patients). We provide practical guidance for selecting strategies based on scale and heterogeneity.
 
 ---
 
