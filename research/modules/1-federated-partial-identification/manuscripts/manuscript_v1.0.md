@@ -1,23 +1,27 @@
-# Minimax-Optimal Aggregation for Federated Partial Identification: Theory and Multi-Scale Validation
+# A Federated Aggregation Framework for Partial Identification: Comparing Weighting Strategies Across Scales
 
-**Author**: Daijiro Wachi  
+**[Technical Report]**
+
+**This is a technical comparison of aggregation methods, not a theoretical discovery.**
+
+**Author**: Daijiro Wachi (Independent Researcher)  
 **Email**: daijiro.wachi@gmail.com  
-**Version**: 1.0 (Revised for Submission)  
+**Version**: 2.0 (Technical Report)  
 **Code**: https://github.com/watilde/Harmonia/tree/main/research/modules/1-federated-partial-identification
 
 ---
 
 ## Abstract
 
-**Background:** Federated causal inference aggregates site-level Manski bounds, but optimal weighting strategies remain uncharacterized.
+**Background:** Federated causal inference aggregates site-level Manski bounds using various weighting strategies. Multiple approaches exist, but their relative performance under different conditions requires systematic evaluation.
 
-**Objective:** Characterize and validate optimal weighting for combining bounds across heterogeneous federated sites.
+**Objective:** Compare six weighting strategies for combining partial identification bounds across heterogeneous federated sites at multiple scales.
 
 **Methods:** I derived minimax-optimal inverse-width weighting via KKT conditions and compared six strategies (inverse-width, sample-size, √n, log-n, power, conservative) using three OMOP datasets (1,130-2,709,803 patients, 3 sites). Measured bound width, heterogeneity (CV), and communication efficiency.
 
-**Results:** Inverse-width achieved 15.5% tighter bounds than conservative at 1k scale (CV=6.3% heterogeneity), converging to equivalent performance at 2.8m scale (CV=0.14%). Communication: constant 150 bytes vs. 201 KB-482 MB centralized (3.2M× reduction). Proposition 1 characterizes minimax optimality under heterogeneity via KKT necessary conditions; Corollary 1 establishes convergence to sample-size weighting under homogeneity.
+**Results:** Inverse-width weighting performed best under heterogeneity, achieving 15.5% tighter bounds than conservative aggregation at 1k scale (CV=6.3%). Performance differences diminished as heterogeneity decreased, with strategies converging at 2.8m scale (CV=0.14%). Communication overhead remained constant at 150 bytes versus 201 KB-482 MB for centralized approaches (3,200× reduction). Theoretical analysis (Proposition 1) characterizes the conditions under which inverse-width weighting minimizes bound width via KKT necessary conditions.
 
-**Conclusions:** Inverse-width weighting emerges as minimax-optimal under heterogeneity (characterized via KKT necessary conditions in Proposition 1). Validated across three orders of magnitude with 3.2M× communication reduction and <1.3% utility loss. HIPAA Safe Harbor compliant, no patient-level data sharing.
+**Conclusions:** Our systematic comparison demonstrates that inverse-width weighting is effective under heterogeneity, while performance differences diminish under homogeneous conditions. The framework enables practitioners to select appropriate aggregation strategies based on scale and heterogeneity levels. All methods achieve 3,200× communication reduction with <1.3% utility loss and maintain HIPAA Safe Harbor compliance.
 
 **Keywords:** Federated learning, partial identification, causal inference, minimax optimality
 
@@ -37,7 +41,7 @@ The choice of weights $w_k$ affects bound width and precision. While sample-size
 
 ### 1.2 Research Questions
 
-We address three questions: (1) Which weighting strategy minimizes federated bound width under site heterogeneity? (2) How do strategies perform across varying scales? (3) When should practitioners prefer inverse-width over sample-size weighting?
+This technical report addresses three questions: (1) How do different weighting strategies perform under site heterogeneity? (2) How does performance change across varying scales (1k to 2.8m patients)? (3) What practical guidance can we provide for practitioners choosing aggregation methods?
 
 ---
 
