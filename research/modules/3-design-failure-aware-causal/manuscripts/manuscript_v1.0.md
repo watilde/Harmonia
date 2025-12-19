@@ -1,8 +1,10 @@
-# Design-Failure-Aware Federated Causal Inference: A Diagnostic Framework for Heterogeneous Assumption Quality
+# A Diagnostic Framework for Federated Causal Inference: Evaluating Assumption Quality Across Heterogeneous Sites
+
+**[Technical Report]** • **[Preprint Version]**
 
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
-**Version**: 1.0 (Revised for Submission)  
+**Version**: 2.0 (Technical Report)  
 **Code**: https://github.com/watilde/Harmonia/tree/main/research/modules/3-design-failure-aware-causal
 
 ---
@@ -11,13 +13,13 @@
 
 **Background:** Federated causal inference methods typically assume uniform assumption satisfaction across sites without explicit diagnostic verification, risking overconfident inference when assumptions fail heterogeneously.
 
-**Objective:** Propose and validate a three-dimensional diagnostic framework for federated causal inference that characterizes site-level assumption quality to guide inference method selection (point estimation, bounds, or sensitivity analysis).
+**Objective:** Develop and evaluate a three-dimensional diagnostic framework for federated causal inference that characterizes site-level assumption quality to guide inference method selection (point estimation, bounds, or sensitivity analysis).
 
-**Methods:** I integrated diagnostics for unconfoundedness (SMD, overlap, residual correlation), positivity (tail mass, effective sample size), and specification (R², AUC, calibration) into scalar scores (range [0,1]). Proposed exploratory threshold guidelines: overall score ≥0.8 suggests point estimation, 0.5-0.8 suggests partial identification bounds, <0.5 suggests sensitivity analysis. Validated computational feasibility on Synthea synthetic data across three scales (1k-2.8m patients, 3 sites).
+**Methods:** We integrated diagnostics for unconfoundedness (SMD, overlap, residual correlation), positivity (tail mass, effective sample size), and specification (R², AUC, calibration) into scalar scores (range [0,1]). Evaluated exploratory threshold guidelines: overall score ≥0.8 suggests point estimation, 0.5-0.8 suggests partial identification bounds, <0.5 suggests sensitivity analysis. Validated computational feasibility on Synthea synthetic data across three scales (1k-2.8m patients, 3 sites).
 
 **Results:** Diagnostic scores ranged 0.86-1.00 at 1k scale (CV=7.2% heterogeneity), with federated score 0.95 exceeding the exploratory 0.8 threshold. Computation scaled linearly O(n) with 30% overhead. Communication remained constant at 150 bytes regardless of scale (up to 3.2M× reduction versus centralized). Diagnostic scores provide partial covariate privacy (variable identities hidden, though scores indirectly reveal data quality).
 
-**Conclusions:** We propose a diagnostic framework for federated causal inference that integrates established metrics (SMD, overlap, tail mass, R², AUC) into scalar scores, demonstrating computational feasibility on synthetic data (O(n) scaling, 3.2M× communication reduction). Critical limitations preclude deployment: (1) exploratory thresholds (0.8, 0.5) lack calibration via controlled studies, (2) Synthea validation cannot establish diagnostic accuracy for real violations, (3) information leakage unquantified. The framework represents a proof-of-concept requiring empirical validation before clinical use.
+**Conclusions:** Our evaluation demonstrates the computational feasibility of diagnostic scoring for federated causal inference, integrating established metrics (SMD, overlap, tail mass, R², AUC) into scalar summaries (O(n) scaling, 3.2M× communication reduction on synthetic data). Critical limitations preclude deployment: (1) exploratory thresholds (0.8, 0.5) lack calibration via controlled studies, (2) Synthea validation cannot establish diagnostic accuracy for real violations, (3) information leakage unquantified. This is a technical demonstration of feasibility, not clinical validation. The framework requires empirical validation before clinical use.
 
 **Keywords**: Causal Inference, Assumption Diagnostics, Federated Learning, Partial Identification, Robustness
 
@@ -36,7 +38,7 @@ The solution: A **design-failure-aware framework** that:
 3. Adapts to heterogeneous assumption quality
 4. Reports uncertainty without overconfidence
 
-**Key contribution**: Unlike prior work assuming uniform assumptions [8,9], this framework provides diagnostic tooling to characterize site-level assumption quality before method selection.
+**This work**: We develop diagnostic tooling to characterize site-level assumption quality before method selection, addressing the gap where prior work assumes uniform assumptions across sites [8,9]. Our contribution is methodological: demonstrating computational feasibility of diagnostic scoring, not proposing theoretically optimal solutions.
 
 ---
 
