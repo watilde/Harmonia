@@ -1,8 +1,10 @@
-# Federated Robust Causal Inference: Integrating Aggregation, Sensitivity Analysis, and Diagnostics
+# An Integrated Toolkit for Federated Causal Inference: Evaluating Component Integration for Robust Analysis
+
+**[Technical Report]** • **[Preprint Version]**
 
 **Author**: Daijiro Wachi  
 **Email**: daijiro.wachi@gmail.com  
-**Version**: 1.0 (Revised for Submission)  
+**Version**: 2.0 (Technical Report)  
 **Code**: https://github.com/watilde/Harmonia/tree/main/research/modules/4-identification-sensitivity-adaptation
 
 ---
@@ -11,13 +13,13 @@
 
 **Background:** Multi-site observational studies face competing requirements: privacy-preserving federation, valid inference under potential unmeasured confounding, and narrow uncertainty. Existing federated causal methods address subsets of these challenges but lack integrated frameworks adapting to heterogeneous assumption satisfaction across sites.
 
-**Objective:** Propose and validate an integrated federated causal inference toolkit combining three components: (1) sample-size weighted aggregation with mathematical characterization, (2) federated robustness quantification via E-values, (3) heuristic diagnostic-driven mode selection.
+**Objective:** Develop and evaluate an integrated toolkit for federated causal inference combining three components: (1) sample-size weighted aggregation with mathematical characterization, (2) federated robustness quantification via E-values, (3) heuristic diagnostic-driven mode selection.
 
-**Methods:** Three integrated modules validated on Synthea synthetic data across 1k-2.8m patients (3 sites): Module 1 characterizes inverse-width aggregation properties (Proposition 1 from companion paper), Module 2 aggregates site-level E-values into Federated Robustness Index with exploratory thresholds, Module 3 proposes three-dimensional diagnostics with heuristic mode selection rules.
+**Methods:** We evaluated three integrated modules on Synthea synthetic data across 1k-2.8m patients (3 sites): Module 1 characterizes inverse-width aggregation properties (Proposition 1 from companion paper), Module 2 aggregates site-level E-values into Federated Robustness Index with exploratory thresholds, Module 3 evaluates three-dimensional diagnostics with heuristic mode selection rules.
 
 **Results:** Inverse-width achieved 15.5% narrower bounds than conservative aggregation (1k scale, CV=6.3% heterogeneity). FRI converged to 2.15 (2.8m scale, exceeding proposed 2.0 moderate threshold). Diagnostic scores ranged 0.86-1.00 (1k), triggering point estimation. Communication: 264 bytes constant across scales (up to 1.8M× reduction vs centralized). Computational throughput: 54k patients/sec with linear O(n) scaling.
 
-**Conclusions:** The toolkit integrates three independently characterized components (aggregation, robustness, diagnostics) into proof-of-concept tooling for federated causal inference on synthetic data. Achieves substantial communication efficiency (1.8M× reduction) with minimal utility loss (<1.3%). Critical limitations require future validation: (1) component integration lacks formal mathematical theory, (2) synthetic data cannot validate performance under real assumption violations, (3) integration benefits require rigorous empirical testing beyond observational validation.
+**Conclusions:** Our evaluation demonstrates the feasibility of integrating three independently characterized components (aggregation, robustness, diagnostics) into proof-of-concept tooling for federated causal inference on synthetic data. Achieves substantial communication efficiency (1.8M× reduction) with minimal utility loss (<1.3%). This is a technical demonstration of integration feasibility, not clinical validation. Critical limitations require future validation: (1) component integration lacks formal mathematical theory, (2) synthetic data cannot validate performance under real assumption violations, (3) integration benefits require rigorous empirical testing beyond observational validation.
 
 **Keywords**: Federated Learning, Causal Inference, Partial Identification, E-values, Assumption Diagnostics, Robustness
 
@@ -41,7 +43,7 @@ Real-world federated networks exhibit heterogeneous assumption quality. **Questi
 
 ### 1.3 Proposed Integration: Federated Robust Causal Inference (FRCI)
 
-**FRCI proposes operational integration** of three independently characterized components with heuristic interaction rules:
+**FRCI evaluates operational integration** of three independently characterized components with heuristic interaction rules:
 
 **Three proposed interaction mechanisms:**
 
@@ -55,7 +57,7 @@ $$w_k^{\text{final}} = w_k^{\text{Module1}} \times \psi(\text{score}_k) \times \
 
 where $\psi$ adjusts for diagnostic quality and $\phi$ adjusts for robustness. These multipliers lack formal justification and require calibration via controlled studies.
 
-**Claimed benefits (requiring rigorous validation)**: Integration may provide adaptive behavior—down-weighting vulnerable sites, defaulting to conservative methods under uncertainty, enabling efficient computation with high-quality data. However, these benefits represent hypothesized operational advantages, not formally proven system characteristics. Empirical validation comparing integrated versus non-integrated performance across diverse violation scenarios is critical future work.
+**Potential benefits (requiring empirical validation)**: Integration may provide adaptive behavior—down-weighting vulnerable sites, defaulting to conservative methods under uncertainty, enabling efficient computation with high-quality data. However, these benefits represent hypothesized operational advantages, not formally proven system characteristics. Empirical validation comparing integrated versus non-integrated performance across diverse violation scenarios is critical future work.
 
 ---
 
