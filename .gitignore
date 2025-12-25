@@ -191,3 +191,4 @@ final-verify/
 !research/**/*.sh
 !packages/**/*.sh
 .DS_Store
+polypharmacy-results/

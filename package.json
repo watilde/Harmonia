@@ -36,7 +36,20 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "validate": "npm run lint && npm run format:check && npm run typecheck && npm test"
+    "validate": "npm run lint && npm run format:check && npm run typecheck && npm test",
+    "polypharmacy:unit": "cd research/modules/5-billion-scale-polypharmacy && npx tsx src/test-omop-integration.ts",
+    "polypharmacy:quick": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 1000 --tier 3 --output ./polypharmacy-results/quick",
+    "polypharmacy:1m": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --output ./polypharmacy-results/1m --verbose",
+    "polypharmacy:10m": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 100 --patients 100000 --tier 3 --output ./polypharmacy-results/10m --verbose",
+    "polypharmacy:100m": "cd research/modules/5-billion-scale-polypharmacy && node src/run100MOptimized.js",
+    "polypharmacy:1b": "cd research/modules/5-billion-scale-polypharmacy && node src/run1BOptimized.js",
+    "polypharmacy:tier1": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 1 --output ./polypharmacy-results/tier1",
+    "polypharmacy:tier2": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 2 --output ./polypharmacy-results/tier2",
+    "polypharmacy:tier3": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --output ./polypharmacy-results/tier3",
+    "polypharmacy:profile:us": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile US --output ./polypharmacy-results/profile-us",
+    "polypharmacy:profile:japan": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile Japan --output ./polypharmacy-results/profile-japan",
+    "polypharmacy:profile:nordic": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile Nordic --output ./polypharmacy-results/profile-nordic",
+    "polypharmacy:profile:india": "node packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile India --output ./polypharmacy-results/profile-india"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",

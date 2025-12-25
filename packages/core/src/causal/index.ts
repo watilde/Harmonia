@@ -40,6 +40,7 @@ export * from './partial-id';
 export * from './federated-agg';
 export * from './omop-synthetic';
 export * from './omop-extractor';
+export * from './omop-polypharmacy';
 export * from './evalue';
 export * from './assumption-diagnostics';
 export * from './parallel-diagnostics';

@@ -7,6 +7,7 @@ import { generateDataCommand } from './generate-data';
 import { computeBoundsCommand } from './compute-bounds';
 import { federateBoundsCommand } from './federate-bounds';
 import { generateOMOPDataCommand } from './generate-omop-data';
+import { runPolypharmacyCommand } from './run-polypharmacy';
 import { computeEvalueCommand } from './compute-evalue';
 import { computeFRICommand } from './compute-fri';
 import { diagnoseAssumptionsCommand } from './diagnose-assumptions';
@@ -20,6 +21,7 @@ export const causalCommand = new Command('causal')
   .addCommand(computeBoundsCommand)
   .addCommand(federateBoundsCommand)
   .addCommand(generateOMOPDataCommand)
+  .addCommand(runPolypharmacyCommand)
   .addCommand(computeEvalueCommand)
   .addCommand(computeFRICommand)
   .addCommand(diagnoseAssumptionsCommand)
@@ -32,6 +34,7 @@ export {
   computeBoundsCommand,
   federateBoundsCommand,
   generateOMOPDataCommand,
+  runPolypharmacyCommand,
   computeEvalueCommand,
   computeFRICommand,
   diagnoseAssumptionsCommand,
