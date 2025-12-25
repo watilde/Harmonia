@@ -16,11 +16,13 @@ I built an open-source tool for federated E-value aggregation and tested three s
 ## 1. What I Built
 
 A TypeScript tool that:
+
 - Computes E-values (sensitivity to unmeasured confounding) at each site
 - Aggregates using three weighting strategies
 - Transmits only 174 bytes total (58 bytes per site)
 
 **Three strategies tested:**
+
 1. **Sample-size (FRI)**: $\text{FRI} = \sum_k (n_k / N) \cdot E_k$
 2. **Equal-weight**: $(1/K) \sum_k E_k$
 3. **Conservative**: $\min_k \{E_k\}$
@@ -33,20 +35,22 @@ A TypeScript tool that:
 
 **Table 1: Measured Performance Across Three Scales**
 
-| Scale | Patients | Sites | FRI (Sample) | Equal-Weight | Conservative | CV |
-|-------|----------|-------|--------------|--------------|--------------|-----|
-| 1k    | 1,130    | 3     | **2.015**    | 1.961        | 1.766        | 9.7% |
-| 100k  | 235,222  | 3     | **2.147**    | 2.147        | 2.143        | 0.30% |
-| 2.8m  | 2,709,803| 3     | **2.149**    | 2.149        | 2.146        | 0.16% |
+| Scale | Patients  | Sites | FRI (Sample) | Equal-Weight | Conservative | CV    |
+| ----- | --------- | ----- | ------------ | ------------ | ------------ | ----- |
+| 1k    | 1,130     | 3     | **2.015**    | 1.961        | 1.766        | 9.7%  |
+| 100k  | 235,222   | 3     | **2.147**    | 2.147        | 2.143        | 0.30% |
+| 2.8m  | 2,709,803 | 3     | **2.149**    | 2.149        | 2.146        | 0.16% |
 
 **Key finding**: At 1k scale (heterogeneous, CV=9.7%), FRI=2.015 vs min=1.766 (14.1% gap). At 2.8m scale (homogeneous, CV=0.16%), FRI=2.149 vs min=2.146 (0.14% gap). Strategy choice matters only under heterogeneity.
 
 **Computational performance (2.8m patients):**
+
 - Processing time: 10 seconds
 - Memory: 2-3 GB per site
 - Communication: 174 bytes (constant)
 
 **Communication reduction:**
+
 - 1k scale: 201 KB → 174 bytes (1,156×)
 - 100k scale: 41.9 MB → 174 bytes (240,805×)
 - 2.8m scale: 482 MB → 174 bytes (2,800,000×)
@@ -58,6 +62,7 @@ A TypeScript tool that:
 **Interpretation**: An E-value of 2.15 means an unmeasured confounder must have risk ratio ≥2.15 (in both treatment and outcome associations) to nullify the observed effect.
 
 **Example (diabetes treatment)**:
+
 - FRI = 2.15
 - Known confounders: disease severity (RR~1.8), adherence (RR~1.5)
 - Since 2.15 > 1.8 and 2.15 > 1.5, effect is robust to individual confounders
@@ -84,7 +89,7 @@ A TypeScript tool that:
 
 **Unvalidated thresholds**: Proposed thresholds (FRI > 2.0 for clinical guidelines, > 3.0 for FDA approval) lack empirical validation via RCT comparison.
 
-**Validation paradox**: Synthea has complete confounder knowledge, but E-values quantify robustness to *unmeasured* confounding. Ground truth validation requires comparing observational FRI to RCT outcomes.
+**Validation paradox**: Synthea has complete confounder knowledge, but E-values quantify robustness to _unmeasured_ confounding. Ground truth validation requires comparing observational FRI to RCT outcomes.
 
 **Purpose**: This is a technical demonstration, not clinical validation. Real-world applicability requires institutional collaboration.
 
@@ -134,12 +139,12 @@ Results saved to `research/modules/2-federated-evalues/experiments/results/`
 ✅ **Computational feasibility**: 2.8m patients in 10 seconds  
 ✅ **Communication efficiency**: 174 bytes (constant)  
 ✅ **Strategy comparison**: Three methods tested empirically  
-✅ **Convergence behavior**: 14.1% → 0.14% gap as heterogeneity drops  
+✅ **Convergence behavior**: 14.1% → 0.14% gap as heterogeneity drops
 
 ❌ **Real-world performance**: Unknown (synthetic data only)  
 ❌ **Clinical validity**: No institutional validation  
 ❌ **Large networks**: 3 sites only  
-❌ **Threshold validation**: No RCT comparison  
+❌ **Threshold validation**: No RCT comparison
 
 ---
 
@@ -157,5 +162,3 @@ I am an independent OSS engineer without access to real clinical data. This tool
 2. DerSimonian, R., & Laird, N. (1986). Meta-analysis in clinical trials. _Controlled Clinical Trials_, 7(3), 177-188.
 3. Li, S., et al. (2022). Federated causal inference in heterogeneous observational data. _arXiv:2202.12367_.
 4. Mathur, M. B., et al. (2020). Website and R package for computing E-values. _Epidemiology_, 31(2), e26-e28.
-
-

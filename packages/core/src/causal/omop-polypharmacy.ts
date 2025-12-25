@@ -1,6 +1,6 @@
 /**
  * OMOP Polypharmacy Generator for Core
- * 
+ *
  * Extends OMOP synthetic data generation for polypharmacy scenarios
  * with 3 interaction tiers matching the manuscript.
  */
@@ -21,7 +21,7 @@ export const POLYPHARMACY_CONCEPTS = {
   // SGLT2 inhibitors (treatment)
   SGLT2I: 1594973, // Canagliflozin
   SGLT2I_ALT: 1597756, // Dapagliflozin
-  
+
   // Common polypharmacy drugs
   ACE_INHIBITOR: 1308216, // Lisinopril
   ARB: 1367500, // Losartan
@@ -30,17 +30,17 @@ export const POLYPHARMACY_CONCEPTS = {
   STATIN: 1539403, // Atorvastatin
   ANTIPLATELET: 1112807, // Aspirin
   DIURETIC: 974166, // Furosemide
-  
+
   // Conditions
   CKD_STAGE_3: 46271022,
   HYPERTENSION: 320128,
   HEART_FAILURE: 316139,
-  
+
   // Outcomes
   EGFR: 3049187, // Estimated GFR
   CREATININE: 3016723,
   POTASSIUM: 3023103,
-  
+
   ...OMOP_CONCEPTS,
 };
 
@@ -147,16 +147,16 @@ const SITE_PROFILES: Record<string, SiteProfile> = {
  */
 class SeededRandom {
   private seed: number;
-  
+
   constructor(seed: number) {
     this.seed = seed;
   }
-  
+
   next(): number {
     this.seed = (this.seed * 9301 + 49297) % 233280;
     return this.seed / 233280;
   }
-  
+
   normal(mean = 0, stdDev = 1): number {
     const u1 = this.next();
     const u2 = this.next();
@@ -173,34 +173,33 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
   const rng = new SeededRandom(config.seed ?? 42);
   const indexDate = config.indexDate ?? '2024-01-01';
   const siteParams = SITE_PROFILES[config.siteProfile ?? 'US'];
-  
+
   const persons: OMOPPerson[] = [];
   const conditions: OMOPConditionOccurrence[] = [];
   const drugs: OMOPDrugExposure[] = [];
   const measurements: OMOPMeasurement[] = [];
-  
+
   let conditionId = 1;
   let drugId = 1;
   let measurementId = 1;
-  
+
   for (let i = 0; i < config.numPatients; i++) {
     const personId = i + 1;
-    
+
     // Demographics
     const age = Math.floor(rng.normal(siteParams.ageMean, siteParams.ageSd));
     persons.push({
       person_id: personId,
-      gender_concept_id: rng.next() > 0.5 
-        ? POLYPHARMACY_CONCEPTS.MALE 
-        : POLYPHARMACY_CONCEPTS.FEMALE,
+      gender_concept_id:
+        rng.next() > 0.5 ? POLYPHARMACY_CONCEPTS.MALE : POLYPHARMACY_CONCEPTS.FEMALE,
       year_of_birth: 2024 - Math.max(40, Math.min(90, age)),
       race_concept_id: POLYPHARMACY_CONCEPTS.WHITE,
       ethnicity_concept_id: POLYPHARMACY_CONCEPTS.NOT_HISPANIC,
     });
-    
+
     // Determine if patient is in target interaction tier
     const inTargetTier = rng.next() < tier.prevalence;
-    
+
     // Baseline conditions
     const hasCKD = age > 65 && rng.next() < 0.6;
     if (hasCKD) {
@@ -212,7 +211,7 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
         condition_type_concept_id: POLYPHARMACY_CONCEPTS.EHR,
       });
     }
-    
+
     if (rng.next() < 0.7) {
       conditions.push({
         condition_occurrence_id: conditionId++,
@@ -222,7 +221,7 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
         condition_type_concept_id: POLYPHARMACY_CONCEPTS.EHR,
       });
     }
-    
+
     // Drug exposures
     if (inTargetTier) {
       for (const drugConceptId of tier.drugCombination) {
@@ -244,12 +243,12 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
           drug_exposure_start_date: indexDate,
           drug_type_concept_id: POLYPHARMACY_CONCEPTS.EHR,
         });
-        
+
         const numOtherDrugs = Math.floor(rng.next() * 3);
         const availableDrugs = tier.drugCombination.filter(
-          d => d !== POLYPHARMACY_CONCEPTS.SGLT2I
+          (d) => d !== POLYPHARMACY_CONCEPTS.SGLT2I
         );
-        
+
         for (let j = 0; j < Math.min(numOtherDrugs, availableDrugs.length - 1); j++) {
           drugs.push({
             drug_exposure_id: drugId++,
@@ -261,7 +260,7 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
         }
       }
     }
-    
+
     // Baseline eGFR
     const baselineEGFR = rng.normal(45, 10);
     measurements.push({
@@ -272,11 +271,11 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
       value_as_number: Math.max(15, Math.min(60, baselineEGFR)),
       unit_concept_id: 8795,
     });
-    
+
     // Follow-up eGFR with causal effect
     const causalEffect = inTargetTier ? tier.trueEffect : 0;
     const followupEGFR = baselineEGFR + causalEffect + rng.normal(0, 3);
-    
+
     measurements.push({
       measurement_id: measurementId++,
       person_id: personId,
@@ -286,7 +285,7 @@ export function generatePolypharmacyOMOP(config: PolypharmacyOMOPConfig): OMOPDa
       unit_concept_id: 8795,
     });
   }
-  
+
   return {
     persons,
     conditions,

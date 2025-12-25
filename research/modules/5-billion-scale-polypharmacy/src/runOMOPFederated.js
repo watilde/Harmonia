@@ -1,12 +1,12 @@
 /**
  * Run federated causal inference on OMOP CDM data
- * 
+ *
  * Demonstrates billion-scale federated analysis using OMOP-formatted data
  * for real-world compatibility.
- * 
+ *
  * Usage:
  *   node runOMOPFederated.js [options]
- * 
+ *
  * Options:
  *   --sites <n>        Number of sites (default: 1000)
  *   --patients <n>     Patients per site (default: 1000000)
@@ -95,7 +95,7 @@ Examples:
  */
 async function main() {
   const options = parseArgs();
-  
+
   console.log('='.repeat(60));
   console.log('OMOP Federated Causal Inference - Polypharmacy Research');
   console.log('='.repeat(60));
@@ -144,10 +144,7 @@ async function main() {
     generatedAt: new Date().toISOString(),
   };
 
-  fs.writeFileSync(
-    path.join(options.output, 'metadata.json'),
-    JSON.stringify(metadata, null, 2)
-  );
+  fs.writeFileSync(path.join(options.output, 'metadata.json'), JSON.stringify(metadata, null, 2));
   console.log(`✓ Saved metadata to ${path.join(options.output, 'metadata.json')}\n`);
 
   // Step 2: Extract causal cohorts (if requested)
@@ -187,7 +184,9 @@ async function main() {
     console.log(`\nCohort Summary:`);
     console.log(`  Total cohort size:     ${totalCohortSize.toLocaleString()}`);
     console.log(`  Interaction 3 patients: ${totalInteraction3.toLocaleString()}`);
-    console.log(`  Interaction 3 prevalence: ${((totalInteraction3 / totalCohortSize) * 100).toFixed(3)}%`);
+    console.log(
+      `  Interaction 3 prevalence: ${((totalInteraction3 / totalCohortSize) * 100).toFixed(3)}%`
+    );
 
     // Save cohort summary
     const cohortSummary = {
@@ -202,7 +201,9 @@ async function main() {
       path.join(options.output, 'cohort-summary.json'),
       JSON.stringify(cohortSummary, null, 2)
     );
-    console.log(`\n✓ Saved cohort summary to ${path.join(options.output, 'cohort-summary.json')}\n`);
+    console.log(
+      `\n✓ Saved cohort summary to ${path.join(options.output, 'cohort-summary.json')}\n`
+    );
   }
 
   // Step 3: Run federated analysis (if requested)
@@ -210,7 +211,7 @@ async function main() {
     console.log('Step 3: Running federated causal analysis...');
     console.log('  (This step requires federated propensity score estimation)');
     console.log('  Implementation: Use siteWorker.js with OMOP-extracted cohort data\n');
-    
+
     // TODO: Implement federated analysis using OMOP cohort data
     // This would integrate with existing siteWorker.js and testOptimized.js
     console.log('  Note: Full federated analysis integration coming in next update.');
@@ -237,7 +238,7 @@ async function main() {
 }
 
 // Run
-main().catch(err => {
+main().catch((err) => {
   console.error('Error:', err.message);
   console.error(err.stack);
   process.exit(1);

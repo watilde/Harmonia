@@ -16,11 +16,13 @@ I built an open-source tool for federated partial identification and tested six 
 ## 1. What I Built
 
 A TypeScript tool that:
+
 - Computes Manski bounds (partial identification) at each site
 - Aggregates bounds using six weighting strategies
 - Transmits only 150 bytes total (4 numbers per site)
 
 **Six strategies tested:**
+
 1. Inverse-width: $w_k = (1/W_k) / \sum_j (1/W_j)$
 2. Sample-size: $w_k = n_k / N$
 3. Square-root: $w_k = \sqrt{n_k} / \sum_j \sqrt{n_j}$
@@ -34,20 +36,22 @@ A TypeScript tool that:
 
 **Table 1: Measured Performance Across Three Scales**
 
-| Scale | Patients | Sites | Inverse-Width | Sample-Size | Conservative | CV (Heterogeneity) |
-|-------|----------|-------|---------------|-------------|--------------|-------------------|
-| 1k    | 1,130    | 3     | **0.3903**    | 0.3912      | 0.4616       | 6.3%              |
-| 100k  | 235,222  | 3     | **0.3997**    | 0.3997      | 0.4014       | 0.39%             |
-| 2.8m  | 2,709,803| 3     | **0.4000**    | 0.4000      | 0.4009       | 0.14%             |
+| Scale | Patients  | Sites | Inverse-Width | Sample-Size | Conservative | CV (Heterogeneity) |
+| ----- | --------- | ----- | ------------- | ----------- | ------------ | ------------------ |
+| 1k    | 1,130     | 3     | **0.3903**    | 0.3912      | 0.4616       | 6.3%               |
+| 100k  | 235,222   | 3     | **0.3997**    | 0.3997      | 0.4014       | 0.39%              |
+| 2.8m  | 2,709,803 | 3     | **0.4000**    | 0.4000      | 0.4009       | 0.14%              |
 
 **Key finding**: Inverse-width provided 15.5% improvement over conservative at 1k scale (heterogeneous), converging to <0.3% difference at 2.8m scale (homogeneous).
 
 **Computational performance (2.8m patients):**
+
 - Processing time: 12 seconds (225k patients/second)
 - Memory: 2-3 GB per site
 - Communication: 150 bytes (constant across all scales)
 
 **Communication reduction:**
+
 - 1k scale: 201 KB → 150 bytes (1,341×)
 - 100k scale: 41.9 MB → 150 bytes (279,130×)
 - 2.8m scale: 482 MB → 150 bytes (3,200,000×)
@@ -110,11 +114,11 @@ Results saved to `research/modules/1-federated-partial-identification/experiment
 ✅ **Computational feasibility**: 2.8m patients in 12 seconds  
 ✅ **Communication efficiency**: 150 bytes (constant)  
 ✅ **Strategy comparison**: Six methods tested empirically  
-✅ **Heterogeneity effect**: 15.5% improvement under CV=6.3%  
+✅ **Heterogeneity effect**: 15.5% improvement under CV=6.3%
 
 ❌ **Real-world performance**: Unknown (synthetic data only)  
 ❌ **Clinical validity**: No institutional validation  
-❌ **Large networks**: 3 sites only  
+❌ **Large networks**: 3 sites only
 
 ---
 
@@ -143,5 +147,3 @@ I am an independent OSS engineer without access to real clinical data. This tool
 3. Li, S., et al. (2022). Federated causal inference in heterogeneous observational data. _arXiv:2202.12367_.
 4. Zhang, Y., et al. (2023). Privacy-preserving federated causal inference. _AAAI_, 37(12), 14589-14597.
 5. McMahan, B., et al. (2017). Communication-efficient learning from decentralized data. _AISTATS_.
-
-

@@ -1,9 +1,9 @@
 /**
  * OMOP CDM Data Generator for Polypharmacy Research
- * 
+ *
  * Integrates with @harmonia/core OMOP functionality to generate
  * OMOP-formatted data for the polypharmacy research module.
- * 
+ *
  * This enables:
  * 1. Direct compatibility with real OMOP databases
  * 2. Standard OHDSI vocabulary usage
@@ -36,7 +36,7 @@ try {
 
 /**
  * OMOP Concept IDs for Polypharmacy Research
- * 
+ *
  * Using standard OMOP vocabulary:
  * - Conditions: SNOMED-CT
  * - Drugs: RxNorm
@@ -49,7 +49,7 @@ const OMOP_CONCEPTS = {
   CKD_STAGE_4: 46271023,
   CKD_STAGE_5: 46271024,
   HYPERTENSION: 320128,
-  
+
   // Drugs (RxNorm)
   SGLT2I_EMPAGLIFLOZIN: 1545653,
   SGLT2I_DAPAGLIFLOZIN: 1488564,
@@ -59,7 +59,7 @@ const OMOP_CONCEPTS = {
   LOOP_DIURETIC_FUROSEMIDE: 4603,
   THIAZIDE_DIURETIC: 317541,
   ASPIRIN: 1191,
-  
+
   // Measurements (LOINC)
   HBA1C: 4184637,
   EGFR: 3049187,
@@ -69,7 +69,7 @@ const OMOP_CONCEPTS = {
 
 /**
  * Generate OMOP CDM data for polypharmacy cohort
- * 
+ *
  * @param {Object} config - Configuration
  * @param {number} config.nPatients - Number of patients
  * @param {number} config.siteId - Site identifier
@@ -84,7 +84,7 @@ function generatePolypharmacyOMOPData(config) {
     siteId = 1,
     profile = 'US',
     seed = 42,
-    indexDate = '2024-01-01'
+    indexDate = '2024-01-01',
   } = config;
 
   if (!generateOMOPSyntheticData) {
@@ -100,20 +100,20 @@ function generatePolypharmacyOMOPData(config) {
     treatmentRate: 0.35, // SGLT2i treatment rate
     seed: seed + siteId,
     indexDate,
-    
+
     // Extended configuration for polypharmacy
     polypharmacy: {
       enabled: true,
       metforminRate: 0.85,
-      aceInhibitorRate: 0.70,
+      aceInhibitorRate: 0.7,
       statinRate: 0.75,
       diureticRate: 0.35,
       loopDiureticRate: 0.15,
       aspirinRate: 0.65,
     },
-    
+
     // CKD prevalence by profile
-    ckdPrevalence: profile === 'Japan' ? 0.45 : profile === 'Nordic' ? 0.35 : 0.40,
+    ckdPrevalence: profile === 'Japan' ? 0.45 : profile === 'Nordic' ? 0.35 : 0.4,
   };
 
   console.log(`Generating OMOP data for site ${siteId} (${profile} profile)...`);
@@ -133,12 +133,12 @@ function generatePolypharmacyOMOPData(config) {
 
 /**
  * Extract causal inference cohort from OMOP data
- * 
+ *
  * Defines cohorts for polypharmacy research:
  * - Treatment: SGLT2 inhibitor exposure
  * - Outcome: eGFR decline at 6 months
  * - Rare subgroups: CKD Stage 3b + Loop Diuretic + Age>80
- * 
+ *
  * @param {Object} omopDataset - OMOP dataset from generatePolypharmacyOMOPData
  * @param {Object} config - Extraction configuration
  * @returns {Object} Causal inference cohort
@@ -159,18 +159,13 @@ function extractPolypharmacyCohort(omopDataset, config = {}) {
     scenario: 'diabetes',
     indexDate,
     followUpDays,
-    
+
     // Treatment definition: SGLT2 inhibitor
-    treatmentConcepts: [
-      OMOP_CONCEPTS.SGLT2I_EMPAGLIFLOZIN,
-      OMOP_CONCEPTS.SGLT2I_DAPAGLIFLOZIN,
-    ],
-    
+    treatmentConcepts: [OMOP_CONCEPTS.SGLT2I_EMPAGLIFLOZIN, OMOP_CONCEPTS.SGLT2I_DAPAGLIFLOZIN],
+
     // Outcome: eGFR measurement
-    outcomeConcepts: [
-      OMOP_CONCEPTS.EGFR,
-    ],
-    
+    outcomeConcepts: [OMOP_CONCEPTS.EGFR],
+
     // Covariates
     covariateConcepts: {
       conditions: [
@@ -183,11 +178,7 @@ function extractPolypharmacyCohort(omopDataset, config = {}) {
         OMOP_CONCEPTS.ACE_INHIBITOR,
         OMOP_CONCEPTS.LOOP_DIURETIC_FUROSEMIDE,
       ],
-      measurements: [
-        OMOP_CONCEPTS.HBA1C,
-        OMOP_CONCEPTS.EGFR,
-        OMOP_CONCEPTS.BMI,
-      ],
+      measurements: [OMOP_CONCEPTS.HBA1C, OMOP_CONCEPTS.EGFR, OMOP_CONCEPTS.BMI],
     },
   };
 
@@ -202,7 +193,7 @@ function extractPolypharmacyCohort(omopDataset, config = {}) {
 
 /**
  * Identify rare subgroups in cohort data
- * 
+ *
  * @param {Array} cohortData - Causal inference data
  * @returns {Object} Rare subgroup statistics
  */
@@ -213,7 +204,7 @@ function identifyRareSubgroups(cohortData) {
     interaction3: [], // CKD 3b + Loop Diuretic + Age > 80
   };
 
-  cohortData.forEach(patient => {
+  cohortData.forEach((patient) => {
     // Interaction 1: High HbA1c + Diuretic
     if (patient.hba1c > 8.0 && patient.diuretic === 1) {
       subgroups.interaction1.push(patient.patientId);
@@ -226,9 +217,9 @@ function identifyRareSubgroups(cohortData) {
 
     // Interaction 3: CKD 3b + Loop Diuretic + Very Elderly
     if (
-      patient.egfr >= 30 && 
-      patient.egfr <= 45 && 
-      patient.loopDiuretic === 1 && 
+      patient.egfr >= 30 &&
+      patient.egfr <= 45 &&
+      patient.loopDiuretic === 1 &&
       patient.age > 80
     ) {
       subgroups.interaction3.push(patient.patientId);
@@ -256,7 +247,7 @@ function identifyRareSubgroups(cohortData) {
 
 /**
  * Generate federated OMOP dataset across multiple sites
- * 
+ *
  * @param {Object} config - Configuration
  * @param {number} config.nSites - Number of sites
  * @param {number} config.patientsPerSite - Patients per site
@@ -274,11 +265,11 @@ function generateFederatedOMOPData(config) {
   } = config;
 
   console.log(`Generating federated OMOP data across ${nSites} sites...`);
-  
+
   const sites = [];
   for (let siteId = 1; siteId <= nSites; siteId++) {
     const profile = profiles[(siteId - 1) % profiles.length];
-    
+
     const siteDataset = generatePolypharmacyOMOPData({
       nPatients: patientsPerSite,
       siteId,
@@ -288,14 +279,14 @@ function generateFederatedOMOPData(config) {
     });
 
     sites.push(siteDataset);
-    
+
     if (siteId % 10 === 0) {
       console.log(`  Generated ${siteId}/${nSites} sites`);
     }
   }
 
   console.log(`✓ Generated ${nSites} OMOP sites with ${nSites * patientsPerSite} total patients`);
-  
+
   return sites;
 }
 

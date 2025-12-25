@@ -18,16 +18,19 @@ I built an integrated toolkit combining three federated causal inference compone
 An integrated toolkit combining three independently tested modules:
 
 **Module 1: Optimal Aggregation**
+
 - Combines site-level Manski bounds
 - Inverse-width weighting (15.5% improvement at 1k scale)
 - See companion paper: `research/modules/1-federated-partial-identification/`
 
 **Module 2: E-values (Robustness)**
+
 - Quantifies sensitivity to unmeasured confounding
 - Federated Robustness Index (FRI) = sample-size weighted E-values
 - See companion paper: `research/modules/2-federated-evalues/`
 
 **Module 3: Diagnostics**
+
 - Scores assumption quality (0-1 scale)
 - Three dimensions: unconfoundedness, positivity, specification
 - See companion paper: `research/modules/3-design-failure-aware-causal/`
@@ -40,20 +43,22 @@ An integrated toolkit combining three independently tested modules:
 
 **Table 1: Integrated Performance Across Scales**
 
-| Scale | Patients | Module 1 Improvement | Module 2 FRI | Module 3 Score | Processing | Communication |
-|-------|----------|---------------------|--------------|----------------|------------|---------------|
-| 1k    | 1,130    | 15.5% vs conservative | 2.015      | 0.95           | <1s        | 264 bytes     |
-| 100k  | 235,222  | 0.22% vs conservative | 2.147      | 0.97           | 4s         | 264 bytes     |
-| 2.8m  | 2,709,803| 0.22% vs conservative | 2.149      | 0.98           | 50s        | 264 bytes     |
+| Scale | Patients  | Module 1 Improvement  | Module 2 FRI | Module 3 Score | Processing | Communication |
+| ----- | --------- | --------------------- | ------------ | -------------- | ---------- | ------------- |
+| 1k    | 1,130     | 15.5% vs conservative | 2.015        | 0.95           | <1s        | 264 bytes     |
+| 100k  | 235,222   | 0.22% vs conservative | 2.147        | 0.97           | 4s         | 264 bytes     |
+| 2.8m  | 2,709,803 | 0.22% vs conservative | 2.149        | 0.98           | 50s        | 264 bytes     |
 
 **Key finding**: All modules are computationally feasible. Integration overhead is minimal (~10% added to standalone modules).
 
 **Computational performance:**
+
 - Throughput: 54,000 patients/second (2.8m scale)
 - Scaling: Linear O(n) complexity
 - Memory: 2-3 GB per site
 
 **Communication:**
+
 - Module 1: 150 bytes (bounds + aggregation)
 - Module 2: 58 bytes (E-values)
 - Module 3: 50 bytes (diagnostic scores)
@@ -82,16 +87,19 @@ An integrated toolkit combining three independently tested modules:
 ## 4. Component Results
 
 **Module 1 (Aggregation):**
+
 - Inverse-width: 15.5% narrower at 1k (CV=6.3%)
 - Convergence: <1% difference at 2.8m (CV=0.14%)
 - Communication: 150 bytes
 
 **Module 2 (E-values):**
+
 - FRI: 2.015 (1k) → 2.149 (2.8m)
 - Interpretation: Unmeasured confounder needs RR≥2.15 to nullify effect
 - Communication: 58 bytes
 
 **Module 3 (Diagnostics):**
+
 - Scores: 0.86-1.00 (1k), 0.97-0.98 (2.8m)
 - All exceed exploratory 0.8 threshold
 - Communication: 50 bytes
@@ -101,6 +109,7 @@ An integrated toolkit combining three independently tested modules:
 ## 5. Limitations
 
 **No integration theory**: Component interaction rules are heuristic. We don't have:
+
 - Formal proof that integration preserves validity
 - Characterization of when to use which rule
 - Optimal weight adjustment formulas
@@ -113,6 +122,7 @@ An integrated toolkit combining three independently tested modules:
 ❌ Real-world performance under violations
 
 **Synthetic data limits**: Synthea has:
+
 - Known causal structure (can't test detection of real violations)
 - Single data generation process (limited heterogeneity)
 - Simplified confounding (easier than real EHR data)
@@ -128,12 +138,12 @@ An integrated toolkit combining three independently tested modules:
 ✅ **Modules integrate**: All three can run in one pipeline  
 ✅ **Computational feasibility**: 54k patients/sec throughput  
 ✅ **Communication efficiency**: 264 bytes (constant)  
-✅ **Individual validation**: Each module tested separately  
+✅ **Individual validation**: Each module tested separately
 
 ❌ **Integration theory**: No formal characterization of interaction  
 ❌ **Comparative evaluation**: Not tested vs simpler approaches  
 ❌ **Real violations**: Synthetic data can't validate detection  
-❌ **Optimal rules**: Weight adjustment formulas are heuristic  
+❌ **Optimal rules**: Weight adjustment formulas are heuristic
 
 ---
 
@@ -182,6 +192,7 @@ Results saved to `research/modules/4-identification-sensitivity-adaptation/exper
 **Multi-method integration**: Most work focuses on single methods. We demonstrate feasibility of integrating aggregation, robustness quantification, and diagnostics, though optimal integration remains open.
 
 **Component papers**:
+
 - Module 1: Inverse-width aggregation (Manski bounds)
 - Module 2: Federated E-values (VanderWeele & Ding 2017 extended)
 - Module 3: Diagnostic scoring (Stuart 2010, Petersen 2012 extended)
@@ -195,5 +206,3 @@ Results saved to `research/modules/4-identification-sensitivity-adaptation/exper
 3. Li, S., et al. (2022). Federated causal inference in heterogeneous observational data. _arXiv:2202.12367_.
 4. Zhang, Y., et al. (2023). Privacy-preserving federated causal inference. _AAAI_, 37(12), 14589-14597.
 5. Manski, C. F. (2003). _Partial identification of probability distributions_. Springer.
-
-

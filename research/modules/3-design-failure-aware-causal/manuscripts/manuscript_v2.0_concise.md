@@ -18,15 +18,18 @@ I built an open-source tool for diagnosing causal inference assumptions in feder
 A TypeScript tool that diagnoses three causal inference assumptions:
 
 **1. Unconfoundedness** (no unmeasured confounding):
+
 - Standardized Mean Difference (SMD)
 - Propensity score overlap
 - Residual correlation
 
 **2. Positivity** (common support):
+
 - Tail mass (extreme propensity scores)
 - Effective sample size
 
 **3. Specification** (model fit):
+
 - R² (outcome model)
 - AUC (treatment model)
 - Calibration
@@ -41,20 +44,22 @@ A TypeScript tool that diagnoses three causal inference assumptions:
 
 **Table 1: Diagnostic Scores Across Three Scales**
 
-| Scale | Patients | Site 1 | Site 2 | Site 3 | Federated | CV | Processing |
-|-------|----------|--------|--------|--------|-----------|-----|------------|
-| 1k    | 1,130    | 0.95   | 0.86   | 1.00   | 0.95      | 7.2% | <1s       |
-| 100k  | 235,222  | 0.97   | 0.96   | 0.97   | 0.97      | 0.5% | 3s        |
-| 2.8m  | 2,709,803| 0.98   | 0.97   | 0.98   | 0.98      | 0.5% | 13s       |
+| Scale | Patients  | Site 1 | Site 2 | Site 3 | Federated | CV   | Processing |
+| ----- | --------- | ------ | ------ | ------ | --------- | ---- | ---------- |
+| 1k    | 1,130     | 0.95   | 0.86   | 1.00   | 0.95      | 7.2% | <1s        |
+| 100k  | 235,222   | 0.97   | 0.96   | 0.97   | 0.97      | 0.5% | 3s         |
+| 2.8m  | 2,709,803 | 0.98   | 0.97   | 0.98   | 0.98      | 0.5% | 13s        |
 
 **Key finding**: All scores >0.8 (exploratory "safe" threshold), but threshold lacks calibration. Site heterogeneity (CV=7.2% at 1k) diminishes at scale (CV=0.5% at 2.8m).
 
 **Computational performance:**
+
 - Overhead: ~30% added to baseline causal inference
 - Scaling: Linear O(n) complexity
 - Memory: 2-3 GB per site
 
 **Communication:**
+
 - Per site: 50 bytes (3 scores × 8 bytes + metadata)
 - Total: 150 bytes for 3 sites (constant across scales)
 - Reduction: 1k (1,340×), 100k (279,000×), 2.8m (3,200,000×)
@@ -65,13 +70,14 @@ A TypeScript tool that diagnoses three causal inference assumptions:
 
 **Proposed decision rules** (require calibration):
 
-| Overall Score | Suggested Method | Interpretation |
-|--------------|------------------|----------------|
-| ≥ 0.8        | Point estimation | Assumptions likely satisfied |
-| 0.5 - 0.8    | Partial ID bounds | Moderate concern |
-| < 0.5        | Sensitivity analysis | Severe violations |
+| Overall Score | Suggested Method     | Interpretation               |
+| ------------- | -------------------- | ---------------------------- |
+| ≥ 0.8         | Point estimation     | Assumptions likely satisfied |
+| 0.5 - 0.8     | Partial ID bounds    | Moderate concern             |
+| < 0.5         | Sensitivity analysis | Severe violations            |
 
 **Critical caveat**: These thresholds are **exploratory proposals**, not validated cutoffs. They require calibration via:
+
 1. Controlled studies with known violations
 2. Comparison to RCT ground truth
 3. Empirical assessment of Type I/II error rates
@@ -83,6 +89,7 @@ A TypeScript tool that diagnoses three causal inference assumptions:
 ## 4. How Scores Are Computed
 
 **Unconfoundedness score** (0-1):
+
 ```
 smd = max standardized mean difference across covariates
 overlap = overlap coefficient of propensity distributions
@@ -92,6 +99,7 @@ score = (1 - |smd|) × overlap × (1 - |residual_cor|)
 ```
 
 **Positivity score** (0-1):
+
 ```
 tail_mass = fraction with propensity <0.1 or >0.9
 ess = effective sample size / n
@@ -100,6 +108,7 @@ score = (1 - tail_mass) × sqrt(ess)
 ```
 
 **Specification score** (0-1):
+
 ```
 r_squared = outcome model R²
 auc = treatment model AUC
@@ -116,9 +125,10 @@ score = (r_squared + auc + calibration_indicator) / 3
 
 **Threshold calibration**: The 0.8 and 0.5 cutoffs are **not derived from empirical studies**. They are exploratory proposals requiring validation via controlled experiments with known assumption violations.
 
-**Synthetic data paradox**: Synthea data has known causal structure, making it impossible to test diagnostic accuracy for real violations. We can verify *computational feasibility*, not *diagnostic validity*.
+**Synthetic data paradox**: Synthea data has known causal structure, making it impossible to test diagnostic accuracy for real violations. We can verify _computational feasibility_, not _diagnostic validity_.
 
 **Diagnostic accuracy unknown**: We don't know:
+
 - Sensitivity: Can diagnostics detect violations?
 - Specificity: Do they produce false alarms?
 - Calibration: Do scores correlate with bias magnitude?
@@ -171,12 +181,12 @@ Results saved to `research/modules/3-design-failure-aware-causal/experiments/res
 ✅ **Computational feasibility**: Diagnostics computed in seconds  
 ✅ **Communication efficiency**: 150 bytes (constant)  
 ✅ **Heterogeneity detection**: CV=7.2% at 1k, 0.5% at 2.8m  
-✅ **Integration**: Works with existing causal inference pipeline  
+✅ **Integration**: Works with existing causal inference pipeline
 
 ❌ **Threshold validation**: 0.8/0.5 cutoffs lack calibration  
 ❌ **Diagnostic accuracy**: Unknown sensitivity/specificity  
 ❌ **Real violations**: Synthetic data can't test detection  
-❌ **Clinical deployment**: Not ready without validation  
+❌ **Clinical deployment**: Not ready without validation
 
 ---
 
@@ -201,5 +211,3 @@ If you have OMOP-formatted data, IRB approval, and expertise in causal inference
 3. Stuart, E. A. (2010). Matching methods for causal inference. _Statistical Science_, 25(1), 1-21.
 4. Petersen, M. L., et al. (2012). Diagnosing and responding to violations. _American Journal of Epidemiology_, 175(11), 1061-1071.
 5. Austin, P. C. (2011). An introduction to propensity score methods. _Multivariate Behavioral Research_, 46(3), 399-424.
-
-
