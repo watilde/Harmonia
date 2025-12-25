@@ -202,8 +202,4 @@ If you have OMOP-formatted data, IRB approval, and expertise in causal inference
 4. Petersen, M. L., et al. (2012). Diagnosing and responding to violations. _American Journal of Epidemiology_, 175(11), 1061-1071.
 5. Austin, P. C. (2011). An introduction to propensity score methods. _Multivariate Behavioral Research_, 46(3), 399-424.
 
----
 
-**License**: Apache-2.0  
-**Data**: Synthea synthetic healthcare data  
-**Ethics**: No IRB required (synthetic data only)

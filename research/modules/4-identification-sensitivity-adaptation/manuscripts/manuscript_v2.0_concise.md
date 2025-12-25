@@ -196,8 +196,4 @@ Results saved to `research/modules/4-identification-sensitivity-adaptation/exper
 4. Zhang, Y., et al. (2023). Privacy-preserving federated causal inference. _AAAI_, 37(12), 14589-14597.
 5. Manski, C. F. (2003). _Partial identification of probability distributions_. Springer.
 
----
 
-**License**: Apache-2.0  
-**Data**: Synthea synthetic healthcare data  
-**Ethics**: No IRB required (synthetic data only)

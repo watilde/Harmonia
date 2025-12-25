@@ -158,8 +158,4 @@ I am an independent OSS engineer without access to real clinical data. This tool
 3. Li, S., et al. (2022). Federated causal inference in heterogeneous observational data. _arXiv:2202.12367_.
 4. Mathur, M. B., et al. (2020). Website and R package for computing E-values. _Epidemiology_, 31(2), e26-e28.
 
----
 
-**License**: Apache-2.0  
-**Data**: Synthea synthetic healthcare data  
-**Ethics**: No IRB required (synthetic data only)

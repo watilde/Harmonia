@@ -144,8 +144,4 @@ I am an independent OSS engineer without access to real clinical data. This tool
 4. Zhang, Y., et al. (2023). Privacy-preserving federated causal inference. _AAAI_, 37(12), 14589-14597.
 5. McMahan, B., et al. (2017). Communication-efficient learning from decentralized data. _AISTATS_.
 
----
 
-**License**: Apache-2.0  
-**Data**: Synthea synthetic healthcare data  
-**Ethics**: No IRB required (synthetic data only)

@@ -22,7 +22,7 @@ I present an open-source implementation of federated causal inference designed f
 - Subgroup at 0.4% prevalence (uncommon): sign reversal (embedded effect -1.5 → estimated +0.056 ml/min/year)
 - Subgroup at 0.064% prevalence (rare): 25× underestimation (embedded effect +1.5 → estimated +0.06 ml/min/year)
 
-The implementation supports OMOP Common Data Model v5.4 for integration with real healthcare databases. Source code is available under MIT license at https://github.com/watilde/Harmonia.
+The implementation supports OMOP Common Data Model v5.4 for integration with real healthcare databases. Source code is available at https://github.com/watilde/Harmonia.
 
 **Scope**: This work demonstrates computational feasibility and reproduces theoretical phenomena in synthetic data. Whether similar issues occur in real pharmacovigilance systems remains an open empirical question requiring institutional collaborations beyond my current access as an independent OSS engineer.
 
@@ -46,7 +46,7 @@ I provide:
 2. **Measured performance**: Actual throughput and communication metrics (not theoretical estimates)
 3. **Validation on synthetic data**: Reproduction of known ground truth in controlled experiments
 4. **OMOP integration**: Ready for use with standard observational health databases
-5. **Open source**: MIT license, fully documented for reproducibility
+5. **Open source**: Fully documented for reproducibility
 
 **Limitation**: All validation uses synthetic data with known ground truth. Real-world applicability is unknown without institutional collaboration for data access.
 
@@ -194,7 +194,7 @@ npm run polypharmacy:tier3
 - Working implementation of federated causal inference with one-shot aggregation
 - OMOP CDM v5.4 integration for real-world deployment readiness
 - Reproducible benchmark with documented performance on commodity hardware
-- Open-source reference code under MIT license
+- Open-source reference code
 
 ### 4.2 Limitations
 
@@ -298,7 +298,7 @@ I built an open-source federated causal inference system and measured its perfor
 
 **What I offer**: A working implementation with measured performance, not a solution to a proven problem. I share this hoping researchers with data access will determine if it's useful.
 
-**Code**: https://github.com/watilde/Harmonia (MIT license)
+**Code**: https://github.com/watilde/Harmonia
 
 **Contact**: Open to collaboration. Email: daijiro.wachi@gmail.com
 
@@ -364,7 +364,7 @@ None. This is unfunded independent research with no commercial interests.
 
 ## Data and Code Availability
 
-**Source code**: https://github.com/watilde/Harmonia (MIT License)
+**Source code**: https://github.com/watilde/Harmonia
 
 **Synthetic data generator**: Included in repository (`packages/core/src/causal/omop-polypharmacy.ts`)
 
