@@ -529,6 +529,4 @@ Location: Japan
 ---
 
 *Manuscript type: Technical report / Reference implementation*  
-*Word count: ~2,800 words*  
-*Target venue: arXiv cs.LG (Machine Learning), stat.ME (Methodology)*  
-*Positioning: "Here's a tool I built and measured on synthetic data. Try it if you have real data."*
+*Word count: ~2,800 words*
