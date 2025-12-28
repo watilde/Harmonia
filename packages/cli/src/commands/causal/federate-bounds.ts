@@ -19,8 +19,9 @@ import {
 interface FederateBoundsOptions {
   sites: string[];
   output?: string;
-  strategy?: 'weighted-average' | 'conservative' | 'uniform' | 'inverse-width';
+  strategy?: 'weighted-average' | 'conservative' | 'uniform' | 'inverse-width' | 'sqrt-n' | 'log-n' | 'power';
   minSites?: string;
+  alpha?: string;
   trueAte?: string;
   verbose?: boolean;
 }
@@ -61,10 +62,11 @@ export const federateBoundsCommand = new Command('federate-bounds')
   )
   .option(
     '--strategy <type>',
-    'Aggregation strategy: weighted-average, conservative, uniform, inverse-width (default: weighted-average)',
+    'Aggregation strategy: weighted-average, conservative, uniform, inverse-width, sqrt-n, log-n, power (default: weighted-average)',
     'weighted-average'
   )
   .option('--min-sites <number>', 'Minimum number of sites required (default: 2)')
+  .option('--alpha <value>', 'Power parameter for power strategy (default: 0.5)', parseFloat)
   .option('--true-ate <value>', 'True ATE value (for validation/simulation)', parseFloat)
   .option('-v, --verbose', 'Verbose output', false)
   .action(async (options: FederateBoundsOptions) => {
@@ -101,6 +103,7 @@ export const federateBoundsCommand = new Command('federate-bounds')
       const federated = federateATEBounds(siteBounds, {
         strategy: options.strategy as any,
         minSites: options.minSites !== undefined ? parseInt(options.minSites) : undefined,
+        alpha: options.alpha,
       });
 
       // Display results

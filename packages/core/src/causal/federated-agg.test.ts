@@ -101,6 +101,75 @@ describe('Federated Aggregation', () => {
       });
     });
 
+    describe('sqrt-n strategy', () => {
+      it('should weight by square root of sample size', () => {
+        const federated = federateATEBounds(sampleSiteBounds, {
+          strategy: 'sqrt-n',
+        });
+
+        // Sample sizes: 100, 150, 50
+        // Sqrt: 10, 12.247, 7.071
+        // Total: 29.318
+        // Weights: 10/29.318 = 0.341, 12.247/29.318 = 0.418, 7.071/29.318 = 0.241
+        // Lower = 0.1*0.341 + 0.15*0.418 + 0.05*0.241 ≈ 0.034 + 0.063 + 0.012 = 0.109
+        // Upper = 0.4*0.341 + 0.35*0.418 + 0.45*0.241 ≈ 0.136 + 0.146 + 0.108 = 0.390
+
+        expect(federated.lower).toBeCloseTo(0.109, 2);
+        expect(federated.upper).toBeCloseTo(0.390, 2);
+        expect(federated.strategy).toBe('sqrt-n');
+      });
+    });
+
+    describe('log-n strategy', () => {
+      it('should weight by logarithm of sample size', () => {
+        const federated = federateATEBounds(sampleSiteBounds, {
+          strategy: 'log-n',
+        });
+
+        // Sample sizes: 100, 150, 50
+        // Log: 4.605, 5.011, 3.912
+        // Total: 13.528
+        // Weights: 4.605/13.528 = 0.340, 5.011/13.528 = 0.370, 3.912/13.528 = 0.289
+        // Lower = 0.1*0.340 + 0.15*0.370 + 0.05*0.289 ≈ 0.034 + 0.056 + 0.014 = 0.104
+        // Upper = 0.4*0.340 + 0.35*0.370 + 0.45*0.289 ≈ 0.136 + 0.130 + 0.130 = 0.396
+
+        expect(federated.lower).toBeCloseTo(0.104, 2);
+        expect(federated.upper).toBeCloseTo(0.396, 2);
+        expect(federated.strategy).toBe('log-n');
+      });
+    });
+
+    describe('power strategy', () => {
+      it('should weight by power of sample size with default alpha=0.5', () => {
+        const federated = federateATEBounds(sampleSiteBounds, {
+          strategy: 'power',
+        });
+
+        // With alpha=0.5, should be same as sqrt-n
+        expect(federated.lower).toBeCloseTo(0.109, 2);
+        expect(federated.upper).toBeCloseTo(0.390, 2);
+        expect(federated.strategy).toBe('power');
+      });
+
+      it('should weight by power of sample size with custom alpha', () => {
+        const federated = federateATEBounds(sampleSiteBounds, {
+          strategy: 'power',
+          alpha: 0.75,
+        });
+
+        // Sample sizes: 100, 150, 50
+        // Power 0.75: 31.623, 43.968, 13.335
+        // Total: 88.926
+        // Weights: 31.623/88.926 = 0.356, 43.968/88.926 = 0.494, 13.335/88.926 = 0.150
+        // Lower = 0.1*0.356 + 0.15*0.494 + 0.05*0.150 ≈ 0.036 + 0.074 + 0.008 = 0.118
+        // Upper = 0.4*0.356 + 0.35*0.494 + 0.45*0.150 ≈ 0.142 + 0.173 + 0.068 = 0.383
+
+        expect(federated.lower).toBeCloseTo(0.113, 2);
+        expect(federated.upper).toBeCloseTo(0.386, 2);
+        expect(federated.strategy).toBe('power');
+      });
+    });
+
     it('should preserve site bounds in result', () => {
       const federated = federateATEBounds(sampleSiteBounds);
 

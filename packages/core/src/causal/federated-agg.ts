@@ -42,7 +42,10 @@ export type AggregationStrategy =
   | 'weighted-average' // Weight by sample size
   | 'conservative' // Take min(LB) and max(UB)
   | 'uniform' // Equal weight to all sites
-  | 'inverse-width'; // Weight by inverse of bound width
+  | 'inverse-width' // Weight by inverse of bound width
+  | 'sqrt-n' // Weight by square root of sample size
+  | 'log-n' // Weight by logarithm of sample size
+  | 'power'; // Weight by power of sample size
 
 /**
  * Configuration for federated aggregation
@@ -52,6 +55,8 @@ export interface FederatedConfig {
   strategy?: AggregationStrategy;
   /** Minimum number of sites required (default: 2) */
   minSites?: number;
+  /** Power parameter for 'power' strategy (default: 0.5) */
+  alpha?: number;
 }
 
 /**
@@ -153,6 +158,97 @@ function aggregateInverseWidth(siteBounds: SiteBounds[]): {
 }
 
 /**
+ * Aggregate bounds using square-root weighting
+ *
+ * Weight by sqrt(n_k) / sum(sqrt(n_j))
+ * This gives less weight to large sites compared to sample-size weighting.
+ */
+function aggregateSqrtN(siteBounds: SiteBounds[]): {
+  lower: number;
+  upper: number;
+} {
+  // Compute sqrt weights
+  const weights = siteBounds.map((site) => Math.sqrt(site.sampleSize));
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+  let weightedLower = 0;
+  let weightedUpper = 0;
+
+  for (let i = 0; i < siteBounds.length; i++) {
+    const site = siteBounds[i];
+    const weight = weights[i] / totalWeight;
+    weightedLower += site.lower * weight;
+    weightedUpper += site.upper * weight;
+  }
+
+  return {
+    lower: weightedLower,
+    upper: weightedUpper,
+  };
+}
+
+/**
+ * Aggregate bounds using logarithmic weighting
+ *
+ * Weight by log(n_k) / sum(log(n_j))
+ * This further reduces the influence of very large sites.
+ */
+function aggregateLogN(siteBounds: SiteBounds[]): {
+  lower: number;
+  upper: number;
+} {
+  // Compute log weights
+  const weights = siteBounds.map((site) => Math.log(site.sampleSize));
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+  let weightedLower = 0;
+  let weightedUpper = 0;
+
+  for (let i = 0; i < siteBounds.length; i++) {
+    const site = siteBounds[i];
+    const weight = weights[i] / totalWeight;
+    weightedLower += site.lower * weight;
+    weightedUpper += site.upper * weight;
+  }
+
+  return {
+    lower: weightedLower,
+    upper: weightedUpper,
+  };
+}
+
+/**
+ * Aggregate bounds using power weighting
+ *
+ * Weight by n_k^α / sum(n_j^α)
+ * where α is a configurable parameter (default: 0.5).
+ * α = 1.0 gives sample-size weighting, α = 0.5 gives sqrt weighting.
+ */
+function aggregatePower(siteBounds: SiteBounds[], alpha: number): {
+  lower: number;
+  upper: number;
+} {
+  // Compute power weights
+  const weights = siteBounds.map((site) => Math.pow(site.sampleSize, alpha));
+  const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+  let weightedLower = 0;
+  let weightedUpper = 0;
+
+  for (let i = 0; i < siteBounds.length; i++) {
+    const site = siteBounds[i];
+    const weight = weights[i] / totalWeight;
+    weightedLower += site.lower * weight;
+    weightedUpper += site.upper * weight;
+  }
+
+  return {
+    lower: weightedLower,
+    upper: weightedUpper,
+  };
+}
+
+/**
  * Aggregate ATE bounds from multiple sites
  *
  * Combines bounds computed at different sites without requiring patient-level
@@ -190,6 +286,7 @@ export function federateATEBounds(
 
   const strategy = config.strategy ?? 'weighted-average';
   const minSites = config.minSites ?? 2;
+  const alpha = config.alpha ?? 0.5;
 
   if (siteBounds.length < minSites) {
     throw new Error(`At least ${minSites} sites required, got ${siteBounds.length}`);
@@ -218,6 +315,15 @@ export function federateATEBounds(
       break;
     case 'inverse-width':
       aggregated = aggregateInverseWidth(siteBounds);
+      break;
+    case 'sqrt-n':
+      aggregated = aggregateSqrtN(siteBounds);
+      break;
+    case 'log-n':
+      aggregated = aggregateLogN(siteBounds);
+      break;
+    case 'power':
+      aggregated = aggregatePower(siteBounds, alpha);
       break;
     default:
       throw new Error(`Unknown aggregation strategy: ${strategy}`);
