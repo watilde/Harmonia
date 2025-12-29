@@ -74,7 +74,7 @@ export const selectInferenceModeCommand = new Command('select-inference-mode')
           const output = {
             ...decision,
             site_modes: Array.from(decision.site_modes.entries()).map(
-              ([site_id, mode_decision]) => ({
+              ([site_id, mode_decision]: [string, any]) => ({
                 site_id,
                 ...mode_decision,
               })
@@ -87,7 +87,7 @@ export const selectInferenceModeCommand = new Command('select-inference-mode')
           const output = {
             ...decision,
             site_modes: Array.from(decision.site_modes.entries()).map(
-              ([site_id, mode_decision]) => ({
+              ([site_id, mode_decision]: [string, any]) => ({
                 site_id,
                 ...mode_decision,
               })

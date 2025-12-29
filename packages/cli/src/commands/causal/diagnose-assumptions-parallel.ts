@@ -145,19 +145,19 @@ export const diagnoseAssumptionsParallelCommand = new Command('diagnose-assumpti
         console.log('\n\nAGGREGATE STATISTICS:');
         console.log('═'.repeat(70));
 
-        const validResults = results.filter((r) => !r.error);
+        const validResults = results.filter((r: any) => !r.error);
         if (validResults.length > 0) {
           const avgUnconfoundedness =
-            validResults.reduce((sum, r) => sum + r.scores.unconfoundedness_score, 0) /
+            validResults.reduce((sum: number, r: any) => sum + r.scores.unconfoundedness_score, 0) /
             validResults.length;
           const avgPositivity =
-            validResults.reduce((sum, r) => sum + r.scores.positivity_score, 0) /
+            validResults.reduce((sum: number, r: any) => sum + r.scores.positivity_score, 0) /
             validResults.length;
           const avgSpecification =
-            validResults.reduce((sum, r) => sum + r.scores.specification_score, 0) /
+            validResults.reduce((sum: number, r: any) => sum + r.scores.specification_score, 0) /
             validResults.length;
           const avgOverall =
-            validResults.reduce((sum, r) => sum + r.scores.overall_score, 0) / validResults.length;
+            validResults.reduce((sum: number, r: any) => sum + r.scores.overall_score, 0) / validResults.length;
 
           console.log(`  Average Unconfoundedness Score:    ${avgUnconfoundedness.toFixed(3)}`);
           console.log(`  Average Positivity Score:          ${avgPositivity.toFixed(3)}`);

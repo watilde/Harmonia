@@ -28,8 +28,8 @@ interface FederateBoundsOptions {
     | 'log-n'
     | 'power';
   minSites?: string;
-  alpha?: string;
-  trueAte?: string;
+  alpha?: number;
+  trueAte?: number;
   verbose?: boolean;
 }
 
