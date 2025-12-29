@@ -224,7 +224,10 @@ function aggregateLogN(siteBounds: SiteBounds[]): {
  * where α is a configurable parameter (default: 0.5).
  * α = 1.0 gives sample-size weighting, α = 0.5 gives sqrt weighting.
  */
-function aggregatePower(siteBounds: SiteBounds[], alpha: number): {
+function aggregatePower(
+  siteBounds: SiteBounds[],
+  alpha: number
+): {
   lower: number;
   upper: number;
 } {

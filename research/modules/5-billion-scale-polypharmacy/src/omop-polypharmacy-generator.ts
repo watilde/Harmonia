@@ -236,11 +236,6 @@ export function generatePolypharmacyOMOPSite(config: PolypharmacyOMOPConfig): OM
 
     // Follow-up eGFR (12 months later)
     // Apply true causal effect for target tier
-    const treatment = inTargetTier
-      ? 1
-      : drugs.some((d) => d.drug_concept_id === POLYPHARMACY_CONCEPTS.SGLT2I)
-        ? 1
-        : 0;
     const causalEffect = inTargetTier ? tier.trueEffect : 0;
     const followupEGFR = baselineEGFR + causalEffect + rng.normal(0, 3);
 

@@ -115,7 +115,7 @@ describe('Federated Aggregation', () => {
         // Upper = 0.4*0.341 + 0.35*0.418 + 0.45*0.241 ≈ 0.136 + 0.146 + 0.108 = 0.390
 
         expect(federated.lower).toBeCloseTo(0.109, 2);
-        expect(federated.upper).toBeCloseTo(0.390, 2);
+        expect(federated.upper).toBeCloseTo(0.39, 2);
         expect(federated.strategy).toBe('sqrt-n');
       });
     });
@@ -147,7 +147,7 @@ describe('Federated Aggregation', () => {
 
         // With alpha=0.5, should be same as sqrt-n
         expect(federated.lower).toBeCloseTo(0.109, 2);
-        expect(federated.upper).toBeCloseTo(0.390, 2);
+        expect(federated.upper).toBeCloseTo(0.39, 2);
         expect(federated.strategy).toBe('power');
       });
 

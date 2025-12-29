@@ -47,7 +47,7 @@ for (let tier = 1; tier <= 3; tier++) {
   const targetTierDrugs = new Set(INTERACTION_TIERS[tier - 1].drugCombination);
   let targetTierCount = 0;
 
-  for (const [personId, drugs] of drugsByPerson) {
+  for (const [_, drugs] of drugsByPerson) {
     const hasAllDrugs = Array.from(targetTierDrugs).every((drugId) => drugs.has(drugId));
     if (hasAllDrugs) {
       targetTierCount++;
@@ -82,7 +82,7 @@ for (let tier = 1; tier <= 3; tier++) {
   }
 
   let patientsWithPairedMeasurements = 0;
-  for (const [personId, measurements] of measurementsByPerson) {
+  for (const [_, measurements] of measurementsByPerson) {
     const baseline = measurements.find((m) => m.measurement_date === '2023-12-01');
     const followup = measurements.find((m) => m.measurement_date === '2024-12-01');
     if (baseline && followup) {

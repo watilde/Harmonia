@@ -19,7 +19,14 @@ import {
 interface FederateBoundsOptions {
   sites: string[];
   output?: string;
-  strategy?: 'weighted-average' | 'conservative' | 'uniform' | 'inverse-width' | 'sqrt-n' | 'log-n' | 'power';
+  strategy?:
+    | 'weighted-average'
+    | 'conservative'
+    | 'uniform'
+    | 'inverse-width'
+    | 'sqrt-n'
+    | 'log-n'
+    | 'power';
   minSites?: string;
   alpha?: string;
   trueAte?: string;
