@@ -62,6 +62,15 @@ const subgroups = {
 
 let nPatients = 0;
 
+// Overlap counters: fraction of interaction2/3 patients who also meet interaction1 criteria
+// Needed to compute true conditional ATE = 1.0 + 2.0 * P(interaction1 | subgroup)
+let overlap = {
+  interaction2_n: 0,
+  interaction2_also_interaction1: 0,
+  interaction3_n: 0,
+  interaction3_also_interaction1: 0,
+};
+
 // SINGLE PASS through all patients
 for (const patient of generator.generateStream(0, patientsPerSite)) {
   if (patient.hba1cBaseline === null || patient.egfrBaseline === null) continue;
@@ -121,6 +130,16 @@ for (const patient of generator.generateStream(0, patientsPerSite)) {
   if (patient.interaction2Indicator === 1) groups.push('interaction2');
   if (patient.interaction3Indicator === 1) groups.push('interaction3');
 
+  // Track interaction1 overlap within interaction2/3
+  if (patient.interaction2Indicator === 1) {
+    overlap.interaction2_n++;
+    if (patient.interaction1Indicator === 1) overlap.interaction2_also_interaction1++;
+  }
+  if (patient.interaction3Indicator === 1) {
+    overlap.interaction3_n++;
+    if (patient.interaction1Indicator === 1) overlap.interaction3_also_interaction1++;
+  }
+
   for (const group of groups) {
     if (patient.treatmentSglt2i === 1) {
       subgroups[group].treated_sum += stableWeight * y;
@@ -150,7 +169,14 @@ for (const [name, stats] of Object.entries(subgroups)) {
   };
 }
 
-// Send results back to main thread
+// Send results back to main thread.
+// Payload size (float64, full matrices): ~584 bytes per site
+//   gradient:  5 × 8 =  40 bytes
+//   hessian:  25 × 8 = 200 bytes  (compact upper-triangle encoding: 15 × 8 = 120 bytes)
+//   XWX:      36 × 8 = 288 bytes  (compact upper-triangle encoding: 21 × 8 = 168 bytes)
+//   XWY:       6 × 8 =  48 bytes
+//   metadata:           ~8 bytes
+// Both encodings are O(1) per site, independent of patient count.
 parentPort.postMessage({
   siteId,
   propensity: {
@@ -164,4 +190,5 @@ parentPort.postMessage({
     nPatients,
   },
   subgroups: subgroupResults,
+  overlap,
 });

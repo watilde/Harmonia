@@ -31,7 +31,7 @@ if (require.main === module) {
   console.log(`⚡ Using ${CONFIG_1B.batchSize} CPU cores in parallel`);
   console.log(`💾 Checkpoints every ${CONFIG_1B.checkpointInterval} sites`);
   console.log('');
-  console.log('⏱️  Estimated time: ~25 minutes (based on 677K pts/s throughput)');
+  console.log('⏱️  Estimated time: ~11 minutes (based on 1.56M pts/s throughput)');
   console.log('');
 
   const runner = new Runner1B();

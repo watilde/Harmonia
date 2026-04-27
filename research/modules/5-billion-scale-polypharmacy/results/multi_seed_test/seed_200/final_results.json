@@ -1,0 +1,47 @@
+{
+  "configuration": {
+    "totalPatients": 1000000,
+    "nSites": 10,
+    "patientsPerSite": 100000,
+    "batchSize": 24,
+    "outputDir": "/home/moku/Developments/watilde/Harmonia/research/modules/5-billion-scale-polypharmacy/results/multi_seed_test/seed_200",
+    "checkpointInterval": 2,
+    "baseSeed": 200
+  },
+  "performance": {
+    "totalPatients": 1000000,
+    "processedSites": 10,
+    "elapsedSeconds": 0.168,
+    "throughput": 5952380,
+    "cpuCores": 24
+  },
+  "causalEstimates": {
+    "propensityBeta": [
+      0.46517203967257714,
+      0.5493473546368115,
+      1.1872825710516857,
+      0.8434103297152296,
+      -0.3834863429030442
+    ],
+    "overallATE": 1.239794792665026,
+    "subgroupEffects": {
+      "overall": {
+        "ate": 1.1937078107542825,
+        "n": 849104
+      },
+      "interaction1": {
+        "ate": 2.822432915658869,
+        "n": 174429
+      },
+      "interaction2": {
+        "ate": 1.4904552496781607,
+        "n": 45805
+      },
+      "interaction3": {
+        "ate": 2.4325161880726363,
+        "n": 687
+      }
+    }
+  },
+  "timestamp": "2026-04-27T12:48:03.260Z"
+}

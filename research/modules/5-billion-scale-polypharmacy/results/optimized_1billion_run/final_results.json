@@ -3,41 +3,44 @@
     "totalPatients": 1000000000,
     "nSites": 1000,
     "patientsPerSite": 1000000,
-    "batchSize": 4,
-    "outputDir": "/home/user/webapp/research/modules/5-billion-scale-polypharmacy/results/optimized_1billion_run",
-    "checkpointInterval": 100
+    "batchSize": 24,
+    "outputDir": "/home/moku/Developments/watilde/Harmonia/research/modules/5-billion-scale-polypharmacy/results/optimized_1billion_run",
+    "checkpointInterval": 600
   },
   "performance": {
     "totalPatients": 1000000000,
     "processedSites": 1000,
-    "elapsedSeconds": 639.131,
-    "throughput": 1564624,
-    "cpuCores": 4
+    "elapsedSeconds": 104.026,
+    "throughput": 9612981,
+    "cpuCores": 24
   },
   "causalEstimates": {
     "propensityBeta": [
-      -1.9933499470236893, 1.996676196552609, 4.83823089230852, 2.9321810285637313,
-      -0.9691296732868665
+      -1.994329991226731,
+      2.007617174629425,
+      4.82312595397904,
+      2.928998230681851,
+      -0.9710669827405752
     ],
-    "overallATE": 1.344205429460044,
+    "overallATE": 1.3428912971245528,
     "subgroupEffects": {
       "overall": {
-        "ate": 1.2872719976868172,
+        "ate": 1.2847359689481286,
         "n": 841098895
       },
       "interaction1": {
-        "ate": 2.859828617471898,
+        "ate": 2.8599188745742223,
         "n": 169116919
       },
       "interaction2": {
-        "ate": 1.4994446518598252,
+        "ate": 1.4997455898162209,
         "n": 41652850
       },
       "interaction3": {
-        "ate": 1.4564742841714209,
+        "ate": 1.457159704600817,
         "n": 632776
       }
     }
   },
-  "timestamp": "2025-12-17T01:30:55.467Z"
+  "timestamp": "2026-04-27T10:13:15.963Z"
 }

@@ -14,9 +14,10 @@ const TEST_CONFIG = {
   totalPatients: 1_000_000, // 1M for testing
   nSites: 10, // 10 sites
   patientsPerSite: 100_000, // 100K per site
-  batchSize: Math.min(4, os.cpus().length), // Max 4 cores for test
+  batchSize: os.cpus().length,
   outputDir: path.join(__dirname, '../results/test_optimized_run'),
   checkpointInterval: 2,
+  baseSeed: 42,
 };
 
 class TestOptimizedRunner {
@@ -29,6 +30,7 @@ class TestOptimizedRunner {
     this.cumulativeResults = {
       outcomeStats: [],
       subgroupStats: [],
+      overlapStats: [],
     };
 
     if (!fs.existsSync(config.outputDir)) {
@@ -62,7 +64,7 @@ class TestOptimizedRunner {
             siteId,
             patientsPerSite: this.config.patientsPerSite,
             profile,
-            seed: 42 + siteId,
+            seed: (this.config.baseSeed ?? 42) + siteId,
             beta: this.beta,
           },
         });
@@ -133,6 +135,8 @@ class TestOptimizedRunner {
         this.beta[j] += update.get(j, 0);
       }
 
+      // Convergence: ||∇L(β)|| < ε  (first-order optimality: score function → 0).
+      // This is one Newton step per batch; beta converges across batches.
       const gradientNorm = Math.sqrt(totalGradient.reduce((sum, g) => sum + g * g, 0));
 
       return {
@@ -164,9 +168,10 @@ class TestOptimizedRunner {
         // Aggregate propensity score statistics
         const propensityResult = this.aggregatePropensityStatistics(batchResults);
 
-        // Accumulate outcome and subgroup statistics
+        // Accumulate outcome, subgroup, and overlap statistics
         this.cumulativeResults.outcomeStats.push(...batchResults.map((r) => r.outcome));
         this.cumulativeResults.subgroupStats.push(...batchResults.map((r) => r.subgroups));
+        this.cumulativeResults.overlapStats.push(...batchResults.map((r) => r.overlap));
 
         // Checkpoint
         if (endSite % this.config.checkpointInterval === 0) {
@@ -236,6 +241,29 @@ class TestOptimizedRunner {
         };
       }
 
+      // Aggregate overlap counts and compute true conditional ATEs
+      // True ATE = 1.0 + 2.0 * P(interaction1 | subgroup)
+      let total_i2_n = 0, total_i2_also_i1 = 0;
+      let total_i3_n = 0, total_i3_also_i1 = 0;
+      for (const o of this.cumulativeResults.overlapStats) {
+        total_i2_n += o.interaction2_n;
+        total_i2_also_i1 += o.interaction2_also_interaction1;
+        total_i3_n += o.interaction3_n;
+        total_i3_also_i1 += o.interaction3_also_interaction1;
+      }
+      const p_i1_given_i2 = total_i2_n > 0 ? total_i2_also_i1 / total_i2_n : 0;
+      const p_i1_given_i3 = total_i3_n > 0 ? total_i3_also_i1 / total_i3_n : 0;
+      const trueConditionalATE = {
+        interaction2: {
+          p_interaction1_overlap: p_i1_given_i2,
+          true_egfr_ate: 1.0 + 2.0 * p_i1_given_i2,
+        },
+        interaction3: {
+          p_interaction1_overlap: p_i1_given_i3,
+          true_egfr_ate: 1.0 + 2.0 * p_i1_given_i3,
+        },
+      };
+
       const results = {
         configuration: this.config,
         performance: {
@@ -249,6 +277,7 @@ class TestOptimizedRunner {
           propensityBeta: this.beta,
           overallATE: coefficients.get(1, 0),
           subgroupEffects: aggregatedSubgroups,
+          trueConditionalATE,
         },
         timestamp: new Date().toISOString(),
       };

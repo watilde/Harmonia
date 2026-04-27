@@ -123,8 +123,9 @@ export const runPolypharmacyCommand = new Command('run-polypharmacy')
         const siteEstimate = computeSiteATE(causalData);
         siteEstimates.push(siteEstimate);
 
-        // Communication: 264 bytes per site
-        totalBytes += 264;
+        // Actual bytes for this simplified estimator: {n, nTreated, nControl, ate, se} = 5 × float64 = 40 bytes
+        // Full Newton-Raphson protocol (gradient+hessian+XWX+XWY, siteWorker.js): ~584 bytes per site
+        totalBytes += Object.keys(siteEstimate).length * 8; // 40 bytes
 
         if (options.verbose && siteId < 3) {
           console.log(
@@ -173,8 +174,10 @@ export const runPolypharmacyCommand = new Command('run-polypharmacy')
       );
       console.log('');
 
+      const bytesPerSite = totalBytes / numSites;
+      const fullProtocolBytesPerSite = 584; // full Newton-Raphson: gradient+hessian+XWX+XWY
       console.log('🔒 Privacy metrics:');
-      console.log(`  Communication per site:  ${totalBytes / numSites} bytes`);
+      console.log(`  Communication per site:  ${bytesPerSite} bytes (simplified; full NR protocol: ~${fullProtocolBytesPerSite} bytes)`);
       console.log(`  Total communication:     ${(totalBytes / 1024).toFixed(2)} KB`);
       console.log(
         `  Centralized equivalent:  ${((numSites * patientsPerSite * 200) / 1024 / 1024).toFixed(2)} MB`
@@ -205,6 +208,7 @@ export const runPolypharmacyCommand = new Command('run-polypharmacy')
         },
         privacy: {
           bytesPerSite: totalBytes / numSites,
+          fullProtocolBytesPerSite: 584,
           totalKB: totalBytes / 1024,
           reductionFactor: Math.floor((numSites * patientsPerSite * 200) / totalBytes),
         },

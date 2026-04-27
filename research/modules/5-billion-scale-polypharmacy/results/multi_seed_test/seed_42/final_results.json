@@ -4,15 +4,15 @@
     "nSites": 10,
     "patientsPerSite": 100000,
     "batchSize": 24,
-    "outputDir": "/home/moku/Developments/watilde/Harmonia/research/modules/5-billion-scale-polypharmacy/results/test_optimized_run",
+    "outputDir": "/home/moku/Developments/watilde/Harmonia/research/modules/5-billion-scale-polypharmacy/results/multi_seed_test/seed_42",
     "checkpointInterval": 2,
     "baseSeed": 42
   },
   "performance": {
     "totalPatients": 1000000,
     "processedSites": 10,
-    "elapsedSeconds": 0.227,
-    "throughput": 4405286,
+    "elapsedSeconds": 0.218,
+    "throughput": 4587155,
     "cpuCores": 24
   },
   "causalEstimates": {
@@ -41,17 +41,7 @@
         "ate": 1.0914132858947823,
         "n": 704
       }
-    },
-    "trueConditionalATE": {
-      "interaction2": {
-        "p_interaction1_overlap": 0.2628623028808035,
-        "true_egfr_ate": 1.525724605761607
-      },
-      "interaction3": {
-        "p_interaction1_overlap": 0.26136363636363635,
-        "true_egfr_ate": 1.5227272727272727
-      }
     }
   },
-  "timestamp": "2026-04-27T13:09:19.023Z"
+  "timestamp": "2026-04-27T12:48:02.918Z"
 }
