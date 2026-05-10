@@ -19,7 +19,8 @@
     "test:profile:nordic": "node ../../../packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile Nordic --output ./polypharmacy-results/profile-nordic",
     "test:profile:india": "node ../../../packages/cli/dist/cli.js causal run-polypharmacy --sites 10 --patients 100000 --tier 3 --profile India --output ./polypharmacy-results/profile-india",
     "run:100m": "node src/run100MOptimized.js",
-    "run:1b": "node src/run1BOptimized.js"
+    "run:1b": "node src/run1BOptimized.js",
+    "paper:pdf": "./scripts/generate-pdf.sh"
   },
   "keywords": [],
   "author": "",
@@ -27,10 +28,12 @@
   "dependencies": {
     "csv-parser": "^3.2.0",
     "fast-csv": "^5.0.5",
+    "marked": "^18.0.2",
     "mathjs": "^15.1.0",
     "ml-matrix": "^6.12.1",
     "p-queue": "^9.0.1",
     "piscina": "^5.1.4",
+    "puppeteer": "^24.42.0",
     "stream-json": "^1.9.1"
   }
 }
