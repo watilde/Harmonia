@@ -6,11 +6,12 @@
 
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked');
 const puppeteer = require('puppeteer');
 
 async function generatePDF(markdownFile, outputPDF) {
   try {
+    const { marked } = await import('marked');
+
     // Read Markdown file
     const markdown = fs.readFileSync(markdownFile, 'utf-8');
 
@@ -72,7 +73,7 @@ async function generatePDF(markdownFile, outputPDF) {
   </script>
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-family: 'Yu Mincho', '游明朝', 'MS PMincho', 'ＭＳ Ｐ明朝', 'MS Mincho', 'ＭＳ 明朝', Georgia, 'Times New Roman', serif;
       line-height: 1.6;
       color: #333;
       max-width: 800px;
